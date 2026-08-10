@@ -31,6 +31,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: downcase REPO
+        run: |
+          echo "OWNER=${GITHUB_REPOSITORY_OWNER,,}" >>${GITHUB_ENV}
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
@@ -38,5 +41,5 @@ jobs:
           file: ./docker/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/portfolio:latest
-            ghcr.io/${{ github.repository_owner }}/portfolio:${{ github.sha }}
+            ghcr.io/${{ env.OWNER  }}/portfolio:latest
+            ghcr.io/${{ env.OWNER  }}/portfolio:${{ github.sha }}
