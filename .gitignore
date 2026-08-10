@@ -9,3 +9,4 @@ web/config/secrets/prod/prod.decrypt.private.php
 /web/var/
 /web/vendor/
 ###< symfony/framework-bundle ###
+.env
