@@ -1,4 +1,4 @@
-name: "↪️ CO CI SSH"
+name: "↪️ Deploy VPS"
 on:
   workflow_dispatch:
     inputs:
@@ -27,11 +27,12 @@ on:
       - completed
 
 jobs:
-  sshupdate:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: "⬇ Update On VPS"
+      - name: "⬇ Deploy On VPS"
         uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -39,7 +40,9 @@ jobs:
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            cd /home/${{ secrets.VPS_USER }}/portfolio
+            cd /home/${{ secrets.VPS_USER }}/githubPortfolio
+            export GITHUB_TOKEN="${{ secrets.PACKAGE_TOKEN }}"
+            docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
             git pull origin main
-            docker-compose -f docker-compose.prod.yml pull
-            docker-compose -f docker-compose.prod.yml up -d --remove-orphans
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans

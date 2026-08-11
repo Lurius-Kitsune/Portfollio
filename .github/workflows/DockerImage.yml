@@ -11,6 +11,7 @@ permissions:
 on:
   push:
     branches: ["main"]
+
 jobs:
   build:
     name: "⚒️ Build Docker Image"
@@ -39,7 +40,9 @@ jobs:
         with:
           context: .
           file: ./docker/Dockerfile
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             ghcr.io/${{ env.OWNER  }}/portfolio:latest
             ghcr.io/${{ env.OWNER  }}/portfolio:${{ github.sha }}
+
