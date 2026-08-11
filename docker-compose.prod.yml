@@ -13,7 +13,7 @@ services:
       - php
 
   php:
-    image: ghcr.io/username-toput/portfolio:latest
+    image: ghcr.io/lurius-kitsune/portfolio:latest
 
     ports:
       - "9000:9000"

@@ -12,7 +12,7 @@ RUN docker-php-ext-install pdo_mysql zip gd pdo
 
 WORKDIR /var/www/portfolio
 
-COPY web/* /var/www/portfolio
+COPY web/ /var/www/portfolio
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
