@@ -42,7 +42,7 @@ jobs:
           script: |
             cd /home/${{ secrets.VPS_USER }}/githubPortfolio
             export GITHUB_TOKEN="${{ secrets.PACKAGE_TOKEN }}"
-            docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+            echo "$GITHUB_TOKEN" | docker login ghcr.io -u Lurius-Kitsune --password-stdin
             git pull origin main
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d --remove-orphans
