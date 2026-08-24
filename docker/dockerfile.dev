@@ -20,7 +20,7 @@ COPY web/ /var/www/portfolio
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-scripts
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-scripts
 
 RUN chown -R www-data:www-data /var/www/portfolio
 
