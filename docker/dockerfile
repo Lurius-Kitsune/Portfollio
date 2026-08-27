@@ -1,4 +1,4 @@
-FROM php:8.5-fpm
+FROM php:8.5-fpm-alpine
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -7,12 +7,13 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libicu-dev \
     libzip-dev \
-    default-mysql-client 
+    default-mysql-client \
+    nodejs \
+    npm
 
 
 RUN docker-php-ext-install pdo_mysql zip gd pdo intl
 RUN docker-php-ext-configure intl
-
 
 WORKDIR /var/www/portfolio
 
@@ -21,7 +22,7 @@ COPY web/ /var/www/portfolio
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --no-scripts
-
+RUN npm install && npm build
 RUN chown -R www-data:www-data /var/www/portfolio
 
 CMD ["php-fpm"]
