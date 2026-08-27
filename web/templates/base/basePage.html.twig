@@ -10,10 +10,16 @@
 
 		{% include "base/baseHeader.html.twig" with { page_title: page_title } %}
 	</head>
-	<body>
-		{% include "base/menu.html.twig" %}
-		{% block body %}{% endblock %}
+    <body >
+        {% include "components/menu.html.twig" %}
+   
+        <main class="min-h-screen bg-slate-900 text-white">
+            {% block body %}{% endblock %}
+        
+        {% block footer %}
+            {% include "components/footer.html.twig" %}
+        {% endblock %}
+        </main>
+    </body>
 
-		{% block baseFooter %}{% endblock %}
-	</body>
 </html>
