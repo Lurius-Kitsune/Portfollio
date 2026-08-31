@@ -1,17 +1,21 @@
 {# Project card component #}
-<article class="overflow-hidden rounded-lg bg-slate-800 shadow-lg ring-1 ring-slate-700/80">
-	<div class="group block">
+<article class="group overflow-hidden rounded-lg bg-slate-800 shadow-lg ring-1 ring-slate-700/80 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/10">
+	<div class="block">
+
 		<div class="h-40 overflow-hidden bg-slate-700">
 			{% if project.image is not empty %}
-				<img src="{{ project.image }}" alt="{{ project.title }}" class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105">
+<img src="{{ project.image }}" alt="{{ project.title }}" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105">
+
 			{% else %}
-				<div class="flex h-40 items-center justify-center text-slate-400">
+<div class="flex h-40 items-center justify-center text-slate-400 transition-colors duration-300 group-hover:text-slate-300">
+
 					{{ locale == 'en' ? 'No image' : 'Aucune image' }}
 				</div>
 			{% endif %}
 		</div>
 
-		<div class="p-4">
+<div class="p-4 transition-all duration-300 ease-out">
+
 			<h3 class="text-lg font-semibold text-white">{{ project.title }}</h3>
 			<p class="mt-2 text-sm text-slate-300">{{ project.description }}</p>
 

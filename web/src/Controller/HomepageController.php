@@ -86,7 +86,7 @@ final class HomepageController extends AbstractController
             ],
         ];
 
-        return $this->render('pages/homepage.html.twig', [
+        return $this->render('pages/home/page.html.twig', [
             "projects" => $projects,
             "skillGroups" => $skillGroups,
         ]);
