@@ -7,14 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class HomepageController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function index(Request $request): Response
+    public function index(TranslatorInterface $_translator): Response
     {
-        $this->setLanguage($request);
-
         $projects = [
             [
                 'id' => 'nellie-the-seer',
@@ -43,8 +42,53 @@ final class HomepageController extends AbstractController
         ];
 
 
+        $skillGroups = [
+            [
+                'title' => $_translator->trans('skills.web', domain: 'homepage'),
+                'icon' => '&lt;/&gt;',
+                'items' => [
+                    ['label' => 'HTML5', 'short' => '5', 'color' => 'bg-white text-slate-900'],
+                    ['label' => 'CSS3', 'short' => '3', 'color' => 'bg-sky-100 text-sky-700'],
+                    ['label' => 'JavaScript', 'short' => 'JS', 'color' => 'bg-yellow-100 text-yellow-700'],
+                    ['label' => 'PHP', 'short' => 'php', 'color' => 'bg-indigo-100 text-indigo-700'],
+                    ['label' => 'WordPress', 'short' => 'WP', 'color' => 'bg-slate-200 text-slate-800'],
+                    ['label' => 'Shopify', 'short' => 'Sf', 'color' => 'bg-emerald-100 text-emerald-700'],
+                ],
+            ],
+            [
+                'title' => $_translator->trans('skills.application', domain: 'homepage'),
+                'icon' => '&lt;/&gt;',
+                'items' => [
+                    ['label' => 'Python', 'short' => 'Py', 'color' => 'bg-orange-100 text-orange-700'],
+                    ['label' => 'C#', 'short' => 'C#', 'color' => 'bg-violet-100 text-violet-700'],
+                    ['label' => 'C++', 'short' => 'C++', 'color' => 'bg-violet-100 text-violet-700'],
+                ],
+            ],
+            [
+                'title' => $_translator->trans('skills.engine', domain: 'homepage'),
+                'icon' => '3D',
+                'items' => [
+                    ['label' => 'Unity', 'short' => 'U', 'color' => 'bg-indigo-100 text-indigo-700'],
+                    ['label' => 'Unreal Engine', 'short' => 'UE', 'color' => 'bg-blue-100 text-blue-700'],
+                ],
+            ],
+            [
+                'title' => $_translator->trans('skills.tools', domain: 'homepage'),
+                'icon' => '&lt;/&gt;',
+                'items' => [
+                    ['label' => 'Git', 'short' => 'Git', 'color' => 'bg-pink-100 text-pink-700'],
+                    ['label' => 'GitHub', 'short' => 'GH', 'color' => 'bg-slate-200 text-slate-800'],
+                    ['label' => 'GitHubActions', 'short' => 'GHA', 'color' => 'bg-slate-200 text-slate-800'],
+                    ['label' => 'Docker', 'short' => 'D', 'color' => 'bg-cyan-100 text-cyan-700'],
+                    ['label' => 'Notion', 'short' => 'N', 'color' => 'bg-gray-200 text-gray-700'],
+                    ['label' => 'Trello', 'short' => 'T', 'color' => 'bg-sky-100 text-sky-700'],
+                ],
+            ],
+        ];
+
         return $this->render('pages/homepage.html.twig', [
-            "projects" => $projects
+            "projects" => $projects,
+            "skillGroups" => $skillGroups,
         ]);
     }
 
@@ -53,26 +97,5 @@ final class HomepageController extends AbstractController
         $language = $request->getPreferredLanguage(['fr', 'en']) ?: 'fr';
 
         return $this->redirectToRoute('homepage', ['_locale' => $language]);
-    }
-
-    private function setLanguage(Request $request): void
-    {
-        $language = $request->attributes->get('_locale');
-
-        if (!in_array($language, ['fr', 'en'], true)) {
-            $language = $request->query->get('lang');
-        }
-
-        if (!in_array($language, ['fr', 'en'], true)) {
-            $language = $request->getSession()->get('_locale');
-        }
-
-        if (!in_array($language, ['fr', 'en'], true)) {
-            $language = $request->getPreferredLanguage(['fr', 'en']) ?: 'fr';
-        }
-
-        $request->setLocale($language);
-        $request->attributes->set('_locale', $language);
-        $request->getSession()->set('_locale', $language);
     }
 }

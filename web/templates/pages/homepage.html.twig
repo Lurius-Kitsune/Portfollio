@@ -39,6 +39,23 @@
 			</aside>
 		</section>
 
+<section class="mb-20 py-12">
+	<div class="grid gap-10 lg:grid-cols-2">
+		<div class="space-y-12">
+			{% for group in skillGroups|slice(0, 3) %}
+				{% include 'components/skills/skillGroup.html.twig' with { group: group } %}
+			{% endfor %}
+		</div>
+
+		<div class="space-y-12">
+			{% for group in skillGroups|slice(3) %}
+				{% include 'components/skills/skillGroup.html.twig' with { group: group } %}
+			{% endfor %}
+		</div>
+	</div>
+</section>
+
+
 <section id="professionalProjects" class="mb-20">
 	<h2 class="mb-6 text-2xl font-bold">{{ locale == 'en' ? 'Professional Projects' : 'Projets professionnels' }}</h2>
 	<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
