@@ -1,3 +1,4 @@
+{% trans_default_domain 'homepage' %}
 {% extends "base/basePage.html.twig" %}
 
 {% block title %}Lucas Bruel | Game Dev Portfolio
@@ -8,25 +9,19 @@
 	<section class="mx-auto max-w-6xl px-6 py-16">
 		<header class="mb-12">
 			<p class="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-cyan-300">
-				{{ locale == 'en' ? 'Game Developer Portfolio' : 'Portfolio Game Developer' }}
+				Portfolio Game Developer
 			</p>
-			<h1 class="text-4xl font-extrabold">{{ locale == 'en' ? 'Portfolio — Game Dev' : 'Portfolio — Game Dev' }}</h1>
+			<h1 class="text-4xl font-extrabold">Lucas Bruel - Game Developer</h1>
 			<p class="mt-3 max-w-3xl text-slate-300">
-				{{ locale == 'en'
-                    ? 'Professional and personal projects built with Unity, C# and game production tools. Discover a few highlights below.'
-                    : 'Projets professionnels et personnels réalisés avec Unity, C# et d’autres outils de création de jeux. Voici quelques réalisations marquantes.'
-                }}
+				{{ 'about.presentation'|trans }}
 			</p>
 		</header>
 
 		<section id="about" class="mb-10 grid gap-6 md:grid-cols-3">
 			<div class="col-span-2 rounded-lg bg-slate-800 p-6 shadow-xl shadow-slate-950/20">
-				<h2 class="text-2xl font-bold">{{ locale == 'en' ? 'About' : 'À propos' }}</h2>
+				<h2 class="text-2xl font-bold">{{ 'about.title'|trans }}</h2>
 				<p class="mt-3 text-slate-300">
-					{{ locale == 'en'
-                        ? 'I am a game developer and designer focused on immersive gameplay, serious games and narrative experiences. I enjoy building gameplay systems, VR experiences and polished interactive worlds.'
-                        : 'Je suis développeur et designer orienté jeux vidéo et serious games. J’aime créer des expériences immersives en VR, des jeux narratifs et des systèmes de gameplay solides.'
-                    }}
+					{{ 'about.description'|trans }}
 				</p>
 			</div>
 
@@ -44,18 +39,33 @@
 			</aside>
 		</section>
 
-		<section id="projects" class="mb-20">
-			<h2 class="mb-6 text-2xl font-bold">{{ locale == 'en' ? 'Projects' : 'Projets' }}</h2>
-			<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{% for project in projects %}
-					{% include 'components/projectCard.html.twig' with { project: project, locale: locale } %}
-				{% else %}
-					<div class="rounded-lg bg-slate-800 p-6 text-slate-300">
-						{{ locale == 'en' ? 'No project available yet.' : 'Aucun projet disponible pour le moment.' }}
-					</div>
-				{% endfor %}
+<section id="professionalProjects" class="mb-20">
+	<h2 class="mb-6 text-2xl font-bold">{{ locale == 'en' ? 'Professional Projects' : 'Projets professionnels' }}</h2>
+	<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		{% for project in projects %}
+			{% include 'components/projectCard.html.twig' with { project: project, locale: locale } %}
+		{% else %}
+			<div class="rounded-lg bg-slate-800 p-6 text-slate-300">
+				{{ locale == 'en' ? 'No project available yet.' : 'Aucun projet disponible pour le moment.' }}
 			</div>
-		</section>
+		{% endfor %}
+	</div>
+</section>
+
+<section id="personalProjects" class="mb-20">
+
+	<h2 class="mb-6 text-2xl font-bold">{{ locale == 'en' ? 'Personal Projects' : 'Projets personnels' }}</h2>
+	<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		{% for project in projects %}
+			{% include 'components/projectCard.html.twig' with { project: project, locale: locale } %}
+		{% else %}
+			<div class="rounded-lg bg-slate-800 p-6 text-slate-300">
+				{{ locale == 'en' ? 'No project available yet.' : 'Aucun projet disponible pour le moment.' }}
+			</div>
+		{% endfor %}
+	</div>
+</section>
+
 
 
 	</section>

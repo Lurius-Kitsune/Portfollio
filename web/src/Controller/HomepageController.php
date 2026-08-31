@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -47,21 +48,31 @@ final class HomepageController extends AbstractController
         ]);
     }
 
+    public function redirectToLocale(Request $request): RedirectResponse
+    {
+        $language = $request->getPreferredLanguage(['fr', 'en']) ?: 'fr';
+
+        return $this->redirectToRoute('homepage', ['_locale' => $language]);
+    }
+
     private function setLanguage(Request $request): void
     {
-        $language = $request->query->get('lang');
+        $language = $request->attributes->get('_locale');
 
-        if (in_array($language, ['fr', 'en'], true)) {
-            $request->getSession()->set('_locale', $language);
-        } else {
+        if (!in_array($language, ['fr', 'en'], true)) {
+            $language = $request->query->get('lang');
+        }
+
+        if (!in_array($language, ['fr', 'en'], true)) {
             $language = $request->getSession()->get('_locale');
+        }
 
-            if (!in_array($language, ['fr', 'en'], true)) {
-                $language = $request->getPreferredLanguage(['fr', 'en']) ?: 'fr';
-                $request->getSession()->set('_locale', $language);
-            }
+        if (!in_array($language, ['fr', 'en'], true)) {
+            $language = $request->getPreferredLanguage(['fr', 'en']) ?: 'fr';
         }
 
         $request->setLocale($language);
+        $request->attributes->set('_locale', $language);
+        $request->getSession()->set('_locale', $language);
     }
 }
