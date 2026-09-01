@@ -3,21 +3,28 @@
 	<div class="block">
 
 		<div class="h-40 overflow-hidden bg-slate-700">
-			{% if project.image is not empty %}
-<img src="{{ project.image }}" alt="{{ project.title }}" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105">
+{% if project.thumbnailUrl is not empty %}
+	<img src="{{ project.thumbnailUrl }}" alt="{{ project.name }}" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105">
+
+
 
 			{% else %}
 <div class="flex h-40 items-center justify-center text-slate-400 transition-colors duration-300 group-hover:text-slate-300">
 
-					{{ locale == 'en' ? 'No image' : 'Aucune image' }}
+{{ nothumbnail|trans }}
+
+
 				</div>
 			{% endif %}
 		</div>
 
 <div class="p-4 transition-all duration-300 ease-out">
 
-			<h3 class="text-lg font-semibold text-white">{{ project.title }}</h3>
-			<p class="mt-2 text-sm text-slate-300">{{ project.description }}</p>
+<h3 class="text-lg font-semibold text-white">{{ project.name }}</h3>
+
+<!--<p class="mt-2 text-sm text-slate-300">project.description</p>-->
+
+
 
 			<div class="mt-4 flex flex-wrap gap-2">
 				{% for tag in project.tags|default([]) %}
@@ -26,9 +33,12 @@
 			</div>
 
 			<div class="mt-4 flex items-center justify-between gap-2">
-				<span class="text-xs text-slate-400">{{ project.type }}
+<span class="text-xs text-slate-400">{{ project.type.name }}
+
 					•
-					{{ project.year }}</span>
+{{ project.startYear ? project.startYear|date('m/Y') : '' }}</span>
+
+
 				<button type="button" data-modal-open="modal-{{ project.id }}" class="inline-flex items-center rounded-md bg-cyan-500 px-3 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400">
 					{{ locale == 'en' ? 'Details' : 'Détails' }}
 				</button>

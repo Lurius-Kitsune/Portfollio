@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\ProjectType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,9 +14,24 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class HomepageController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function index(TranslatorInterface $_translator): Response
+    public function index(TranslatorInterface $_translator, EntityManagerInterface $entityManager): Response
     {
-        $projects = [
+        $projectType = new ProjectType();
+
+        // Français = valeur par défaut
+        // $projectType->setName('Personnel / Académique');
+        // $projectType->setTranslatableLocale('fr');
+
+        // $entityManager->persist($projectType);
+        // $entityManager->flush();
+
+        // Anglais
+        // $projectType->setTranslatableLocale('en');
+        // $projectType->setName('Personal / Academic');
+
+        // $entityManager->flush();
+
+        /*$projects = [
             [
                 'id' => 'nellie-the-seer',
                 'title' => 'Nelli The Seerrrr',
@@ -40,7 +57,7 @@ final class HomepageController extends AbstractController
                 'tags' => ['Unity', 'C#', 'VR', 'Serious Game']
             ]
         ];
-
+        */
 
         $skillGroups = [
             [
@@ -87,7 +104,7 @@ final class HomepageController extends AbstractController
         ];
 
         return $this->render('pages/home/page.html.twig', [
-            "projects" => $projects,
+            "projects" => $entityManager->getRepository(ProjectType::class)->findAll(),
             "skillGroups" => $skillGroups,
         ]);
     }
