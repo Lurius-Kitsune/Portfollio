@@ -40,22 +40,18 @@
 		</section>
 
 		{% include 'pages/home/hardSkills.html.twig' %}
-        {% for projectType in projects %}
-            <section id="professionalProjects" class="mb-20 opacity-100 transition-all duration-700 ease-out">
-                <h2 class="mb-6 text-2xl font-bold transition-all duration-500 ease-out">{{ projectType.name }}</h2>
-                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {% for project in projectType.projects %}
-                        {% include 'components/projectCard.html.twig' with { project: project, locale: locale } %}
-                    {% else %}
-                        <div class="rounded-lg bg-slate-800 p-6 text-slate-300">
-                            {{ locale == 'en' ? 'No project available yet.' : 'Aucun projet disponible pour le moment.' }}
-                        </div>
-                    {% endfor %}
-                </div>
-            </section>
+<section id="projects" class="mb-10 opacity-100 transition-all duration-700 ease-out">
+	<h2 class="text-center text-3xl font-black tracking-tight text-white transition-all duration-500 ease-out md:text-4xl pb-2">{{ 'projects.title'|trans }}</h2>
 
 
-        {% endfor %}
+{% for projectType in projects %}
+
+{% include 'components/projectCaroussel.html.twig' with { objects: projectType.projects, locale: locale } %}{% endfor %}
+
+
+
+</section>
+
 
 
 	</section>

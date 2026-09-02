@@ -22,7 +22,6 @@ COPY web/ /var/www/portfolio
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-scripts
-RUN npm install && npm run build
 RUN chown -R www-data:www-data /var/www/portfolio
 
 CMD ["php-fpm"]

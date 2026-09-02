@@ -6,6 +6,7 @@ about:
     age: "%age% ans"
 
 projects:
+    title: "Mes Projets"
     pro: "Projets professionnels"
     perso: "Projets personnels et académiques"
 

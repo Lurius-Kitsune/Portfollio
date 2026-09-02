@@ -1,0 +1,17 @@
+{% block project_caroussel %}
+
+	<section class=" mb-20 opacity-100 transition-all duration-700 ease-out">
+		<h2 class="mb-6 text-2xl font-bold transition-all duration-500 ease-out">{{ projectType.name }}</h2>
+		<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+			{% for object in objects %}
+				<div>
+					{% include 'components/projectCard.html.twig' with { project: object} %}
+				</div>
+			{% else %}
+				<div class="w-full  rounded-lg bg-slate-800 p-6 text-slate-300">
+					{{ 'noprojects'|trans }}
+				</div>
+			{% endfor %}
+		</div>
+	</section>
+{% endblock %}

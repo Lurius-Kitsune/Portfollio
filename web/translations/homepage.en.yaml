@@ -6,6 +6,7 @@ about:
     age: "%age% years"
 
 projects:
+    title: "My Projects"
     pro: "Professional Projects"
     perso: "Personal and Academic Projects"
 
@@ -20,3 +21,4 @@ certification:
     title: "Certifications"
     unity: "Unity Certified Associate"
     csharp: "C# Programming"
+
