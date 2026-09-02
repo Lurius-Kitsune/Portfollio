@@ -16,6 +16,11 @@ services:
   php:
     image: ghcr.io/lurius-kitsune/portfolio:latest
 
+    command: >
+      sh -c "
+        php bin/console doctrine:migrations:migrate --no-interaction
+        && php-fpm
+      "
 
     ports:
       - "9000:9000"
