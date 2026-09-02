@@ -9,10 +9,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ProjectControler extends AbstractController
 {
-    #[Route('/project/{id}', name: 'project_show', methods: ['GET'])]
-    public function show(string $id, ProjectRepository $projectRepository): Response
+    #[Route('/project/{slug}', name: 'project_show', methods: ['GET'])]
+    public function show(string $slug, ProjectRepository $projectRepository): Response
     {
-        $project = $projectRepository->find($id);
+        $project = $projectRepository->findOneBy(['slug' => $slug]);
 
         if ($project === null) {
             $response = $this->render('pages/404.html.twig');

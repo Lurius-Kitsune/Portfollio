@@ -150,7 +150,7 @@ INSERT INTO
         "thumbnail_url",
         "link",
         "tags",
-        "type_id"
+"type_id"
     )
 VALUES (
         'Nelli the seer',
@@ -161,3 +161,26 @@ VALUES (
         'C++,Unreal',
         2
     );
+CREATE OR REPLACE FUNCTION generate_project_slug()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF NEW.slug IS NULL OR NEW.slug = '' THEN
+        NEW.slug := LOWER(
+            REGEXP_REPLACE(
+                TRIM(NEW.name),
+                '[^a-zA-Z0-9]+',
+                '-',
+                'g'
+            )
+        );
+    END IF;
+
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER project_slug_trigger
+BEFORE INSERT OR UPDATE OF name
+ON project
+FOR EACH ROW
+EXECUTE FUNCTION generate_project_slug();
