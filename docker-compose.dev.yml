@@ -24,7 +24,8 @@ services:
     ports:
       - "9000:9000"
     depends_on:
-      - database
+      database:
+            condition: service_healthy
 
   database:
     image: postgres:17
@@ -35,16 +36,17 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
-      timeout: 5s
-      retries: 5
-      start_period: 60s
+        test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+        interval: 5s
+        timeout: 5s
+        retries: 10
 
     ports:
       - "5432:5432"
 
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
 
 volumes:
   postgres_data:
