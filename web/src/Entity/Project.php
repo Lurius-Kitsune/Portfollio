@@ -41,6 +41,9 @@ class Project
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private ?array $tags = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $content = null;
+
 
 
 
@@ -148,6 +151,18 @@ class Project
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): static
+    {
+        $this->content = $content;
 
         return $this;
     }

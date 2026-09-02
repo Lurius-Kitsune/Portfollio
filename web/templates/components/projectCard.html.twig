@@ -1,4 +1,7 @@
 {# Project card component #}
+{% trans_default_domain 'project' %}
+
+
 <article class="group overflow-hidden rounded-lg bg-slate-800 shadow-lg ring-1 ring-slate-700/80 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-2xl hover:shadow-cyan-500/10">
 	<div class="block">
 		<div class="h-40 overflow-hidden bg-slate-700">
@@ -6,7 +9,9 @@
 				<img src="{{ project.thumbnailUrl }}" alt="{{ project.name }}" class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105">
 			{% else %}
 				<div class="flex h-40 items-center justify-center text-slate-400 transition-colors duration-300 group-hover:text-slate-300">
-					{{ nothumbnail|trans }}
+{{ 'nothumbnail'|trans }}
+
+
 				</div>
 			{% endif %}
 		</div>

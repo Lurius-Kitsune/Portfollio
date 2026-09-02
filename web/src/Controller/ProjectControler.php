@@ -21,7 +21,7 @@ final class ProjectControler extends AbstractController
             return $response;
         }
 
-        return $this->render('pages/project/show.html.twig', [
+        return $this->render('pages/project/page.html.twig', [
             'project' => $project,
         ]);
     }

@@ -1,16 +1,16 @@
-{% trans_default_domain 'homepage' %}
+{% trans_default_domain 'project' %}
 {% extends "base/basePage.html.twig" %}
 
 {% block title %}
 	{{ project.name }}
-	| Lucas Bruel
+	| Portfolio
 {% endblock %}
 
 {% block body %}
 	<section class="mx-auto max-w-6xl px-6 py-16">
 		<a href="{{ path('homepage', { _locale: app.request.locale|default('fr') }) }}#projects" class="mb-8 inline-flex items-center text-sm font-semibold text-cyan-300 transition-colors hover:text-cyan-200">
 			&larr;
-			{{ app.request.locale == 'en' ? 'Back to projects' : 'Retour aux projets' }}
+			{{ 'backtohome'|trans }}
 		</a>
 
 		<article class="overflow-hidden rounded-lg bg-slate-800 shadow-xl shadow-slate-950/20">
@@ -18,7 +18,12 @@
 				<div class="h-64 overflow-hidden bg-slate-700 md:h-96">
 					<img src="{{ project.thumbnailUrl }}" alt="{{ project.name }}" class="h-full w-full object-cover">
 				</div>
+			{% else %}
+				<div class="flex h-64 items-center justify-center bg-slate-700 text-slate-400 md:h-96">
+					{{ 'nothumbnail'|trans() }}
+				</div>
 			{% endif %}
+
 
 			<div class="p-6 md:p-10">
 				<div class="mb-8 flex flex-wrap items-start justify-between gap-4">
@@ -29,18 +34,16 @@
 
 					{% if project.link is not empty %}
 						<a href="{{ project.link }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center rounded-md bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400">
-							{{ app.request.locale == 'en' ? 'Visit project' : 'Voir le projet' }}
+							{{ 'info.link'|trans }}
 						</a>
 					{% endif %}
 				</div>
 
 				<div class="mb-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-300">
-					<span>{{ app.request.locale == 'en' ? 'Start' : 'Début' }}
-						:
+					<span>{{ 'info.start'|trans }}
 						{{ project.startYear ? project.startYear|date('m/Y') : '-' }}</span>
 					{% if project.endDate %}
-						<span>{{ app.request.locale == 'en' ? 'End' : 'Fin' }}
-							:
+						<span>{{ 'info.end'|trans }}
 							{{ project.endDate|date('m/Y') }}</span>
 					{% endif %}
 				</div>
@@ -53,6 +56,11 @@
 					</div>
 				{% endif %}
 			</div>
+			{% if project.content is not empty %}
+				<div class="prose max-w-none p-6 text-slate-300 md:p-10">
+					{{ project.content|raw }}
+				</div>
+			{% endif %}
 		</article>
 	</section>
 {% endblock %}
