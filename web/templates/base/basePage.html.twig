@@ -1,27 +1,24 @@
 <!DOCTYPE html>
-<html lang="{{ app.request.locale }}">
-<head></head>
+<html lang="{{ app.request.locale }}" class="h-full">
+<head>
+    {% set page_title %}
+        {% block title %}Lucas Bruel | Portfolio{% endblock %}
+    {% endset %}
 
-        {% set page_title %}
-{% block title %}Lucas Bruel | Portfolio
-{% endblock %}
+    {% include "base/baseHeader.html.twig" with { page_title: page_title } %}
+</head>
 
-        {% endset %}
+<body class="min-h-screen flex flex-col">
 
-		{% include "base/baseHeader.html.twig" with { page_title: page_title } %}
-	</head>
-<body></body>
+    {% include "components/menu.html.twig" %}
 
-{% include "components/menu.html.twig" %}
+    <main class="flex flex-1 flex-col bg-slate-900 text-white">
+        {% block body %}{% endblock %}
+    </main>
 
-        <main class="min-h-screen bg-slate-900 text-white">
-{% block body %}{% endblock %}
+    {% block footer %}
+        {% include "components/footer.html.twig" %}
+    {% endblock %}
 
-{% block footer %}
-	{% include "components/footer.html.twig" %}
-{% endblock %}
-
-        </main>
-    </body>
-
+</body>
 </html>

@@ -2,6 +2,6 @@ nothumbnail: "Pas de miniature"
 noprojects :  "Aucun projet disponible pour le moment."
 
 error:
-	project_not_found: "Projet introuvable"
-	project_unavailable: "Le projet que vous recherchez n'existe pas ou n'est plus disponible."
-	back_to_projects: "Retour aux projets"
+    projectnotfound: "Projet introuvable"
+    projectunavailable: "Le projet que vous recherchez n'existe pas ou n'est plus disponible."
+    backtoprojects: "Retour aux projets"
