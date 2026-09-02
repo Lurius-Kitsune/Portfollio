@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\HardSkillType;
 use App\Entity\ProjectType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -105,7 +106,7 @@ final class HomepageController extends AbstractController
 
         return $this->render('pages/home/page.html.twig', [
             "projects" => $entityManager->getRepository(ProjectType::class)->findAll(),
-            "skillGroups" => $skillGroups,
+            "skillGroups" => $entityManager->getRepository(HardSkillType::class)->findAll(),
         ]);
     }
 

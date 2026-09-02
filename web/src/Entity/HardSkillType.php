@@ -2,21 +2,33 @@
 
 namespace App\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use App\Repository\HardSkillTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Translatable\Translatable;
 
 #[ORM\Entity(repositoryClass: HardSkillTypeRepository::class)]
-class HardSkillType
+#[Gedmo\TranslationEntity(class: HardSkillTypeTranslation::class)]
+class HardSkillType implements Translatable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Gedmo\Translatable]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[Gedmo\Locale]
+    private ?string $locale = null;
+
+    public function setTranslatableLocale(?string $locale): void
+    {
+        $this->locale = $locale;
+    }
 
     /**
      * @var Collection<int, HardSkill>

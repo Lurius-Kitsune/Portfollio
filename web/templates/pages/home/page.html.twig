@@ -44,13 +44,17 @@
 	<h2 class="text-center text-3xl font-black tracking-tight text-white transition-all duration-500 ease-out md:text-4xl pb-2">{{ 'projects.title'|trans }}</h2>
 
 
+
 {% for projectType in projects %}
+
 
 {% include 'components/projectCaroussel.html.twig' with { objects: projectType.projects, locale: locale } %}{% endfor %}
 
 
 
+
 </section>
+
 
 
 

@@ -1,11 +1,9 @@
 {% trans_default_domain 'menu' %}
 
-
 {% block navMenu %}
 	<nav class="border-b border-slate-800 bg-slate-950 text-white" aria-label="Navigation principale">
 		<div class="relative mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}" class="text-xl font-bold tracking-tight text-white transition-colors hover:text-cyan-300">
-
+			<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}" class="text-xl font-bold tracking-tight text-white transition-colors hover:text-cyan-300">
 				Lucas Bruel<span class="text-cyan-400">.</span>
 			</a>
 
@@ -20,28 +18,16 @@
 				<div class="flex flex-col gap-5 md:flex-row md:items-center md:gap-8">
 					<ul class="flex flex-col gap-1 md:flex-row md:items-center md:gap-2">
 						<li>
-<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400">{{ 'menu.home'|trans }}</a>
-
-
-
+							<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400">{{ 'menu.home'|trans }}</a>
 						</li>
 						<li>
-<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}#about" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400">{{ 'menu.about'|trans }}</a>
-
-
-
+							<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}#about" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400">{{ 'menu.about'|trans }}</a>
 						</li>
 						<li>
-<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}#projects" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400">{{ 'menu.projects'|trans }}</a>
-
-
-
+							<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}#projects" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400">{{ 'menu.projects'|trans }}</a>
 						</li>
 						<li>
-<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}" class="mt-2 inline-block rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 md:mt-0">{{ 'menu.contact'|trans }}</a>
-
-
-
+							<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}" class="mt-2 inline-block rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 md:mt-0">{{ 'menu.contact'|trans }}</a>
 						</li>
 					</ul>
 
@@ -55,11 +41,9 @@
 					</div>
 
 					<div class="flex items-center gap-1 border-t border-slate-800 pt-4 md:ml-auto md:border-t-0 md:pt-0">
-<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params', {})|merge({'_locale': 'fr'})) }}" class="rounded-md px-2 py-1 text-xs font-bold {{ app.request.locale == 'fr' ? 'text-cyan-300' : 'text-slate-500' }} hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400" aria-label="Passer le site en français">FR</a>
-
+						<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params', {})|merge({'_locale': 'fr'})) }}" class="rounded-md px-2 py-1 text-xs font-bold {{ app.request.locale == 'fr' ? 'text-cyan-300' : 'text-slate-500' }} hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400" aria-label="Passer le site en français">FR</a>
 						<span class="text-slate-600">/</span>
-<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params', {})|merge({'_locale': 'en'})) }}" class="rounded-md px-2 py-1 text-xs font-bold {{ app.request.locale == 'en' ? 'text-cyan-300' : 'text-slate-500' }} hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400" aria-label="Switch website to English">EN</a>
-
+						<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params', {})|merge({'_locale': 'en'})) }}" class="rounded-md px-2 py-1 text-xs font-bold {{ app.request.locale == 'en' ? 'text-cyan-300' : 'text-slate-500' }} hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400" aria-label="Switch website to English">EN</a>
 					</div>
 				</div>
 			</div>
