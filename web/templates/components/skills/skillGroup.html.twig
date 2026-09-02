@@ -1,0 +1,20 @@
+<section class="space-y-5 transition-all duration-700 ease-out hover:-translate-y-0.5">
+
+	<div class="flex items-center gap-3">
+<div class="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-xl text-cyan-300 ring-1 ring-white/10 transition-all duration-300 ease-out hover:scale-105 hover:bg-cyan-400/10">
+
+O
+
+		</div>
+<h3 class="text-2xl font-black tracking-tight text-white md:text-3xl">{{ group.name }}</h3>
+
+	</div>
+
+<div class="flex flex-wrap gap-3 transition-all duration-500 ease-out">
+
+{% for item in group.hardSkills %}
+
+			{% include 'components/skills/skillBadge.html.twig' with { item: item } %}
+		{% endfor %}
+	</div>
+</section>

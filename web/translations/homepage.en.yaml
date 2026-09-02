@@ -1,0 +1,24 @@
+about:
+    title: "About me"
+    presentation: "Since I was little, I have been immersed in computer science and new technologies, with the dream of becoming a game developer. \n I don't know yet where this professional adventure will lead me, but I will do everything to achieve my dream!"
+    description: "I am a game developer focused on UI (User Interface) and passionate about video games and their surrounding ecosystem. My goal is to enable the creation of video games with an enjoyable UI and a smooth UX. I am always looking for new opportunities to learn and improve my skills in the field of game development."
+    citation: "« Life deserves to be loved. »"
+    age: "%age% years"
+
+projects:
+    title: "My Projects"
+    pro: "Professional Projects"
+    perso: "Personal and Academic Projects"
+
+skills:
+    title: "Technical Skills"
+    web: "Web Development"
+    application: "Application Development"
+    engine: "Game Engines"
+    tools: "Production Tools"
+
+certification:
+    title: "Certifications"
+    unity: "Unity Certified Associate"
+    csharp: "C# Programming"
+

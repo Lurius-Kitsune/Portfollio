@@ -1,0 +1,7 @@
+nothumbnail: "Pas de miniature"
+noprojects :  "Aucun projet disponible pour le moment."
+
+error:
+    projectnotfound: "Projet introuvable"
+    projectunavailable: "Le projet que vous recherchez n'existe pas ou n'est plus disponible."
+    backtoprojects: "Retour aux projets"
