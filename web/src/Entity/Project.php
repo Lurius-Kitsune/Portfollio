@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Translatable\Translatable;
@@ -43,6 +45,17 @@ class Project
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
+
+    /**
+     * @var Collection<int, ProjectMedia>
+     */
+    #[ORM\OneToMany(targetEntity: ProjectMedia::class, mappedBy: 'projectId')]
+    private Collection $projectMedia;
+
+    public function __construct()
+    {
+        $this->projectMedia = new ArrayCollection();
+    }
 
 
 
@@ -163,6 +176,36 @@ class Project
     public function setContent(?string $content): static
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProjectMedia>
+     */
+    public function getProjectMedia(): Collection
+    {
+        return $this->projectMedia;
+    }
+
+    public function addProjectMedium(ProjectMedia $projectMedium): static
+    {
+        if (!$this->projectMedia->contains($projectMedium)) {
+            $this->projectMedia->add($projectMedium);
+            $projectMedium->setProjectId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjectMedium(ProjectMedia $projectMedium): static
+    {
+        if ($this->projectMedia->removeElement($projectMedium)) {
+            // set the owning side to null (unless already changed)
+            if ($projectMedium->getProjectId() === $this) {
+                $projectMedium->setProjectId(null);
+            }
+        }
 
         return $this;
     }

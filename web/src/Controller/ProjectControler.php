@@ -21,6 +21,12 @@ final class ProjectControler extends AbstractController
             return $response;
         }
 
+        $carouselItems = [
+            "https://media1.tenor.com/m/gfuFUR0Nv34AAAAC/f.gif",
+            "images/project/fgtb/protoDetectionUIEnemy.gif",
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBB4LQTn0vRq4ydPLp-uTj_lEUHOHYWUU18JlCq5KuMw&s=10",
+        ];
+
         return $this->render('pages/project/page.html.twig', [
             'project' => $project,
         ]);

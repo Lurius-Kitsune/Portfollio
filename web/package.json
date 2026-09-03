@@ -5,8 +5,12 @@
         "@hotwired/stimulus": "^3.0.0",
         "@hotwired/turbo": "^7.1.0 || ^8.0",
         "@symfony/webpack-encore": "^7.0.0",
+        "@tailwindcss/postcss": "^4.3.3",
         "babel-plugin-polyfill-corejs3": "^1.0.0",
         "core-js": "^3.49.0",
+        "postcss": "^8.5.27",
+        "postcss-loader": "^8.2.1",
+        "tailwindcss": "^4.3.3",
         "webpack": "^5.82",
         "webpack-cli": "^7.0.0"
     },
@@ -20,10 +24,7 @@
     },
     "dependencies": {
         "@symfony/stimulus-bridge": "^4.0.1",
-        "@tailwindcss/postcss": "^4.3.3",
-        "postcss": "^8.5.26",
-        "postcss-loader": "^8.2.1",
-        "tailwindcss": "^4.3.3"
+        "flowbite": "^4.0.2"
     },
     "allowScripts": {
         "core-js@3.50.0": true
