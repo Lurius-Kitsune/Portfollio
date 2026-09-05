@@ -1,6 +1,8 @@
 name: "↪️ Deploy VPS"
 on:
+  workflow_call:
   workflow_dispatch:
+   
     inputs:
       ssh_host:
         description: "SSH Host"
@@ -21,14 +23,8 @@ on:
         description: "SSH Key Passphrase (if any)"
         required: false
 
-  workflow_run:
-    workflows: [Build Docker Image]
-    types:
-      - completed
-
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:

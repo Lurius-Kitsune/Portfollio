@@ -1,0 +1,53 @@
+name: "Docker Build"
+
+on:
+  workflow_call:
+    inputs:
+      push:
+        required: true
+        type: boolean
+        default: false
+      platforms:
+        required: false
+        type: string
+        default: "linux/amd64,linux/arm64"
+
+jobs:
+  build:
+    name: "⚒️ Build Docker Image"
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: "⬇ Checkout"
+        uses: actions/checkout@v6
+
+      - name: Login to GHCR
+        if: inputs.push
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: downcase REPO
+        if: inputs.push
+        run: echo "OWNER=${GITHUB_REPOSITORY_OWNER,,}" >>${GITHUB_ENV}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build (and push if needed)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          platforms: ${{ inputs.platforms }}
+          push: ${{ inputs.push }}
+          tags: ${{ inputs.push && format('ghcr.io/{0}/portfolio:latest,ghcr.io/{0}/portfolio:{1}', env.OWNER, github.sha) || '' }}
