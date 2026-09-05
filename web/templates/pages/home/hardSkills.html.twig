@@ -3,7 +3,15 @@
 {% block hardSkills %}
 	<section class="mb-20 py-12 opacity-100 transition-all duration-700 ease-out">
 		<div class="mb-8 text-center">
-			<h2 class="text-3xl font-black tracking-tight text-white transition-all duration-500 ease-out md:text-4xl">{{ 'skills.title'|trans }}</h2>
+<h2 class="flex justify-center items-center gap-2 text-3xl font-black tracking-tight text-white transition-all duration-500 ease-out md:text-4xl">
+	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 shrink-0">
+		<path stroke-linecap="round" stroke-linejoin="round" d="M2.25 7.125C2.25 6.504 2.754 6 3.375 6h6c.621 0 1.125.504 1.125 1.125v3.75c0 .621-.504 1.125-1.125 1.125h-6a1.125 1.125 0 0 1-1.125-1.125v-3.75ZM14.25 8.625c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v8.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-8.25ZM3.75 16.125c0-.621.504-1.125 1.125-1.125h5.25c.621 0 1.125.504 1.125 1.125v2.25c0 .621-.504 1.125-1.125 1.125h-5.25a1.125 1.125 0 0 1-1.125-1.125v-2.25Z"/>
+	</svg>
+
+	{{ 'skills.title'|trans }}
+</h2>
+
+
 		</div>
 		<div class="grid gap-10 transition-all duration-700 ease-out lg:grid-cols-2">
 {% for group in skillGroups %}
