@@ -11,7 +11,7 @@
 		<nav class="flex" aria-label="Breadcrumb">
 			<ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
 				<li class="inline-flex items-center">
-					<a
+					
 						href="{{ path('homepage', { _locale: app.request.locale|default('fr') }) }}#projects"
 						class="inline-flex items-center text-sm font-medium text-body hover:text-fg-brand"
 					>
@@ -22,7 +22,7 @@
 							width="24"
 							height="24"
 							fill="none"
-							viewbox="0 0 24 24"
+							viewBox="0 0 24 24"
 						>
 							<path
 								stroke="currentColor"
@@ -46,7 +46,7 @@
 							width="24"
 							height="24"
 							fill="none"
-							viewbox="0 0 24 24"
+							viewBox="0 0 24 24"
 						>
 							<path
 								stroke="currentColor"
@@ -57,9 +57,10 @@
 							/>
 						</svg>
 
-						<a
+						
 							href="{{ path('project_show', { slug: project.slug, _locale: app.request.locale|default('fr') }) }}"
 							class="inline-flex items-center text-sm font-medium text-body hover:text-fg-brand"
+							aria-current="page"
 						>
 							{{ project.name }}
 						</a>
@@ -75,6 +76,8 @@
 						src="{{ project.thumbnailUrl }}"
 						alt="{{ project.name }}"
 						class="h-full w-full object-cover"
+						loading="lazy"
+						decoding="async"
 					>
 				</div>
 			{% else %}
@@ -96,10 +99,11 @@
 					</div>
 
 					{% if project.link is not empty %}
-						<a
+						
 							href="{{ project.link }}"
 							target="_blank"
 							rel="noopener noreferrer"
+							aria-label="{{ 'info.link'|trans }} ({{ project.name }}, nouvel onglet)"
 							class="inline-flex items-center rounded-md bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
 						>
 							{{ 'info.link'|trans }}
@@ -132,14 +136,13 @@
 				{% endif %}
 			</div>
 
-            {% include "pages/project/carouselle.html.twig" %}
-			{% if project.content is not empty %}
-                <div class="prose max-w-none text-slate-300 ">
+			{% include "pages/project/carouselle.html.twig" %}
 
+			{% if project.content is not empty %}
+				<div class="prose prose-invert max-w-none text-slate-300">
 					{{ project.content|raw }}
 				</div>
 			{% endif %}
 		</article>
 	</section>
 {% endblock %}
-

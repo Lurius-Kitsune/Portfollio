@@ -10,7 +10,7 @@ RUN apk add --no-cache \
     libpq-dev \
     postgresql-client \
     nodejs \
-    npm
+    npm 
 
 
 RUN docker-php-ext-install pdo_pgsql zip gd intl
