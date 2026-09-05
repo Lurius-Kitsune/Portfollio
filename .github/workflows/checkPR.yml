@@ -1,0 +1,12 @@
+name: "PR - Check Docker Build"
+run-name: "Check Docker Build @${{ github.run_id }}"
+
+on:
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    uses: ./.github/workflows/buildDockerImage.yml
+    with:
+      push: false
