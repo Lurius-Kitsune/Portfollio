@@ -134,7 +134,8 @@
 
             {% include "pages/project/carouselle.html.twig" %}
 			{% if project.content is not empty %}
-				<div class="prose max-w-none p-6 text-slate-300 md:p-10">
+                <div class="prose max-w-none text-slate-300 ">
+
 					{{ project.content|raw }}
 				</div>
 			{% endif %}

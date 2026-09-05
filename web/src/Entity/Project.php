@@ -7,10 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
-class Project
+class Project implements Translatable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,7 +20,6 @@ class Project
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-
 
     #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
@@ -43,6 +43,7 @@ class Project
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private ?array $tags = null;
 
+    #[Gedmo\Translatable]
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $content = null;
 
