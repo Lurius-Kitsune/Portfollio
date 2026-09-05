@@ -27,7 +27,15 @@
 							<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}#projects" class="block rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400">{{ 'menu.projects'|trans }}</a>
 						</li>
 						<li>
-							<a href="{{ path('homepage', {'_locale': app.request.locale|default('fr')}) }}" class="mt-2 inline-block rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 md:mt-0">{{ 'menu.contact'|trans }}</a>
+							
+                        {% if app.request.locale == 'en' %}
+                            {% set filename = 'CV-EN-LucasBruel' %}
+                        {% else %}
+                            {% set filename = 'CV-FR-LucasBruel' %}
+                        {% endif %}
+
+                        <a href="{{ asset('/cv/' ~ filename ~ '.pdf') }}" class="mt-2 inline-block rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 md:mt-0">{{ 'menu.download'|trans }}</a>
+
 						</li>
 					</ul>
 

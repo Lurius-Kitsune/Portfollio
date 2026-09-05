@@ -12,7 +12,7 @@
 			<ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
 				<li class="inline-flex items-center">
 					
-						href="{{ path('homepage', { _locale: app.request.locale|default('fr') }) }}#projects"
+						<a href="{{ path('homepage', { _locale: app.request.locale|default('fr') }) }}#projects"
 						class="inline-flex items-center text-sm font-medium text-body hover:text-fg-brand"
 					>
 						<svg
@@ -58,7 +58,7 @@
 						</svg>
 
 						
-							href="{{ path('project_show', { slug: project.slug, _locale: app.request.locale|default('fr') }) }}"
+							<a href="{{ path('project_show', { slug: project.slug, _locale: app.request.locale|default('fr') }) }}"
 							class="inline-flex items-center text-sm font-medium text-body hover:text-fg-brand"
 							aria-current="page"
 						>
@@ -99,7 +99,7 @@
 					</div>
 
 					{% if project.link is not empty %}
-						
+						<a 
 							href="{{ project.link }}"
 							target="_blank"
 							rel="noopener noreferrer"

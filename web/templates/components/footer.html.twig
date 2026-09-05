@@ -1,7 +1,20 @@
+{% trans_default_domain 'menu' %}
+
+{% block footer %}
 <footer class="w-full border-t border-slate-800 bg-slate-950 px-6 py-8 text-sm text-slate-500">
-	<p class="mx-auto max-w-6xl">
-		&copy;
-		{{ "now"|date("Y") }}
-		Lucas Bruel - Portfolio Game Dev
-	</p>
+    <div class="flex items-center justify-around">
+        <p class="">
+            &copy;
+            {{ "now"|date("Y") }}
+            Lucas Bruel - Portfolio Game Dev
+        </p>
+        {% if app.request.locale == 'en' %}
+            {% set filename = 'CV-EN-LucasBruel' %}
+        {% else %}
+            {% set filename = 'CV-FR-LucasBruel' %}
+        {% endif %}
+
+        <a href="{{ asset('/cv/' ~ filename ~ '.pdf') }}" class="mt-2 inline-block rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition-colors hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400 md:mt-0">{{ 'menu.download'|trans }}</a>
+    </div>
 </footer>
+{% endblock %}
