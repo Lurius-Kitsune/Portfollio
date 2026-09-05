@@ -11,6 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
+#[Gedmo\TranslationEntity(class: ProjectTranslation::class)]
 class Project implements Translatable
 {
     #[ORM\Id]
