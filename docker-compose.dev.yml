@@ -20,7 +20,8 @@ services:
 
     command: >
       sh -c "
-        php bin/console doctrine:migrations:migrate --no-interaction && php-fpm
+        php bin/console doctrine:migrations:migrate --no-interaction
+        php bin/console cache:warmup --env=dev
       "
 
     volumes:

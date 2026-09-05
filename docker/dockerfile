@@ -26,6 +26,5 @@ RUN npm install && npm run build
 RUN chown -R www-data:www-data /var/www/portfolio
 
 RUN APP_ENV=prod php bin/console cache:clear --no-warmup
-RUN APP_ENV=prod php bin/console cache:warmup
 
 CMD ["php-fpm"]
