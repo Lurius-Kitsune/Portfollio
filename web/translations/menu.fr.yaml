@@ -1,0 +1,9 @@
+menu:
+    home: "Accueil"
+    about: "À propos"
+    skills: "Compétences"
+    projects: "Projets"
+    certifications: "Certifications"
+    contact: "Me contacter"
+    download: "Télécharger mon CV"
+

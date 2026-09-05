@@ -1,0 +1,23 @@
+about:
+    title: "À propos de moi"
+    presentation: "Depuis tout petit, j’ai été baigné par l’informatique et les nouvelles technologies avec pour rêves d’être développeur dans les jeux vidéo. \n Je ne sais pas encore où cette aventure professionnelle m’amènera, mais je ferais tout afin d’atteindre mon rêve !"
+    description: "Je suis un développeur axé sur l'UI (Interface Utilisateur) et passionné par les jeux vidéo et ce qui l'entour. Mon objectif est de permettre la réalisation de jeux vidéo avec une UI agréable et une UX fluide. Je suis toujours à la recherche de nouvelles opportunités pour apprendre et améliorer mes compétences dans le domaine du développement de jeux vidéo."
+    citation: "« La vie mérite d'être d'être aimé. »"
+    age: "%age% ans"
+
+projects:
+    title: "Mes Projets"
+    pro: "Projets professionnels"
+    perso: "Projets personnels et académiques"
+
+skills:
+    title: "Compétences techniques"
+    web: "Développement Web"
+    application: "Développement Applicatif"
+    engine: "Moteurs de jeux"
+    tools: "Outils de production"
+
+certification:
+    title: "Certifications"
+    unity: "Unity Certified Associate"
+    csharp: "C# Programming"

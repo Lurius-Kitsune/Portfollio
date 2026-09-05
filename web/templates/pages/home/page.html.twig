@@ -1,0 +1,60 @@
+{% trans_default_domain 'homepage' %}
+{% extends "base/basePage.html.twig" %}
+
+{% block title %}Lucas Bruel | Game Dev Portfolio
+{% endblock %}
+
+{% block body %}
+	{% set locale = app.request.locale|default('fr') %}
+	<section class="mx-auto max-w-6xl px-6 py-16">
+		<header class="mb-12 opacity-100 transition-all duration-700 ease-out delay-150">
+			<p class="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-cyan-300 transition-all duration-500 ease-out hover:text-cyan-200">
+				Portfolio Game Developer
+			</p>
+			<h1 class="text-4xl font-extrabold transition-all duration-700 ease-out hover:tracking-wide">Lucas Bruel - Game Developer</h1>
+			<p class="mt-3 max-w-3xl text-slate-300 transition-all duration-500 ease-out">
+				{{ 'about.presentation'|trans }}
+			</p>
+		</header>
+
+		<section id="about" class="mb-10 grid gap-6 opacity-100 transition-all duration-700 ease-out md:grid-cols-3">
+			<div class="col-span-2 rounded-lg bg-slate-800 p-6 shadow-xl shadow-slate-950/20 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-cyan-500/10">
+				<h2 class="text-2xl font-bold">{{ 'about.title'|trans }}</h2>
+				<p class="mt-3 text-slate-300">
+					{{ 'about.description'|trans }}
+				</p>
+			</div>
+
+			<aside class="rounded-lg bg-slate-800 p-6 shadow-xl shadow-slate-950/20 transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-cyan-500/10">
+            <h3 class="text-lg font-semibold">{{ locale == 'en' ? 'Contact' : 'Contact' }}</h3>
+
+				<p class="mt-2 text-sm text-slate-300">GitHub:
+					<a href="https://github.com/Lurius-Kitsune" target="_blank" rel="noopener noreferrer" class="text-cyan-300">Lurius-Kitsune</a>
+				</p>
+				<p class="mt-2 text-sm text-slate-300">LinkedIn:
+					<a href="https://www.linkedin.com/in/lucas-bruel-547179278/?trk=public_post_comment_actor-image" target="_blank" rel="noopener noreferrer" class="text-cyan-300">Lucas Bruel</a>
+				</p>
+			</aside>
+		</section>
+
+		{% include 'pages/home/hardSkills.html.twig' %}
+<section id="projects" class="mb-10 opacity-100 transition-all duration-700 ease-out">
+	<h2 class="text-center text-3xl font-black tracking-tight text-white transition-all duration-500 ease-out md:text-4xl pb-2">{{ 'projects.title'|trans }}</h2>
+
+
+
+{% for projectType in projects %}
+
+
+{% include 'components/projectCaroussel.html.twig' with { objects: projectType.projects, locale: locale } %}{% endfor %}
+
+
+
+
+</section>
+
+
+
+
+	</section>
+{% endblock %}

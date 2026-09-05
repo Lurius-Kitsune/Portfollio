@@ -1,0 +1,12 @@
+{% set badgeClasses = item.color|default('bg-white text-slate-800') %}
+<div title="{{ item.name|default(item.label|default('')) }}" aria-label="{{ item.name|default(item.label|default('')) }}" class="group inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-white/10 shadow-lg shadow-slate-950/20 transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 hover:shadow-cyan-500/10 {{ badgeClasses }}">
+	<span class="flex h-full w-full items-center justify-center p-1 text-lg font-black leading-none tracking-tight transition-transform duration-300 ease-out group-hover:scale-110">
+		{% if item.imageUrl is defined and item.imageUrl %}
+			<img src="{{ item.imageUrl }}" alt="{{ item.name }}" class="block h-full w-full object-contain">
+
+		{% else %}
+{{ item.name|default(item.label|first|upper) }}
+
+		{% endif %}
+	</span>
+</div>

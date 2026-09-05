@@ -1,0 +1,27 @@
+FROM php:8.5-fpm-alpine
+
+RUN apk add --no-cache \
+    git \
+    unzip \
+    zip \
+    libpng-dev \
+    icu-dev \
+    libzip-dev \
+    libpq-dev \
+    postgresql-client \
+    nodejs \
+    npm
+
+
+RUN docker-php-ext-install pdo_pgsql zip gd intl
+
+WORKDIR /var/www/portfolio
+
+COPY web/ /var/www/portfolio
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install --no-scripts
+RUN chown -R www-data:www-data /var/www/portfolio
+
+CMD ["php-fpm"]
