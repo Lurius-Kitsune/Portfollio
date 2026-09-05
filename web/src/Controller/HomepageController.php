@@ -14,23 +14,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class HomepageController extends AbstractController
 {
-    #[Route('/', name: 'homepage')]
+    #[Route('/', name: 'homepage',  methods: ['GET'])]
     public function index(TranslatorInterface $_translator, EntityManagerInterface $entityManager): Response
     {
-        $projectType = new ProjectType();
-
-        // Français = valeur par défaut
-        // $projectType->setName('Personnel / Académique');
-        // $projectType->setTranslatableLocale('fr');
-
-        // $entityManager->persist($projectType);
-        // $entityManager->flush();
-
-        // Anglais
-        // $projectType->setTranslatableLocale('en');
-        // $projectType->setName('Personal / Academic');
-
-        // $entityManager->flush();
 
         /*$projects = [
             [

@@ -1,5 +1,5 @@
-nothumbnail: "Pas de miniature"
 noprojects :  "Aucun projet disponible pour le moment."
+backtohome : "Retour à l'acceuil"
 
 error:
     projectnotfound: "Projet introuvable"

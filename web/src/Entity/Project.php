@@ -3,20 +3,27 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
-class Project
+#[Gedmo\TranslationEntity(class: ProjectTranslation::class)]
+class Project implements Translatable
 {
     #[ORM\Id]
+    #[ORM\GeneratedValue]
     #[ORM\Column]
-    private ?string $id = null;
+    private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $slug = null;
 
     #[ORM\ManyToOne(inversedBy: 'projects')]
     #[ORM\JoinColumn(nullable: false)]
@@ -37,13 +44,30 @@ class Project
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private ?array $tags = null;
 
+    #[Gedmo\Translatable]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $content = null;
 
-    public function getId(): ?string
+    /**
+     * @var Collection<int, ProjectMedia>
+     */
+    #[ORM\OneToMany(targetEntity: ProjectMedia::class, mappedBy: 'projectId')]
+    private Collection $projectMedia;
+
+    public function __construct()
+    {
+        $this->projectMedia = new ArrayCollection();
+    }
+
+
+
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(string $id): static
+    public function setId(int $id): static
     {
         $this->id = $id;
 
@@ -130,6 +154,60 @@ class Project
     public function setTags(?array $tags): static
     {
         $this->tags = $tags;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): static
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProjectMedia>
+     */
+    public function getProjectMedia(): Collection
+    {
+        return $this->projectMedia;
+    }
+
+    public function addProjectMedium(ProjectMedia $projectMedium): static
+    {
+        if (!$this->projectMedia->contains($projectMedium)) {
+            $this->projectMedia->add($projectMedium);
+            $projectMedium->setProjectId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjectMedium(ProjectMedia $projectMedium): static
+    {
+        if ($this->projectMedia->removeElement($projectMedium)) {
+            // set the owning side to null (unless already changed)
+            if ($projectMedium->getProjectId() === $this) {
+                $projectMedium->setProjectId(null);
+            }
+        }
 
         return $this;
     }

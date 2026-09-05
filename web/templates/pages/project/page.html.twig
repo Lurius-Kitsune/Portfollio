@@ -1,0 +1,148 @@
+{% trans_default_domain 'project' %}
+{% extends "base/basePage.html.twig" %}
+
+{% block title %}
+	{{ project.name }}
+	| Portfolio
+{% endblock %}
+
+{% block body %}
+	<section class="mx-auto max-w-6xl px-6 py-16">
+		<nav class="flex" aria-label="Breadcrumb">
+			<ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+				<li class="inline-flex items-center">
+					
+						href="{{ path('homepage', { _locale: app.request.locale|default('fr') }) }}#projects"
+						class="inline-flex items-center text-sm font-medium text-body hover:text-fg-brand"
+					>
+						<svg
+							class="w-4 h-4 me-1.5"
+							aria-hidden="true"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							fill="none"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke="currentColor"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="m4 12 8-8 8 8M6 10.5V19a1 1 0 0 0 1 1h3v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h3a1 1 0 0 0 1-1v-8.5"
+							/>
+						</svg>
+
+						{{ 'backtohome'|trans }}
+					</a>
+				</li>
+
+				<li>
+					<div class="flex items-center space-x-1.5">
+						<svg
+							class="w-3.5 h-3.5 rtl:rotate-180 text-body"
+							aria-hidden="true"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+							fill="none"
+							viewBox="0 0 24 24"
+						>
+							<path
+								stroke="currentColor"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="m9 5 7 7-7 7"
+							/>
+						</svg>
+
+						
+							href="{{ path('project_show', { slug: project.slug, _locale: app.request.locale|default('fr') }) }}"
+							class="inline-flex items-center text-sm font-medium text-body hover:text-fg-brand"
+							aria-current="page"
+						>
+							{{ project.name }}
+						</a>
+					</div>
+				</li>
+			</ol>
+		</nav>
+
+		<article class="overflow-hidden rounded-lg bg-slate-800 shadow-xl shadow-slate-950/20">
+			{% if project.thumbnailUrl is not empty %}
+				<div class="h-64 overflow-hidden bg-slate-700 md:h-96">
+					<img
+						src="{{ project.thumbnailUrl }}"
+						alt="{{ project.name }}"
+						class="h-full w-full object-cover"
+						loading="lazy"
+						decoding="async"
+					>
+				</div>
+			{% else %}
+				<div class="flex h-64 items-center justify-center bg-slate-700 text-slate-400 md:h-96">
+					{{ 'nothumbnail'|trans() }}
+				</div>
+			{% endif %}
+
+			<div class="p-6 md:p-10">
+				<div class="mb-8 flex flex-wrap items-start justify-between gap-4">
+					<div>
+						<p class="mb-2 text-sm font-medium uppercase tracking-[0.2em] text-cyan-300">
+							{{ project.type.name }}
+						</p>
+
+						<h1 class="text-3xl font-extrabold text-white md:text-5xl">
+							{{ project.name }}
+						</h1>
+					</div>
+
+					{% if project.link is not empty %}
+						
+							href="{{ project.link }}"
+							target="_blank"
+							rel="noopener noreferrer"
+							aria-label="{{ 'info.link'|trans }} ({{ project.name }}, nouvel onglet)"
+							class="inline-flex items-center rounded-md bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+						>
+							{{ 'info.link'|trans }}
+						</a>
+					{% endif %}
+				</div>
+
+				<div class="mb-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-slate-300">
+					<span>
+						{{ 'info.start'|trans }}
+						{{ project.startYear ? project.startYear|date('m/Y') : '-' }}
+					</span>
+
+					{% if project.endDate %}
+						<span>
+							{{ 'info.end'|trans }}
+							{{ project.endDate|date('m/Y') }}
+						</span>
+					{% endif %}
+				</div>
+
+				{% if project.tags is not empty %}
+					<div class="flex flex-wrap gap-2">
+						{% for tag in project.tags %}
+							<span class="rounded-full bg-slate-700 px-3 py-1 text-sm text-slate-300">
+								{{ tag }}
+							</span>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			{% include "pages/project/carouselle.html.twig" %}
+
+			{% if project.content is not empty %}
+				<div class="prose prose-invert max-w-none text-slate-300">
+					{{ project.content|raw }}
+				</div>
+			{% endif %}
+		</article>
+	</section>
+{% endblock %}
