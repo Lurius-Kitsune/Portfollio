@@ -4,4 +4,5 @@
 /public/build/
 npm-debug.log
 yarn-error.log
+cloudflare.ini
 ###< symfony/webpack-encore-bundle ###

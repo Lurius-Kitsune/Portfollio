@@ -3,10 +3,14 @@
 set -e # exit on error
 
 SQL_FILE="./sql/update.sql"
+UPDATE_DB=false
 
 # --------------------------------------------------
 # Chargement du .env
 # --------------------------------------------------
+
+
+
 
 if [ ! -f ".env" ]; then
     echo "ERREUR : fichier .env introuvable dans $PROJECT_DIR"
@@ -50,36 +54,37 @@ echo "==> Démarrage des conteneurs"
 
 docker compose -f docker-compose.prod.yml up -d --remove-orphans
 
-# --------------------------------------------------
-# Attente PostgreSQL
-# --------------------------------------------------
+#SKIP IF UPDATE DB FALSE
+if [ $UPDATE_DB ]; then
+    # --------------------------------------------------
+    # Attente PostgreSQL
+    # --------------------------------------------------
 
-echo "==> Attente du démarrage de PostgreSQL..."
+    echo "==> Attente du démarrage de PostgreSQL..."
 
-sleep 5
+    sleep 5
 
-# --------------------------------------------------
-# Vérification du fichier SQL
-# --------------------------------------------------
+    # --------------------------------------------------
+    # Vérification du fichier SQL
+    # --------------------------------------------------
 
-if [ ! -f "$SQL_FILE" ]; then
-    echo "ERREUR : fichier SQL introuvable : $SQL_FILE"
-    exit 1
+    if [ ! -f "$SQL_FILE" ]; then
+        echo "ERREUR : fichier SQL introuvable : $SQL_FILE"
+        exit 1
+    fi
+
+    # --------------------------------------------------
+    # Exécution du SQL
+    # --------------------------------------------------
+
+    echo "==> Exécution de $SQL_FILE"
+
+    docker compose -f "docker-compose.prod.yml" exec -T "database" \
+        psql \
+        -U "$POSTGRES_USER" \
+        -d "$POSTGRES_DB" \
+        < "$SQL_FILE"
 fi
-
-# --------------------------------------------------
-# Exécution du SQL
-# --------------------------------------------------
-
-echo "==> Exécution de $SQL_FILE"
-
-docker compose -f "docker-compose.prod.yml" exec -T "database" \
-    psql \
-    -U "$POSTGRES_USER" \
-    -d "$POSTGRES_DB" \
-    < "$SQL_FILE"
-
-echo "==> Déploiement terminé avec succès !"
 
 echo "=> Build Tailswind with class on DB"
 
@@ -88,3 +93,5 @@ docker compose -f "docker-compose.prod.yml" exec -T "php" \
 
 docker compose -f "docker-compose.prod.yml" exec -T "php" \
     npm run build
+
+echo "==> Déploiement terminé avec succès !"

@@ -165,6 +165,36 @@ BEFORE INSERT OR UPDATE OF name
 ON project
 FOR EACH ROW
 EXECUTE FUNCTION generate_project_slug();
+--- Project Type ----
+INSERT INTO
+    project_type (name)
+VALUES ('Projets Professionel'),
+    (
+        'Projets personnel et académique'
+    );
+
+INSERT INTO
+    "project_type_translations" (
+        "locale",
+        "object_class",
+        "field",
+        "foreign_key",
+        "content"
+    )
+VALUES (
+        'en',
+        'App\Entity\ProjectType',
+        'name',
+        '2',
+        'Personal / Academic project'
+    ),
+    (
+        'en',
+        'App\Entity\ProjectType',
+        'name',
+        '1',
+        'Personal / Academic project'
+    );
 --- Nelli The seer ----
 INSERT INTO
     "project" (

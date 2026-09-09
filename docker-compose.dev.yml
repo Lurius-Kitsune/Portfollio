@@ -1,27 +1,52 @@
 version: "3.9"
 
 services:
+  cert-init:
+    image: certbot/dns-cloudflare
+    volumes:
+      - ssl_certs:/etc/letsencrypt
+      - ./cloudflare.ini:/cloudflare.ini:ro
+    command:
+    - certonly
+    - --dns-cloudflare
+    - --dns-cloudflare-credentials
+    - /cloudflare.ini
+    - --dns-cloudflare-propagation-seconds
+    - "60"
+    - --non-interactive
+    - --agree-tos
+    - -m
+    - ${EMAIL_ADDRESS}
+    - -d
+    - ${DOMAIN_NAME}
+
   nginx:
+    restart: unless-stopped
     image: nginx:alpine 
     ports:
-      - "8080:80"
+      - "80:80"
+      - "443:443"
 
     volumes:
+      - ssl_certs:/etc/letsencrypt:ro
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./web/public:/var/www/portfolio/public:ro
 
     depends_on:
       - php
+      - cert-init
 
   php:
+    restart: unless-stopped
     build:
       context: .
       dockerfile: docker/dockerfile.dev
 
     command: >
       sh -c "
-        php bin/console doctrine:migrations:migrate --no-interaction
-        php bin/console cache:warmup --env=dev
+        php bin/console doctrine:migrations:migrate --no-interaction &&
+        php bin/console cache:warmup --env=prod &&
+        exec php-fpm
       "
 
     volumes:
@@ -34,6 +59,7 @@ services:
             condition: service_healthy
 
   database:
+    restart: unless-stopped
     image: postgres:17
 
     environment:
@@ -56,3 +82,4 @@ services:
 
 volumes:
   postgres_data:
+  ssl_certs:
