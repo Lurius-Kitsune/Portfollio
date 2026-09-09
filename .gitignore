@@ -10,3 +10,4 @@ web/config/secrets/prod/prod.decrypt.private.php
 ###< symfony/framework-bundle ###
 /.env
 web/.env
+cloudflare.ini

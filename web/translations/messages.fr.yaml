@@ -5,3 +5,9 @@ error:
     projectnotfound: "Projet introuvable"
     projectunavailable: "Le projet que vous recherchez n'existe pas ou n'est plus disponible."
     backtoprojects: "Retour aux projets"
+
+http:
+  error:
+    name : "Erreur"
+    description: "Une erreur est survenue lors du traitement de votre demande. Veuillez réessayer plus tard ou contacter l'administrateur du site si le problème persiste."
+    
