@@ -34,7 +34,14 @@ class LocaleRedirectSubscriber implements EventSubscriberInterface
         }
 
         // Une locale est déjà présente
-        if (preg_match('#^/(fr|en)(/|$)#', $path)) {
+        if (preg_match('#^/(fr|en)(/|$)#', $path, $matches)) {
+            $locale = $matches[1];
+
+            // IMPORTANT :
+            // On définit la locale AVANT le routing.
+            $request->setLocale($locale);
+            $request->attributes->set('_locale', $locale);
+
             return;
         }
 
@@ -43,8 +50,11 @@ class LocaleRedirectSubscriber implements EventSubscriberInterface
             return;
         }
 
+        // Aucune locale dans l'URL :
+        // on choisit la langue préférée du navigateur.
         $locale = $request->getPreferredLanguage(['fr', 'en']) ?: 'fr';
 
+        // Redirection vers la même URL avec la locale
         $url = '/' . $locale . $path;
 
         if ($request->getQueryString()) {
