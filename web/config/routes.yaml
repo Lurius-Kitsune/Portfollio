@@ -14,8 +14,4 @@ controllers:
     requirements:
         _locale: en|fr
 
-home_redirect:
-    path: /
-    controller: App\Controller\HomepageController::redirectToLocale
-
 # config/routes.yaml

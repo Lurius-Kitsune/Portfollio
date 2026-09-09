@@ -49,9 +49,28 @@
 					</div>
 
 					<div class="flex items-center gap-1 border-t border-slate-800 pt-4 md:ml-auto md:border-t-0 md:pt-0">
-						<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params', {})|merge({'_locale': 'fr'})) }}" class="rounded-md px-2 py-1 text-xs font-bold {{ app.request.locale == 'fr' ? 'text-cyan-300' : 'text-slate-500' }} hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400" aria-label="Passer le site en français">FR</a>
-						<span class="text-slate-600">/</span>
-						<a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params', {})|merge({'_locale': 'en'})) }}" class="rounded-md px-2 py-1 text-xs font-bold {{ app.request.locale == 'en' ? 'text-cyan-300' : 'text-slate-500' }} hover:text-white focus:outline-none focus:ring-2 focus:ring-cyan-400" aria-label="Switch website to English">EN</a>
+                        {% set currentRoute = app.request.attributes.get('_route') %}
+                        {% set currentParams = app.request.attributes.get('_route_params', {}) %}
+
+                        {% if currentRoute %}
+                            <a
+                                href="{{ path(currentRoute, currentParams|merge({'_locale': 'fr'})) }}"
+                                class="rounded-md px-2 py-1 text-xs font-bold {{ app.request.locale == 'fr' ? 'text-cyan-300' : 'text-slate-500' }} hover:text-white"
+                                aria-label="Passer le site en français"
+                            >
+                                FR
+                            </a>
+
+                            <span class="text-slate-600">/</span>
+
+                            <a
+                                href="{{ path(currentRoute, currentParams|merge({'_locale': 'en'})) }}"
+                                class="rounded-md px-2 py-1 text-xs font-bold {{ app.request.locale == 'en' ? 'text-cyan-300' : 'text-slate-500' }} hover:text-white"
+                                aria-label="Switch website to English"
+                            >
+                                EN
+                            </a>
+                        {% endif %}
 					</div>
 				</div>
 			</div>
