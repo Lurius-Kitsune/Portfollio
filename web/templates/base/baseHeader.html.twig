@@ -4,6 +4,20 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="/images/favicon.png">
     <title>{{ page_title }}</title>
+
+    <meta
+        name="description"
+        content="{% block meta_description %} {{ 'seo.description'|trans }} {% endblock %}"
+    >
+        
+    <meta name="robots" content="index, follow">
+
+    {# Open Graph — partage Facebook, LinkedIn, etc. #}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Lucas Bruel - Game Programmer">
+    <meta property="og:description" content="{{ 'seo.description'|trans }}">
+    <meta property="og:url" content="{{ app.request.schemeAndHttpHost }}{{ app.request.pathInfo }}">
+
 	{% block styleSheets %}{% endblock %}
 {% block javascripts %}
 	{{ encore_entry_script_tags('app') }}
