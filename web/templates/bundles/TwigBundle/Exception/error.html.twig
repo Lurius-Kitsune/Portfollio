@@ -1,0 +1,24 @@
+{% extends "base/basePage.html.twig" %}
+
+{% block title %}{{ 'http.error.name'|trans({status_code: status_code}) }} | Lucas Bruel
+{% endblock %}
+
+{% block body %}
+    <section class="mx-auto flex w-full flex-1 max-w-6xl flex-col items-center justify-center px-6 py-16 text-center">
+        <h1 class="mt-4 text-4xl font-extrabold text-cyan-300 md:text-6xl">
+            {{ status_code }}
+
+
+        </h1>
+        <p class="mt-4 max-w-lg text-slate-300">
+            {{ 'http.error.description'|trans }}
+
+
+        </p>
+        <a href="{{ path('homepage', {_locale: app.request.locale|default('fr')}) }}#projects" class="mt-8 inline-flex items-center rounded-md bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400">
+            {{ 'error.backtoprojects'|trans }}
+
+
+        </a>
+    </section>
+{% endblock %}

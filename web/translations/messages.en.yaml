@@ -5,3 +5,9 @@ error:
     projectunavailable: "The project you are looking for does not exist or is no longer available."
     backtoprojects: "Back to projects"
 
+
+http:
+  error:
+    name : "Error"
+    description: "An error occurred while processing your request. Please try again later or contact the site administrator if the problem persists."
+    
