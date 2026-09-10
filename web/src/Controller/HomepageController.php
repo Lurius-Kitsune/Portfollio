@@ -17,8 +17,21 @@ final class HomepageController extends AbstractController
     #[Route('/', name: 'homepage',  methods: ['GET'])]
     public function index(TranslatorInterface $_translator, EntityManagerInterface $entityManager): Response
     {
+
+        ## orderby
+
+        $project = $entityManager
+            ->getRepository(ProjectType::class)
+            ->createQueryBuilder('pt')
+            ->leftJoin('pt.projects', 'p')
+            ->addSelect('p')
+            ->orderBy('pt.id', 'ASC')
+            ->addOrderBy('p.start_year', 'DESC')
+            ->getQuery()
+            ->getResult();
+
         return $this->render('pages/home/page.html.twig', [
-            "projects" => $entityManager->getRepository(ProjectType::class)->findAll(),
+            "projects" => $project,
             "skillGroups" => $entityManager->getRepository(HardSkillType::class)->findAll(),
         ]);
     }
