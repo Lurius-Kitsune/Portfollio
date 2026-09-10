@@ -1,0 +1,80 @@
+{% block details %}
+
+    <div
+        class="bg-gray-950 text-white"
+    >
+        <section class="relative overflow-hidden">
+            <div class="mx-auto px-6 py-20 lg:px-8">
+                <div class="mx-auto text-center">
+                    <span class="mb-4 inline-flex items-center rounded-full border border-gray-700 bg-gray-900 px-4 py-1.5 text-sm font-medium text-gray-300">
+                        {{ project.role }}
+                    </span>
+                    <p class="mt-2 text-lg leading-8 text-gray-400">
+                        {{ project.intro }}
+                </div>
+
+                <!-- Compétences -->
+                <div class="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+                    <div class="rounded-xl border border-gray-800 bg-gray-900 p-6">
+                        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800">
+                            🎨
+                        </div>
+                        <h3 class="font-semibold">Développement de l'Interface Utilisateur</h3>
+                        <p class="mt-2 text-sm text-gray-400">
+                            Intégration de l'interface utilisateur dans le jeu, avec prototypage et test d'adaptation des contrôles manette et clavier.
+                        </p>
+                    </div>
+
+                    <div class="rounded-xl border border-gray-800 bg-gray-900 p-6">
+                        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800">
+                            🎮
+                        </div>
+                        <h3 class="font-semibold">UX & Gameplay</h3>
+                        <p class="mt-2 text-sm text-gray-400">
+                            S'assurer que l'utilisateur ne soit pas surchargé par l'UI, tout en permettant à celle-ci d'accompagner le joueur.
+                        </p>
+                    </div>
+
+                    <div class="rounded-xl border border-gray-800 bg-gray-900 p-6">
+                        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800">
+                            🕹️
+                        </div>
+                        <h3 class="font-semibold">Adaptation Manette</h3>
+                        <p class="mt-2 text-sm text-gray-400">
+                            L'UI devait être capable de s'adapter à tout moment aux besoins de l'utilisateur, en passant du clavier à la manette et inversement.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        {% for content in project.projectContents %}
+            {% include "components/project/content.html.twig" with {content: content, loopId: loop.index0} %}
+        {% endfor %}
+
+        {% if project.conclusionTitle is not empty or project.conclusionContent is not empty %}
+
+            <!-- CONCLUSION -->
+            <section class="border-t border-gray-800">
+                <div class="mx-auto max-w-4xl px-6 py-24 text-center lg:px-8">
+
+                    <span class="text-sm font-semibold uppercase tracking-widest text-gray-500">
+                        Conclusion
+                    </span>
+
+                    <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+                        {{ project.conclusionTitle }}
+                    </h2>
+
+                    {% for text in project.conclusionContent %}
+                        <p class="mt-6 leading-7 text-gray-400">
+                            {{ text }}
+                        </p>
+                    {% endfor %}
+
+                </div>
+            </section>
+        {% endif %}
+    </div>
+{% endblock %}

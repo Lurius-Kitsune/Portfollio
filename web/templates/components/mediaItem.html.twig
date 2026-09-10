@@ -1,0 +1,8 @@
+{% block mediaItem %}
+    {% if media.type == constant('App\\Enum\\EMediaType::MT_IMAGE') %}
+        <img src="{% if item.url starts with 'http://' or item.url starts with 'https://' %}{{ item.url }}{% else %}{{ asset(media.url) }}{% endif %}">
+    {% elseif media.type == constant('App\\Enum\\EMediaType::MT_VIDEO') %}
+        <video autoplay muted loop playsinline class="h-full w-full object-cover" src="{% if item.url starts with 'http://' or item.url starts with 'https://' %}{{ item.url }}{% else %}{{ asset(media.url) }}{% endif %}"/>
+    {% endif %}
+
+{% endblock %}

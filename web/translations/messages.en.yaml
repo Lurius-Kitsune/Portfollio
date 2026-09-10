@@ -11,3 +11,6 @@ http:
     name : "Error"
     description: "An error occurred while processing your request. Please try again later or contact the site administrator if the problem persists."
     
+seo:
+  description : "I’m a UI-focused game developer passionate about video games and everything surrounding them. While UI development is my main area of expertise, I’m versatile and adaptable, with the ability to tackle a wide range of programming challenges and build what is expected of me. Explore my portfolio to discover the full extent of my skills, experience, and creativity."
+  
