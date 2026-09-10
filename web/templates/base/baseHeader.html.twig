@@ -2,8 +2,22 @@
 {% block baseHeader %}
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>{{ page_title }}</title>
-	<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+    <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <title>{{ page_title }}</title>
+
+    <meta
+        name="description"
+        content="{% block meta_description %} {{ 'seo.description'|trans }} {% endblock %}"
+    >
+        
+    <meta name="robots" content="index, follow">
+
+    {# Open Graph — partage Facebook, LinkedIn, etc. #}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Lucas Bruel - Game Programmer">
+    <meta property="og:description" content="{{ 'seo.description'|trans }}">
+    <meta property="og:url" content="{{ app.request.schemeAndHttpHost }}{{ app.request.pathInfo }}">
+
 	{% block styleSheets %}{% endblock %}
 {% block javascripts %}
 	{{ encore_entry_script_tags('app') }}

@@ -7,11 +7,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class LocaleSubscriber implements EventSubscriberInterface
+class LocaleDbSubscriber implements EventSubscriberInterface
 {
+    private TranslatableListener $translatableListener;
+
     public function __construct(
-        private TranslatableListener $translatableListener,
-    ) {}
+        TranslatableListener $translatableListener,
+    ) {
+        $this->translatableListener = $translatableListener;
+    }
 
     public static function getSubscribedEvents(): array
     {
@@ -22,12 +26,9 @@ class LocaleSubscriber implements EventSubscriberInterface
 
     public function onKernelRequest(RequestEvent $event): void
     {
-        if (!$event->isMainRequest()) {
+        if (!$event->isMainRequest())
             return;
-        }
 
-        $locale = $event->getRequest()->getLocale();
-
-        $this->translatableListener->setTranslatableLocale($locale);
+        $this->translatableListener->setTranslatableLocale($event->getRequest()->getLocale());
     }
 }

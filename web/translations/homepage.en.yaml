@@ -1,8 +1,7 @@
 about:
     title: "About me"
     presentation: "Since I was little, I have been immersed in computer science and new technologies, with the dream of becoming a game developer. \n I don't know yet where this professional adventure will lead me, but I will do everything to achieve my dream!"
-    description: "I am a game developer focused on UI (User Interface) and passionate about video games and their surrounding ecosystem. My goal is to enable the creation of video games with an enjoyable UI and a smooth UX. I am always looking for new opportunities to learn and improve my skills in the field of game development."
-    citation: "« Life deserves to be loved. »"
+    description: "I am a Game developer focused on UI (User Interface) and passionate about what surrounds it. My goal is to enable the creation of video games with a pleasant UI and a smooth UX. I am always looking for new opportunities to learn and improve my skills in the field of video game development."
     age: "%age% years"
 
 projects:

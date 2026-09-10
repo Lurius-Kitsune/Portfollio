@@ -11,3 +11,7 @@ http:
     name : "Erreur"
     description: "Une erreur est survenue lors du traitement de votre demande. Veuillez réessayer plus tard ou contacter l'administrateur du site si le problème persiste."
     
+
+seo:
+  description : "Je suis un développeur axé sur l'UI (Interface Utilisateur) dans le jeu vidéo et passionné par ce qui l'entour. Mes compétences ne se limitent pas qu'à cela, je peux m'adapter, codé ce qui est attendu de moi. Découvré à travers mon portfolio l'étendu de mes compétences."
+  
