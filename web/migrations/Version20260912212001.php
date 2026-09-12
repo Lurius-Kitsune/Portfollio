@@ -43,12 +43,10 @@ final class Version20260912212001 extends AbstractMigration
             BEGIN
                 INSERT INTO project_content_translations (locale, object_class, field, foreign_key)
                 VALUES ('en', 'App\Entity\ProjectContent', 'title', NEW.id);
-                INSERT INTO project_translations (locale, object_class, field, foreign_key)
+                INSERT INTO project_content_translations (locale, object_class, field, foreign_key)
                 VALUES ('en', 'App\Entity\Project', 'content', NEW.id);
-                INSERT INTO project_translations (locale, object_class, field, foreign_key)
-                VALUES ('en', 'App\Entity\Project', 'themeNaùe', NEW.id);
-                INSERT INTO project_translations (locale, object_class, field, foreign_key)
-                VALUES ('en', 'App\Entity\Project', 'conclusion_content', NEW.id);
+                INSERT INTO project_content_translations (locale, object_class, field, foreign_key)
+                VALUES ('en', 'App\Entity\Project', 'themeName', NEW.id);
                 RETURN NEW;
             END;
             $$ LANGUAGE plpgsql;"
