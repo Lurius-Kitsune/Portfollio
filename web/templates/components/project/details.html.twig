@@ -13,41 +13,7 @@
                         {{ project.intro }}
                 </div>
 
-                <!-- Compétences -->
-                <div class="mx-auto mt-16 grid max-w-5xl gap-6 md:grid-cols-2 lg:grid-cols-3">
-
-                    <div class="rounded-xl border border-gray-800 bg-gray-900 p-6">
-                        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800">
-                            🎨
-                        </div>
-                        <h3 class="font-semibold">Développement de l'Interface Utilisateur</h3>
-                        <p class="mt-2 text-sm text-gray-400">
-                            Intégration de l'interface utilisateur dans le jeu, avec prototypage et test d'adaptation des contrôles manette et clavier.
-                        </p>
-                    </div>
-
-                    <div class="rounded-xl border border-gray-800 bg-gray-900 p-6">
-                        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800">
-                            🎮
-                        </div>
-                        <h3 class="font-semibold">UX & Gameplay</h3>
-                        <p class="mt-2 text-sm text-gray-400">
-                            S'assurer que l'utilisateur ne soit pas surchargé par l'UI, tout en permettant à celle-ci d'accompagner le joueur.
-                        </p>
-                    </div>
-
-                    <div class="rounded-xl border border-gray-800 bg-gray-900 p-6">
-                        <div class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg bg-gray-800">
-                            🕹️
-                        </div>
-                        <h3 class="font-semibold">Adaptation Manette</h3>
-                        <p class="mt-2 text-sm text-gray-400">
-                            L'UI devait être capable de s'adapter à tout moment aux besoins de l'utilisateur, en passant du clavier à la manette et inversement.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
+                
         </section>
         {% for content in project.projectContents %}
             {% include "components/project/content.html.twig" with {content: content, loopId: loop.index0} %}
