@@ -136,13 +136,9 @@
 				{% endif %}
 			</div>
 
-			{% include "pages/project/carouselle.html.twig" %}
+            {% include "pages/project/carouselle.html.twig" with {medias: project.projectMedia} %}
+            {% include "components/project/details.html.twig" %}
 
-			{% if project.content is not empty %}
-				<div class="prose prose-invert max-w-none text-slate-300">
-					{{ project.content|raw }}
-				</div>
-			{% endif %}
 		</article>
 	</section>
 {% endblock %}

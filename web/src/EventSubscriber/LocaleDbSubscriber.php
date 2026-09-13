@@ -30,5 +30,6 @@ class LocaleDbSubscriber implements EventSubscriberInterface
             return;
 
         $this->translatableListener->setTranslatableLocale($event->getRequest()->getLocale());
+        $this->translatableListener->setTranslationFallback(true);
     }
 }

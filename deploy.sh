@@ -2,8 +2,8 @@
 
 set -e # exit on error
 
-SQL_FILE="./sql/update.sql"
-# UPDATE_DB=false
+SQL_FILE="./sql/Update.sql"
+UPDATE_DB=true
 
 # --------------------------------------------------
 # Chargement du .env
