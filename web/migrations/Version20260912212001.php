@@ -24,14 +24,14 @@ final class Version20260912212001 extends AbstractMigration
             "CREATE OR REPLACE FUNCTION generate_project_translation()
             RETURNS TRIGGER AS $$
             BEGIN
-                INSERT INTO project_translations (locale, object_class, field, foreign_key)
-                VALUES ('en', 'App\Entity\Project', 'intro', NEW.id);
-                INSERT INTO project_translations (locale, object_class, field, foreign_key)
-                VALUES ('en', 'App\Entity\Project', 'role', NEW.id);
-                INSERT INTO project_translations (locale, object_class, field, foreign_key)
-                VALUES ('en', 'App\Entity\Project', 'conclusionTitle', NEW.id);
-                INSERT INTO project_translations (locale, object_class, field, foreign_key)
-                VALUES ('en', 'App\Entity\Project', 'conclusionContent', NEW.id);
+                INSERT INTO project_translations (locale, object_class, field, foreign_key, content)
+                VALUES ('en', 'App\Entity\Project', 'intro', NEW.id, NEW.intro);
+                INSERT INTO project_translations (locale, object_class, field, foreign_key, content)
+                VALUES ('en', 'App\Entity\Project', 'role', NEW.id, NEW.role);
+                INSERT INTO project_translations (locale, object_class, field, foreign_key, content)
+                VALUES ('en', 'App\Entity\Project', 'conclusionTitle', NEW.id, NEW.conclusion_title);
+                INSERT INTO project_translations (locale, object_class, field, foreign_key, content)
+                VALUES ('en', 'App\Entity\Project', 'conclusionContent', NEW.id, NEW.conclusion_content);
                 RETURN NEW;
             END;
             $$ LANGUAGE plpgsql;"
@@ -41,12 +41,12 @@ final class Version20260912212001 extends AbstractMigration
             "CREATE OR REPLACE FUNCTION generate_project_content_translation()
             RETURNS TRIGGER AS $$
             BEGIN
-                INSERT INTO project_content_translations (locale, object_class, field, foreign_key)
-                VALUES ('en', 'App\Entity\ProjectContent', 'title', NEW.id);
-                INSERT INTO project_content_translations (locale, object_class, field, foreign_key)
-                VALUES ('en', 'App\Entity\Project', 'content', NEW.id);
-                INSERT INTO project_content_translations (locale, object_class, field, foreign_key)
-                VALUES ('en', 'App\Entity\Project', 'themeName', NEW.id);
+                INSERT INTO project_content_translations (locale, object_class, field, foreign_key, content)
+                VALUES ('en', 'App\Entity\ProjectContent', 'title', NEW.id, NEW.title);
+                INSERT INTO project_content_translations (locale, object_class, field, foreign_key, content)
+                VALUES ('en', 'App\Entity\ProjectContent', 'content', NEW.id, NEW.content);
+                INSERT INTO project_content_translations (locale, object_class, field, foreign_key, content)
+                VALUES ('en', 'App\Entity\ProjectContent', 'themeName', NEW.id, NEW.theme_name);
                 RETURN NEW;
             END;
             $$ LANGUAGE plpgsql;"
