@@ -23,25 +23,25 @@ class ExtractTailwindClassesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $this->translatableListener->setTranslatableLocale('fr'); // adapte à ta locale réelle
-        $classes = [];
-        foreach ($this->projectRepository->findAll() as $project) {
-            dump($project->getContent());
-            preg_match_all('/class=["\']([^"\']+)["\']/i', $project->getContent(), $matches);
+        // $this->translatableListener->setTranslatableLocale('fr'); // adapte à ta locale réelle
+        // $classes = [];
+        // foreach ($this->projectRepository->findAll() as $project) {
+        //     dump($project->getContent());
+        //     preg_match_all('/class=["\']([^"\']+)["\']/i', $project->getContent(), $matches);
 
-            foreach ($matches[1] as $classString) {
-                foreach (preg_split('/\s+/', trim($classString)) as $class) {
-                    if ($class !== '') {
-                        $classes[$class] = true;
-                    }
-                }
-            }
-        }
+        //     foreach ($matches[1] as $classString) {
+        //         foreach (preg_split('/\s+/', trim($classString)) as $class) {
+        //             if ($class !== '') {
+        //                 $classes[$class] = true;
+        //             }
+        //         }
+        //     }
+        // }
 
-        $path = __DIR__ . '/../../assets/tailwind-content-classes.txt';
-        file_put_contents($path, implode(' ', array_keys($classes)));
+        // $path = __DIR__ . '/../../assets/tailwind-content-classes.txt';
+        // file_put_contents($path, implode(' ', array_keys($classes)));
 
-        $output->writeln(sprintf('%d classes extraites -> %s', count($classes), $path));
+        // $output->writeln(sprintf('%d classes extraites -> %s', count($classes), $path));
 
         return Command::SUCCESS;
     }

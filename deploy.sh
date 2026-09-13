@@ -93,10 +93,10 @@ fi
 
 echo "=> Build Tailswind with class on DB"
 
-docker compose -f "docker-compose.prod.yml" exec -T "php" \
-    php bin/console app:tailwind:extract-classes 
+#docker compose -f "docker-compose.prod.yml" exec -T "php" \
+#    php bin/console app:tailwind:extract-classes 
 
-docker compose -f "docker-compose.prod.yml" exec -T "php" \
-    npm run build
+#docker compose -f "docker-compose.prod.yml" exec -T "php" \
+#    npm run build
 
 echo "==> Déploiement terminé avec succès !"
