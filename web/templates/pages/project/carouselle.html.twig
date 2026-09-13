@@ -1,17 +1,18 @@
-{% if project.projectMedia is not empty %}
+
+{% if medias is not empty %}
     <div id="default-carousel" class="relative w-full" data-carousel="static">
 		<!-- Carousel wrapper -->
-		<div class="relative h-56 overflow-hidden rounded-base md:h-96">
-			{% for item in project.projectMedia %}
+        <div class="relative h-60 overflow-hidden md:h-96">
+            {% for item in medias %}
 				<!-- Item -->
 				<div class="hidden duration-700 ease-in-out" data-carousel-item="{% if loop.first %}active{% endif %}">
-					<img src="{% if item.url starts with 'http://' or item.url starts with 'https://' %}{{ item.url }}{% else %}{{ asset(item.url) }}{% endif %}" class="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="test">
+                    {% include "components/mediaItem.html.twig" with {media: item} %}
 				</div>
 			{% endfor %}
 		</div>
 		<!-- Slider indicators -->
 		<div class="absolute z-30 flex -translate-x-1/2 bottom-5 left-1/2 space-x-3 rtl:space-x-reverse">
-			{% for item in project.projectMedia %}
+            {% for item in medias %}
 				<button type="button" class="w-3 h-3 rounded-base" aria-current="{% if loop.first %}true{% else %}false{% endif %}" aria-label="Slide {{ loop.index }}" data-carousel-slide-to="{{ loop.index0 }}"></button>
 			{% endfor %}
 		</div>

@@ -2,8 +2,8 @@
 
 set -e # exit on error
 
-SQL_FILE="./sql/update.sql"
-UPDATE_DB=false
+SQL_FILE="./sql/Update.sql"
+UPDATE_DB=true
 
 # --------------------------------------------------
 # Chargement du .env
@@ -47,6 +47,11 @@ git pull origin main
 # --------------------------------------------------
 
 echo "==> Pull des nouvelles images"
+
+docker compose -f docker-compose.prod.yml down
+
+docker volume rm githubportfolio_portfolio_public
+
 
 docker compose -f docker-compose.prod.yml pull
 
