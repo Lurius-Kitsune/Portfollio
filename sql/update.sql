@@ -50,8 +50,11 @@ VALUES  (
         2,
         'steam-achievement-unlocker',
         'Développeur',
-        'Steam Achievement Unlocker est un outil d’édition pour Unreal Engine conçu pour centraliser, simplifier et fluidifier la configuration des succès Steam directement au sein d’Unreal Engine.
-  Il offre une interface claire et efficace pour gérer la création, la modification et l’activation des succès, sans avoir à modifier manuellement les fichiers de configuration du projet Unreal. Le projet possède un coté Editeur et un coté Runtime.',
+'Steam Achievement Unlocker est un outil d’édition pour Unreal Engine permettant de centraliser et de simplifier la gestion des succès Steam directement depuis l’éditeur Unreal Engine.
+
+Il propose une interface permettant de créer, modifier et configurer facilement les succès, sans avoir à modifier manuellement les fichiers de configuration du projet.
+
+Le projet est divisé en deux parties : une partie « Editor », qui permet de gérer les succès depuis l’éditeur Unreal Engine, et une partie « Runtime », qui s’occupe de leur fonctionnement directement pendant l’exécution du jeu.',
         'Un outils permettant de gagner du temps',
         '[
 "À travers cet outil, j’ai pu répondre à un besoin apparu lors du développement de Nelli The Seer : intégrer des succès et s’assurer de leur bon fonctionnement. Cette problématique nous avait fait perdre du temps, car certains succès pouvaient ne pas s’activer correctement ou leur activation pouvait manquer de fiabilité.",
