@@ -5,7 +5,7 @@
 		<h2 class="mb-6 text-2xl font-bold transition-all duration-500 ease-out">{{ projectType.name }}</h2>
 		<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 			{% for object in objects %}
-                {% if object.isVisible %}
+                {% if object.isVisible or is_granted('ROLE_ADMIN') %}
             
 				<div>
 					{% include 'components/projectCard.html.twig' with { project: object} %}
