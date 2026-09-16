@@ -72,6 +72,12 @@ class Project implements Translatable
     #[ORM\Column(nullable: true)]
     private ?array $conclusionContent = null;
 
+    #[ORM\Column]
+    private ?bool $isVisible = null;
+
+    #[ORM\Column]
+    private ?bool $isReadable = null;
+
     public function __construct()
     {
         $this->projectMedia = new ArrayCollection();
@@ -293,6 +299,30 @@ class Project implements Translatable
     public function setConclusionContent(?array $conclusionContent): static
     {
         $this->conclusionContent = $conclusionContent;
+
+        return $this;
+    }
+
+    public function isVisible(): ?bool
+    {
+        return $this->isVisible;
+    }
+
+    public function setIsVisible(bool $isVisible): static
+    {
+        $this->isVisible = $isVisible;
+
+        return $this;
+    }
+
+    public function isReadable(): ?bool
+    {
+        return $this->isReadable;
+    }
+
+    public function setIsReadable(bool $isReadable): static
+    {
+        $this->isReadable = $isReadable;
 
         return $this;
     }

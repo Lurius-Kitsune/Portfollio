@@ -14,7 +14,7 @@ final class ProjectControler extends AbstractController
     {
         $project = $projectRepository->findOneBy(['slug' => $slug]);
 
-        if ($project === null) {
+        if ($project === null || !$project->isVisible() || !$project->isReadable()) {
             $response = $this->render('pages/404.html.twig');
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
 
