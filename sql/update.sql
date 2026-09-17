@@ -86,7 +86,7 @@ Le projet est divisé en deux parties : une partie « Editor », qui permet de g
         '2026-06-01',
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRO77YHNnTwg_446XtGHIUQG9VqQ5fO7hmvAzbBMl1a-K_A5ZtMfthTTfM&s=10',
         'https://www.linkedin.com/posts/santaezsaezcuritaeztravail-laposte-ugcPost-7447257936340455425-iHXG/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAGP3VwcBC5j46txAf7VX7F60ZpaOPMh-gRc',
-        'C++,Serious Game,UI,Unreal',
+'C#,Serious Game,UI,Unity',
 1,
 'formation-la-poste',
 'Développeur UI',
