@@ -8,6 +8,7 @@ projects:
     title: "My Projects"
     pro: "Professional Projects"
     perso: "Personal and Academic Projects"
+    details : "Learn more"
 
 skills:
     title: "Technical Skills"

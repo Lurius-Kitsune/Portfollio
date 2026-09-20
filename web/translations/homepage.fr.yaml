@@ -9,6 +9,7 @@ projects:
     title: "Mes Projets"
     pro: "Projets professionnels"
     perso: "Projets personnels et académiques"
+    details : "En savoir plus"
 
 skills:
     title: "Compétences techniques"
