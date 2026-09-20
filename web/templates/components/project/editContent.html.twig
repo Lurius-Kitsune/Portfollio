@@ -1,0 +1,107 @@
+{% block editContent %}
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <div data-project-editor-target="contentEditor" class="hidden">
+
+            <div class="rounded-2xl border border-cyan-500/30 bg-gray-900 p-6">
+
+                <div class="mb-6 flex items-center justify-between">
+                    <h3 class="text-lg font-semibold text-white">
+                        Modifier le contenu
+                    </h3>
+
+                    <button
+                        type="button"
+                        data-action="click->project-editor#cancelContent"
+                        class="rounded-lg px-3 py-2 text-sm text-gray-400 hover:bg-gray-800 hover:text-white"
+                    >
+                        Annuler
+                    </button>
+                </div>
+
+
+                {# Theme #}
+
+                <div class="mb-5">
+                    <label class="mb-2 block text-sm font-medium text-gray-300">
+                        Thème
+                    </label>
+
+                    <input
+                        type="text"
+                        value="{{ content.themeName }}"
+                        data-project-editor-target="contentTheme"
+                        class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
+                    >
+                </div>
+
+
+                {# Titre #}
+
+                <div class="mb-5">
+                    <label class="mb-2 block text-sm font-medium text-gray-300">
+                        Titre
+                    </label>
+
+                    <input
+                        type="text"
+                        value="{{ content.title }}"
+                        data-project-editor-target="contentTitle"
+                        class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
+                    >
+                </div>
+
+
+                {# Paragraphes #}
+
+                <div class="mb-6">
+                    <label class="mb-2 block text-sm font-medium text-gray-300">
+                        Contenu
+                    </label>
+
+                    <div
+                        data-project-editor-target="contentTexts"
+                        class="space-y-3"
+                    >
+                        {% for text in content.content %}
+                            <textarea
+                                        rows="4"
+                                        data-project-editor-target="contentText"
+                                        class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
+                                    >{{ text }}</textarea>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+                {# Actions #}
+
+                <div class="flex justify-end gap-3">
+
+                    <button
+                        type="button"
+                        data-action="click->project-editor#cancelContent"
+                        class="rounded-lg border border-gray-700 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-800"
+                    >
+                        Annuler
+                    </button>
+
+                    <button
+                        type="button"
+                        data-action="click->project-editor#saveContent"
+                        data-content-id="{{ content.id }}"
+                        class="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-cyan-300"
+                    >
+                        Enregistrer
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    {% endif %}
+{% endblock %}

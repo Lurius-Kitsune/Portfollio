@@ -10,16 +10,22 @@ RUN apk add --no-cache \
     libpq-dev \
     postgresql-client \
     nodejs \
-    npm \
-    linux-headers
-
-
+    npm 
+    
 RUN docker-php-ext-install pdo_pgsql zip gd intl
+
+### XDEBUG ####
+RUN apk add --no-cache \
+    linux-headers \
+    autoconf \
+    g++ \
+    make
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
 
 COPY docker/xdebug/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+### XDEBUG ####
 
 WORKDIR /var/www/portfolio
 

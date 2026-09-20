@@ -11,5 +11,3 @@ import './styles/app.css';
 
 // enable the interactive UI components from Flowbite
 import 'flowbite';
-
-console.log('APP JS OK');
