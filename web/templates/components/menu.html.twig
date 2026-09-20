@@ -31,11 +31,11 @@
 
                                 <div class="mx-auto flex w-fit items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2 transition-colors hover:bg-white/10">
 
-                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 text-sm font-bold text-white shadow-md" aria-hidden="true">
+                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-linear-to-br from-cyan-400 to-blue-600 text-sm font-bold text-white shadow-md" aria-hidden="true">
                                         {{ app.user.email|first|upper }}
                                     </div>
 
-                                    <div class="min-w-0 max-w-[160px]">
+                                    <div class="min-w-0 max-w-40">
                                         <p
                                             class="truncate text-sm font-medium text-white"
                                             title="{{ app.user.email }}"
@@ -50,7 +50,7 @@
 
                                     <a
                                         href="{{ path('app_logout', {'_locale': app.request.locale|default('fr')}) }}"
-                                        class="inline-flex items-center justify-center rounded-base bg-gradient-to-r from-red-400 via-red-500 to-red-600 px-4 py-2.5 text-white shadow-lg shadow-red-500/50 transition-all hover:bg-gradient-to-br hover:shadow-red-500/60 focus:outline-none focus:ring-4 focus:ring-red-300 dark:shadow-red-800/80 dark:focus:ring-red-800"
+                                        class="inline-flex items-center justify-center rounded-base bg-linear-to-r from-red-400 via-red-500 to-red-600 px-4 py-2.5 text-white shadow-lg shadow-red-500/50 transition-all hover:bg-linear-to-br hover:shadow-red-500/60 focus:outline-none focus:ring-4 focus:ring-red-300 dark:shadow-red-800/80 dark:focus:ring-red-800"
                                         aria-label="Se déconnecter"
                                         title="Se déconnecter"
                                     >

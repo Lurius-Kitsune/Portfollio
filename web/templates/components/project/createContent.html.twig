@@ -2,25 +2,27 @@
     data-project-editor-target="createContentEditor"
     class="hidden mx-auto max-w-4xl px-6 pb-16"
 >
-
     <div class="rounded-2xl border border-cyan-500/30 bg-gray-900 p-6">
 
         <h3 class="mb-6 text-xl font-semibold text-white">
             Nouvelle section
         </h3>
 
+        {# ========================= #}
+        {# THÈME                     #}
+        {# ========================= #}
+
         <div class="mb-5">
             <label class="mb-2 block text-sm font-medium text-gray-300">
                 Thème
             </label>
 
-            <input
-                type="text"
-                data-project-editor-target="newContentTheme"
-                class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
-                placeholder="Ex : Architecture"
-            >
+            <input type="text" data-project-editor-target="newContentTheme" class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500" placeholder="Ex : Architecture">
         </div>
+
+        {# ========================= #}
+        {# TITRE                     #}
+        {# ========================= #}
 
         <div class="mb-5">
             <label class="mb-2 block text-sm font-medium text-gray-300">
@@ -35,18 +37,26 @@
             >
         </div>
 
+        {# ========================= #}
+        {# CONTENU                   #}
+        {# ========================= #}
+
         <div class="mb-6">
             <label class="mb-2 block text-sm font-medium text-gray-300">
                 Contenu
             </label>
+            <div
+                data-controller="rich-text-editor"
+            >
 
-            <textarea
-                                    rows="5"
-                                    data-project-editor-target="newContentText"
-                                    class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
-                                    placeholder="Décris cette partie du projet..."
-                                ></textarea>
+                {% include "components/richTextEditor.html.twig" %}
+
+            </div>
         </div>
+
+        {# ========================= #}
+        {# ACTIONS                   #}
+        {# ========================= #}
 
         <div class="flex justify-end gap-3">
 
@@ -70,5 +80,4 @@
         </div>
 
     </div>
-
 </div>

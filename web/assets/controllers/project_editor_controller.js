@@ -33,7 +33,6 @@ export default class extends Controller {
         "createContentEditor",
         "newContentTheme",
         "newContentTitle",
-        "newContentText",
         "createContentButton",
     ];
 
@@ -102,13 +101,21 @@ export default class extends Controller {
             '[data-project-editor-target="contentTitle"]',
         );
 
-        const textareas = block.querySelectorAll(
-            '[data-project-editor-target="contentText"]',
+        const editorElement = block.querySelector(
+            '[data-rich-text-editor-target="editor"]',
         );
 
-        const content = Array.from(textareas)
-            .map((textarea) => textarea.value.trim())
-            .filter((value) => value !== "");
+        const editorContainer = editorElement.closest(
+            '[data-controller~="rich-text-editor"]',
+        );
+
+        const editorController =
+            this.application.getControllerForElementAndIdentifier(
+                editorContainer,
+                "rich-text-editor",
+            );
+
+        const content = editorController.getJSON();
 
         button.disabled = true;
         button.textContent = "Enregistrement...";
@@ -136,43 +143,9 @@ export default class extends Controller {
                 throw new Error(result.message ?? "Une erreur est survenue.");
             }
 
-            const themeDisplay = block.querySelector(
-                '[data-project-editor-target="contentThemeDisplay"]',
-            );
-
-            const titleDisplay = block.querySelector(
-                '[data-project-editor-target="contentTitleDisplay"]',
-            );
-
-            const textDisplay = block.querySelector(
-                '[data-project-editor-target="contentTextDisplay"]',
-            );
-
-            themeDisplay.textContent = result.content.themeName;
-            titleDisplay.textContent = result.content.title;
-
-            textDisplay.innerHTML = "";
-
-            result.content.content.forEach((text) => {
-                const paragraph = document.createElement("p");
-
-                paragraph.className = "mt-6 leading-7 text-gray-400";
-
-                paragraph.textContent = text;
-
-                textDisplay.appendChild(paragraph);
-            });
-
-            const display = block.querySelector(
-                '[data-project-editor-target="contentDisplay"]',
-            );
-
-            const editor = block.querySelector(
-                '[data-project-editor-target="contentEditor"]',
-            );
-
-            editor.classList.add("hidden");
-            display.classList.remove("hidden");
+            // Pour l'instant, on recharge la page.
+            // Le rendu public du JSON TipTap sera à adapter ensuite.
+            location.reload();
         } catch (error) {
             console.error(error);
             alert(error.message);
@@ -190,14 +163,17 @@ export default class extends Controller {
         this.saveButtonTarget.disabled = true;
         this.saveButtonTarget.textContent = "Enregistrement...";
 
+        const editorController =
+            this.application.getControllerForElementAndIdentifier(
+                this.conclusionTextTarget,
+                "rich-text-editor",
+            );
+
         const data = {
             role: this.roleTarget.value,
             intro: this.introTarget.value,
             conclusionTitle: this.conclusionTitleTarget.value,
-
-            conclusionContent: this.conclusionTextTargets.map(
-                (element) => element.value,
-            ),
+            conclusionContent: editorController.getJSON(),
         };
 
         try {
@@ -294,7 +270,25 @@ export default class extends Controller {
 
         this.newContentThemeTarget.value = "";
         this.newContentTitleTarget.value = "";
-        this.newContentTextTarget.value = "";
+
+        const editorElement = this.createContentEditorTarget.querySelector(
+            '[data-rich-text-editor-target="editor"]',
+        );
+
+        const editorContainer = editorElement?.closest(
+            '[data-controller~="rich-text-editor"]',
+        );
+
+        const editorController = editorContainer
+            ? this.application.getControllerForElementAndIdentifier(
+                  editorContainer,
+                  "rich-text-editor",
+              )
+            : null;
+
+        if (editorController) {
+            editorController.tiptap.commands.clearContent();
+        }
     }
 
     async createContent() {
@@ -302,7 +296,22 @@ export default class extends Controller {
 
         const themeName = this.newContentThemeTarget.value.trim();
         const title = this.newContentTitleTarget.value.trim();
-        const text = this.newContentTextTarget.value.trim();
+
+        const editorElement = this.createContentEditorTarget.querySelector(
+            '[data-rich-text-editor-target="editor"]',
+        );
+
+        const editorContainer = editorElement.closest(
+            '[data-controller~="rich-text-editor"]',
+        );
+
+        const editorController =
+            this.application.getControllerForElementAndIdentifier(
+                editorContainer,
+                "rich-text-editor",
+            );
+
+        const content = editorController.getJSON();
 
         if (!title) {
             alert("Le titre est obligatoire.");
@@ -323,7 +332,7 @@ export default class extends Controller {
                 body: JSON.stringify({
                     themeName,
                     title,
-                    content: text ? [text] : [],
+                    content,
                 }),
             });
 

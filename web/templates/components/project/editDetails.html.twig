@@ -68,111 +68,6 @@
 
                 </div>
 
-
-                {# CONTENUS #}
-                {# CONTENUS #}
-                <div data-project-editor-target="contentsContainer">
-                    {% for content in project.projectContents %}
-                    
-                        {% include "components/project/content.html.twig" with {content: content, loopId: loop.index0} %}
-                    
-                    {% endfor %}
-                </div>
-                {% if is_granted('ROLE_ADMIN') %}
-
-                    <div class="mx-auto max-w-7xl px-6 py-12">
-
-                        <button
-                            type="button"
-                            data-action="click->project-editor#openCreateContent"
-                            class="w-full rounded-2xl border border-dashed border-gray-700 bg-gray-900/50 px-6 py-8 text-center text-gray-400 transition hover:border-cyan-500 hover:bg-gray-900 hover:text-cyan-300"
-                        >
-                            <span class="text-2xl">+</span>
-
-                            <span class="mt-2 block font-medium">
-                                Ajouter une section
-                            </span>
-                        </button>
-
-                    </div>
-
-                    <div
-                        data-project-editor-target="createContentEditor"
-                        class="hidden mx-auto max-w-4xl px-6 pb-16"
-                    >
-
-                        <div class="rounded-2xl border border-cyan-500/30 bg-gray-900 p-6">
-
-                            <h3 class="mb-6 text-xl font-semibold text-white">
-                                Nouvelle section
-                            </h3>
-
-                            <div class="mb-5">
-                                <label class="mb-2 block text-sm font-medium text-gray-300">
-                                    Thème
-                                </label>
-
-                                <input
-                                    type="text"
-                                    data-project-editor-target="newContentTheme"
-                                    class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
-                                    placeholder="Ex : Architecture"
-                                >
-                            </div>
-
-                            <div class="mb-5">
-                                <label class="mb-2 block text-sm font-medium text-gray-300">
-                                    Titre
-                                </label>
-
-                                <input
-                                    type="text"
-                                    data-project-editor-target="newContentTitle"
-                                    class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
-                                    placeholder="Titre de la section"
-                                >
-                            </div>
-
-                            <div class="mb-6">
-                                <label class="mb-2 block text-sm font-medium text-gray-300">
-                                    Contenu
-                                </label>
-
-                                <textarea
-                                    rows="5"
-                                    data-project-editor-target="newContentText"
-                                    class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
-                                    placeholder="Décris cette partie du projet..."
-                                ></textarea>
-                            </div>
-
-                            <div class="flex justify-end gap-3">
-
-                                <button
-                                    type="button"
-                                    data-action="click->project-editor#cancelCreateContent"
-                                    class="rounded-lg border border-gray-700 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-800"
-                                >
-                                    Annuler
-                                </button>
-
-                                <button
-                                    type="button"
-                                    data-action="click->project-editor#createContent"
-                                    data-project-editor-target="createContentButton"
-                                    class="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-cyan-300"
-                                >
-                                    Créer la section
-                                </button>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                {% endif %}
-
                 {# CONCLUSION #}
                 <div class="mb-10">
 
@@ -203,15 +98,16 @@
                             Paragraphes
                         </label>
 
-                        {% for text in project.conclusionContent %}
 
-                            <textarea
-                                rows="4"
-                                data-project-editor-target="conclusionText"
-                                class="mb-3 w-full rounded-lg border border-gray-700 bg-gray-900 px-4 py-3 text-white"
-                            >{{ text }}</textarea>
+                        <div
+                            data-project-editor-target="conclusionText"
+                            data-controller="rich-text-editor"
+                            data-rich-text-editor-content-value="{{ project.conclusionContent|json_encode|e('html_attr') }}"
+                        >
 
-                        {% endfor %}
+                            {% include "components/richTextEditor.html.twig" %}
+
+                        </div>
 
                     </div>
 

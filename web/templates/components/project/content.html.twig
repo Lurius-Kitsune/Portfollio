@@ -1,5 +1,4 @@
 {% block content %}
-
     <section
         id="project-content-{{ content.id }}"
         data-content-id="{{ content.id }}"
@@ -12,35 +11,38 @@
             {# AFFICHAGE NORMAL          #}
             {# ========================= #}
 
-            <div data-project-editor-target="contentDisplay" class="grid items-center gap-12 lg:grid-cols-2">
+            <div
+                data-project-editor-target="contentDisplay"
+                class="grid items-center gap-12 lg:grid-cols-2"
+            >
 
                 {% if loopId % 2 == 0 %}
 
+                    {# TEXTE #}
+
                     <div>
-                        <span
-                            class="text-sm font-semibold uppercase tracking-widest text-gray-500"
-                        >
+                        <span class="text-sm font-semibold uppercase tracking-widest text-gray-500">
                             {{ loopId + 1 }} ·
                             <span data-project-editor-target="contentThemeDisplay">
                                 {{ content.themeName }}
                             </span>
                         </span>
 
-                        <h2
-                            data-project-editor-target="contentTitleDisplay"
-                            class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl"
-                        >
+                        <h2 data-project-editor-target="contentTitleDisplay" class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
                             {{ content.title }}
                         </h2>
 
-                        <div data-project-editor-target="contentTextDisplay">
-                            {% for text in content.content %}
-                                <p class="mt-6 leading-7 text-gray-400">
-                                    {{ text }}
-                                </p>
-                            {% endfor %}
+                        <div
+                            data-controller="rich-text-renderer"
+                            data-rich-text-renderer-content-value="{{ content.content|json_encode|e('html_attr') }}"
+                            class=" tiptap-content mt-6 leading-7 text-gray-400 [&_p]:mt-3 [&_p:first-child]:mt-0 [&_p:empty]:min-h-7">
+                            <div
+                                data-rich-text-renderer-target="content"
+                            ></div>
                         </div>
                     </div>
+
+                    {# MEDIA #}
 
                     <div class="overflow-hidden rounded-2xl border border-gray-800 bg-gray-900">
                         <div class="flex aspect-video items-center justify-center">
@@ -54,6 +56,8 @@
 
                 {% else %}
 
+                    {# MEDIA #}
+
                     <div class="order-2 overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 lg:order-1">
                         <div class="flex aspect-video items-center justify-center">
                             {% if content.linkMedia is not empty %}
@@ -64,29 +68,27 @@
                         </div>
                     </div>
 
+                    {# TEXTE #}
+
                     <div class="order-1 lg:order-2">
-                        <span
-                            class="text-sm font-semibold uppercase tracking-widest text-gray-500"
-                        >
+                        <span class="text-sm font-semibold uppercase tracking-widest text-gray-500">
                             {{ loopId + 1 }} ·
                             <span data-project-editor-target="contentThemeDisplay">
                                 {{ content.themeName }}
                             </span>
                         </span>
 
-                        <h2
-                            data-project-editor-target="contentTitleDisplay"
-                            class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl"
-                        >
+                        <h2 data-project-editor-target="contentTitleDisplay" class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
                             {{ content.title }}
                         </h2>
 
-                        <div data-project-editor-target="contentTextDisplay">
-                            {% for text in content.content %}
-                                <p class="mt-6 leading-7 text-gray-400">
-                                    {{ text }}
-                                </p>
-                            {% endfor %}
+                        <div
+                            data-controller="rich-text-renderer"
+                            data-rich-text-renderer-content-value="{{ content.content|json_encode|e('html_attr') }}"
+                            class=" tiptap-content mt-6 leading-7 text-gray-400 [&_p]:mt-3 [&_p:first-child]:mt-0 [&_p:empty]:min-h-7">
+                            <div
+                                data-rich-text-renderer-target="content"
+                            ></div>
                         </div>
                     </div>
 
@@ -94,16 +96,19 @@
 
             </div>
 
-
             {# ========================= #}
             {# MODE ÉDITION               #}
             {# ========================= #}
 
             {% include "components/project/editContent.html.twig" %}
 
+            {# ========================= #}
+            {# ACTIONS ADMIN               #}
+            {# ========================= #}
+
             {% if is_granted('ROLE_ADMIN') %}
-                {# Bouton modifier #}
-                <div class="mt-6 flex justify-end">
+                <div class="mt-6 flex justify-end gap-1">
+
                     <button
                         type="button"
                         data-action="click->project-editor#editContent"
@@ -111,18 +116,18 @@
                     >
                         Modifier cette section
                     </button>
+
                     <button
                         type="button"
                         data-action="click->project-editor#deleteContent"
-                        class="ml-1 rounded-lg border border-red-900/50 px-4 py-2 text-sm font-medium text-red-400 transition hover:bg-red-950 hover:text-red-300"
+                        class="rounded-lg border border-red-900/50 px-4 py-2 text-sm font-medium text-red-400 transition hover:bg-red-950 hover:text-red-300"
                     >
                         Supprimer
                     </button>
-                </div>
 
+                </div>
             {% endif %}
-        
+
         </div>
     </section>
-
 {% endblock %}

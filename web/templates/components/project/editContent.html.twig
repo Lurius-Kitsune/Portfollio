@@ -1,11 +1,16 @@
 {% block editContent %}
+
     {% if is_granted('ROLE_ADMIN') %}
 
-        <div data-project-editor-target="contentEditor" class="hidden">
+        <div
+            data-project-editor-target="contentEditor"
+            class="hidden"
+        >
 
             <div class="rounded-2xl border border-cyan-500/30 bg-gray-900 p-6">
 
                 <div class="mb-6 flex items-center justify-between">
+
                     <h3 class="text-lg font-semibold text-white">
                         Modifier le contenu
                     </h3>
@@ -17,12 +22,16 @@
                     >
                         Annuler
                     </button>
+
                 </div>
 
 
-                {# Theme #}
+                {# ========================= #}
+                {# THEME                       #}
+                {# ========================= #}
 
                 <div class="mb-5">
+
                     <label class="mb-2 block text-sm font-medium text-gray-300">
                         Thème
                     </label>
@@ -33,12 +42,16 @@
                         data-project-editor-target="contentTheme"
                         class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
                     >
+
                 </div>
 
 
-                {# Titre #}
+                {# ========================= #}
+                {# TITRE                       #}
+                {# ========================= #}
 
                 <div class="mb-5">
+
                     <label class="mb-2 block text-sm font-medium text-gray-300">
                         Titre
                     </label>
@@ -49,32 +62,35 @@
                         data-project-editor-target="contentTitle"
                         class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
                     >
+
                 </div>
 
 
-                {# Paragraphes #}
+                {# ========================= #}
+                {# TIPTAP                      #}
+                {# ========================= #}
 
                 <div class="mb-6">
+
                     <label class="mb-2 block text-sm font-medium text-gray-300">
                         Contenu
                     </label>
 
                     <div
-                        data-project-editor-target="contentTexts"
-                        class="space-y-3"
+                        data-controller="rich-text-editor"
+                        data-rich-text-editor-content-value="{{ content.content|json_encode|e('html_attr') }}"
                     >
-                        {% for text in content.content %}
-                            <textarea
-                                        rows="4"
-                                        data-project-editor-target="contentText"
-                                        class="w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500"
-                                    >{{ text }}</textarea>
-                        {% endfor %}
+
+                        {% include "components/richTextEditor.html.twig" %}
+
                     </div>
+
                 </div>
 
 
-                {# Actions #}
+                {# ========================= #}
+                {# ACTIONS                     #}
+                {# ========================= #}
 
                 <div class="flex justify-end gap-3">
 
@@ -101,7 +117,6 @@
 
         </div>
 
-
-
     {% endif %}
+
 {% endblock %}

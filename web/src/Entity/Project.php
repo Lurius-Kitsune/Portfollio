@@ -69,7 +69,7 @@ class Project implements Translatable
     private ?string $conclusionTitle = null;
 
     #[Gedmo\Translatable]
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: true, type: Types::JSON)]
     private ?array $conclusionContent = null;
 
     #[ORM\Column]

@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Project;
 use App\Entity\ProjectContent;
+use App\Entity\ProjectContentTranslation;
 use App\Repository\ProjectContentRepository;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -44,33 +46,31 @@ final class ProjectControler extends AbstractController
             'slug' => $slug,
         ]);
 
-        if (!$project) {
+        if (!$project instanceof Project)
             return $this->json([
                 'success' => false,
                 'message' => 'Projet introuvable.',
             ], Response::HTTP_BAD_REQUEST);
-        }
 
         $data = json_decode($request->getContent(), true);
 
-        if (!is_array($data)) {
+        if (!is_array($data))
             return $this->json([
                 'success' => false,
                 'message' => 'Données invalides.',
             ], Response::HTTP_BAD_REQUEST);
-        }
 
-        if (isset($data['name'])) {
-            $project->setName($data['name']);
-        }
-
-        if (isset($data['role'])) {
+        if (isset($data['role']))
             $project->setRole($data['role']);
-        }
 
-        if (isset($data['intro'])) {
+        if (isset($data['intro']))
             $project->setIntro($data['intro']);
-        }
+
+        if (isset($data['conclusionTitle']))
+            $project->setConclusionTitle($data['conclusionTitle']);
+
+        if (isset($data['conclusionContent']))
+            $project->setConclusionContent($data['conclusionContent']);
 
         $entityManager->flush();
 
@@ -99,30 +99,26 @@ final class ProjectControler extends AbstractController
             'slug' => $slug,
         ]);
 
-        if (!$project) {
+        if (!$project instanceof Project)
             return $this->json([
                 'success' => false,
                 'message' => 'Projet introuvable.',
             ], Response::HTTP_NOT_FOUND);
-        }
 
         $content = $contentRepository->find($id);
 
         if (!$content instanceof ProjectContent) {
             return $this->json([
                 'success' => false,
-                'message' => 'Contenu introuvable.',
+                'message' => 'Content not found.',
             ], Response::HTTP_NOT_FOUND);
         }
 
-        // Très important :
-        // vérifier que ce contenu appartient bien à ce projet.
-        if ($content->getProjectId() !== $project) {
+        if ($content->getProjectId() !== $project)
             return $this->json([
                 'success' => false,
                 'message' => "Content doesn't belong to this project",
             ], Response::HTTP_FORBIDDEN);
-        }
 
         $data = json_decode($request->getContent(), true);
 
@@ -157,28 +153,25 @@ final class ProjectControler extends AbstractController
             'slug' => $slug,
         ]);
 
-        if (!$project) {
+        if (!$project instanceof Project)
             return $this->json([
                 'success' => false,
                 'message' => 'Projet introuvable.',
             ], Response::HTTP_NOT_FOUND);
-        }
 
         $content = $contentRepository->find($id);
 
-        if (!$content instanceof ProjectContent) {
+        if (!$content instanceof ProjectContent)
             return $this->json([
                 'success' => false,
                 'message' => 'Contenu introuvable.',
             ], Response::HTTP_NOT_FOUND);
-        }
 
-        if ($content->getProjectId() !== $project) {
+        if ($content->getProjectId() !== $project)
             return $this->json([
                 'success' => false,
                 'message' => "Content doesn't belong to this project",
             ], Response::HTTP_FORBIDDEN);
-        }
 
         $entityManager->remove($content);
         $entityManager->flush();
@@ -204,21 +197,19 @@ final class ProjectControler extends AbstractController
             'slug' => $slug,
         ]);
 
-        if (!$project) {
+        if (!$project instanceof Project)
             return $this->json([
                 'success' => false,
                 'message' => 'Projet introuvable.',
             ], Response::HTTP_NOT_FOUND);
-        }
 
         $data = json_decode($request->getContent(), true);
 
-        if (!is_array($data)) {
+        if (!is_array($data))
             return $this->json([
                 'success' => false,
                 'message' => 'Données invalides.',
             ], Response::HTTP_BAD_REQUEST);
-        }
 
         $content = new ProjectContent();
 
@@ -228,8 +219,47 @@ final class ProjectControler extends AbstractController
         $content->setContent($data['content'] ?? []);
 
         $entityManager->persist($content);
+
+        // Création du ProjectContent
         $entityManager->flush();
+
+        /*
+        * À ce stade :
+        *
+        * $content->getId()
+        *
+        * correspond bien à l'ID de project_content.
+        */
+
+        $translationData = [
+            'title' => $content->getTitle(),
+            'themeName' => $content->getThemeName(),
+            'content' => $content->getContent(),
+        ];
+
+        foreach ($translationData as $field => $value) {
+            $translation = new ProjectContentTranslation();
+
+            $translation->setLocale('en');
+            $translation->setField($field);
+            $translation->setForeignKey($content->getId());
+            $translation->setObjectClass(ProjectContent::class);
+
+            if ($field === 'content') {
+                $translation->setContent(
+                    json_encode($value, JSON_THROW_ON_ERROR)
+                );
+            } else {
+                $translation->setContent($value ?? '');
+            }
+
+            $entityManager->persist($translation);
+        }
+
+        $entityManager->flush();
+
         $loopId = $project->getProjectContents()->count() - 1;
+
         return $this->render('components/project/content.html.twig', [
             'content' => $content,
             'loopId' => $loopId,
