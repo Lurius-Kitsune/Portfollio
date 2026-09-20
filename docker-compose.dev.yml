@@ -52,6 +52,9 @@ services:
     volumes:
       - ./web:/var/www/portfolio
 
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
     ports:
       - "9000:9000"
     depends_on:
