@@ -1,6 +1,15 @@
 {% block editDetails %}
     {% if is_granted('ROLE_ADMIN') %}
+        <div data-project-editor-target="editor" class="hidden bg-gray-950 text-white">
         {% include "components/form/projectForm.html.twig" with {projectForm: form} %}
         {# {% include "components/form/projectMedia.html.twig" with {mediaForm: mediaForm} %} #}
+            <div class="flex justify-center" data-controller="media">
+                <div class="flex flex-row overflow-x-auto gap-2 p-2 max-w-full">
+                    {% for projectMedia in project.projectMedia %}
+                        {% include "components/project/media.html.twig" with {projectMedia: projectMedia} %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}

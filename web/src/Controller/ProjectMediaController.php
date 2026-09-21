@@ -9,6 +9,8 @@ use App\Repository\ProjectMediaRepository;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -87,11 +89,12 @@ final class ProjectMediaController extends AbstractController
 
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(
-        string $slug,
         int $id,
+        string $slug,
         ProjectRepository $projectRepository,
         ProjectMediaRepository $mediaRepository,
         EntityManagerInterface $entityManager,
+        #[Autowire('%kernel.project_dir%/public')] string $publicDirectory
     ): JsonResponse {
         $project = $projectRepository->findOneBy([
             'slug' => $slug,
@@ -112,23 +115,11 @@ final class ProjectMediaController extends AbstractController
                 'message' => 'Média introuvable.',
             ], Response::HTTP_NOT_FOUND);
         }
+        $path = $media->getUrl();
+        $path = $publicDirectory . '/' . ltrim($path, '/');
 
-        /*
-     * Si le média est un fichier local,
-     * supprimer également le fichier physique.
-     */
-        if (
-            $media->getType() === EMediaType::MT_IMAGE ||
-            $media->getType() === EMediaType::MT_VIDEO
-        ) {
-
-            $path = $this->getParameter('project_media_directory')
-                . '/../..'
-                . $media->getUrl();
-
-            if (is_file($path)) {
-                unlink($path);
-            }
+        if (is_file($path)) {
+            unlink($path);
         }
 
         $entityManager->remove($media);

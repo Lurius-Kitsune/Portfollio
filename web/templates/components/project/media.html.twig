@@ -1,0 +1,28 @@
+{% block mediaProps %}
+    <div class="flex h-32 w-64 flex-row shrink-0 overflow-hidden rounded-2xl border border-gray-700 bg-gray-800 shadow-sm" data-controller="media-item">
+
+        {# Aperçu média — 50% #}
+        <div class="h-full w-1/2 shrink-0 overflow-hidden bg-gray-900">
+            {% include "components/mediaItem.html.twig" with {
+                media: projectMedia
+            } %}
+        </div>
+
+        {# Infos + actions — 50% #}
+        <div class="flex h-full w-1/2 flex-col justify-center items-center gap-2 p-3">
+            <h5 class="w-full truncate text-sm font-medium text-gray-200" title="{{ projectMedia.name }}">
+                {{ projectMedia.name }}
+            </h5>
+
+            <button
+                type="button"
+                data-action="click->media#deleteMedia"
+                data-media-id-param="{{ projectMedia.id }}"
+                data-media-projectid-param="{{ project.slug }}"
+                class="w-fit rounded-sm bg-linear-to-r from-red-400 via-red-500 to-red-600 px-3 py-1.5 text-xs font-medium text-white shadow-lg shadow-red-500/50 hover:bg-gradient-to-br focus:outline-none focus:ring-4 focus:ring-red-300 dark:shadow-red-800/80 dark:focus:ring-red-800"
+            >
+                X
+            </button>
+        </div>
+    </div>
+{% endblock %}

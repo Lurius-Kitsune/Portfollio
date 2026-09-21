@@ -3,7 +3,7 @@
     {% if media.type == constant('App\\Enum\\EMediaType::MT_IMAGE') %}
         <img src="{% if media.url starts with 'http://' or media.url starts with 'https://' %}{{ media.url }}{% else %}{{ asset(media.url) }}{% endif %}" class="h-full w-full object-cover">
     {% elseif media.type == constant('App\\Enum\\EMediaType::MT_VIDEO') %}
-        <video autoplay muted loop playsinline class="h-full w-full object-cover" src="{% if media.url starts with 'http://' or media.url starts with 'https://' %}{{ media.url }}{% else %}{{ asset(media.url) }}{% endif %}"/>
+        <video autoplay muted loop playsinline class="h-full w-full object-cover" src="{% if media.url starts with 'http://' or media.url starts with 'https://' %}{{ media.url }}{% else %}{{ asset(media.url) }}{% endif %}"></video>
     {% endif %}
 
 {% endblock %}
