@@ -4,20 +4,7 @@ export default class extends Controller {
     static targets = [
         "display",
         "editor",
-
-        "conclusionText",
-        "conclusionContent",
-        "content",
-        "saveButton",
-
-        "contentBlock",
-        "contentDisplay",
-        "contentEditor",
-        "contentTheme",
-        "contentThemeDisplay",
-        "contentTitle",
-        "contentTitleDisplay",
-
+        
         "contentsContainer",
         "createContentEditor",
     ];

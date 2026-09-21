@@ -106,12 +106,195 @@
                                 'class': 'hidden'
                             }
                         }) }}
-        {{ form_widget(createContentForm.linkMedia, {
-                    attr: {
-                        'data-project-editor-target': 'linkMedia',
-                        'class': 'hidden'
-                    }
-                }) }}
+        <div class="space-y-4">
+
+            <div>
+                <h3 class="text-sm font-semibold text-white">
+                    Médias associés
+                </h3>
+
+                <p class="mt-1 text-sm text-gray-400">
+                    Sélectionnez les médias à afficher dans cette section.
+                </p>
+            </div>
+
+            {% if createContentForm.linkMedia|length > 0 %}
+
+                <div
+                    class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                >
+
+                    {% for key, media in createContentForm.linkMedia %}
+                        {% set projectMedia = createContentForm.linkMedia.vars.choices[key].data %}
+
+                        <label for="{{ media.vars.id }}" class="group relative cursor-pointer">
+
+                            {{ form_widget(media, {
+                            attr: {
+                                class: 'peer sr-only'
+                            }
+                            }) }}
+
+                            <div
+                                class="
+                            overflow-hidden
+                            rounded-xl
+                            border
+                            border-gray-700
+                            bg-gray-800
+                            shadow-sm
+                            transition-all
+                            duration-200
+
+                            hover:border-gray-500
+                            hover:bg-gray-750
+                            hover:shadow-lg
+
+                            peer-checked:border-cyan-500
+                            peer-checked:ring-2
+                            peer-checked:ring-cyan-500/30
+                        "
+                            >
+
+                                {# Image #}
+                                <div class="relative aspect-video overflow-hidden bg-gray-900">
+                                    
+                                    <div
+                                        class="
+                                    h-full
+                                    w-full
+                                    object-cover
+                                    transition-transform
+                                    duration-300
+                                    group-hover:scale-105
+                                    "
+                                    >
+                                        {% include "components/mediaItem.html.twig" with {media: projectMedia} %}
+                                    </div>
+
+                                    {# Overlay sélection #}
+                                    <div
+                                        class="
+                                    absolute
+                                    inset-0
+                                    flex
+                                    items-center
+                                    justify-center
+                                    bg-cyan-500/0
+                                    transition-all
+                                    duration-200
+                                    peer-checked:bg-cyan-500/20
+                                "
+                                    >
+
+                                        <div
+                                            class="
+                                        flex
+                                        h-10
+                                        w-10
+                                        scale-75
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        bg-cyan-500
+                                        text-white
+                                        opacity-0
+                                        shadow-lg
+                                        transition-all
+                                        duration-200
+
+                                        peer-checked:scale-100
+                                        peer-checked:opacity-100
+                                    "
+                                        >
+                                            <svg
+                                                class="h-5 w-5"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke="currentColor"
+                                                stroke-width="3"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M5 13l4 4L19 7"
+                                                />
+                                            </svg>
+                                        </div>
+
+                                    </div>
+
+                                    {# Badge sélectionné #}
+                                    <span
+                                        class="
+                                    absolute
+                                    right-2
+                                    top-2
+                                    hidden
+                                    rounded-full
+                                    bg-cyan-500
+                                    px-2.5
+                                    py-1
+                                    text-xs
+                                    font-medium
+                                    text-white
+                                    peer-checked:block
+                                "
+                                    >
+                                        Sélectionné
+                                    </span>
+
+                                </div>
+
+                                {# Nom du média #}
+                                <div class="p-3">
+
+                                    <p
+                                        class="
+                                    truncate
+                                    text-sm
+                                    font-medium
+                                    text-gray-200
+                                    transition-colors
+                                    group-hover:text-white
+                                "
+                                    >
+                                        {{ media.vars.attr['data-name']|default('') }}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div
+                    class="
+                flex
+                items-center
+                rounded-lg
+                border
+                border-gray-700
+                bg-gray-800
+                p-4
+                text-sm
+                text-gray-400
+            "
+                >
+                    Aucun média disponible.
+                </div>
+
+            {% endif %}
+
+            {{ form_errors(createContentForm.linkMedia) }}
+
+        </div>
 
         {# ========================= #}
         {# ACTIONS                     #}

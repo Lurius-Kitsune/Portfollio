@@ -3,7 +3,7 @@
 set -e # exit on error
 
 SQL_FILE="./sql/Update.sql"
-UPDATE_DB=true
+#UPDATE_DB=true
 
 # --------------------------------------------------
 # Chargement du .env
@@ -39,8 +39,8 @@ fi
 # --------------------------------------------------
 
 echo "==> Git pull"
-
-git pull origin main
+git fetch origin
+git reset --hard origin/main
 
 # --------------------------------------------------
 # Docker

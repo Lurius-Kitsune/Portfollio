@@ -1,0 +1,45 @@
+{{ form_start(mediaForm, {
+    attr: {
+        'data-project-media-target': 'form'
+    }
+}) }}
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <div>
+        {{ form_label(mediaForm.name) }}
+        {{ form_widget(mediaForm.name, {
+                attr: {
+                    class: 'w-full rounded-lg border-gray-300'
+                }
+            }) }}
+    </div>
+
+    <div>
+        {{ form_label(mediaForm.url) }}
+        {{ form_widget(mediaForm.url, {
+                attr: {
+                    class: 'w-full rounded-lg border-gray-300'
+                }
+            }) }}
+    </div>
+
+</div>
+
+<div class="mt-4">
+    {{ form_label(mediaForm.file) }}
+    {{ form_widget(mediaForm.file, {
+            attr: {
+                class: 'block w-full text-sm'
+            }
+        }) }}
+</div>
+
+<button
+    type="submit"
+    class="mt-4 px-4 py-2 rounded-lg bg-blue-600 text-white"
+>
+    Ajouter le média
+</button>
+
+{{ form_end(mediaForm) }}

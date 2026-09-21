@@ -1,5 +1,6 @@
 {% block editDetails %}
     {% if is_granted('ROLE_ADMIN') %}
         {% include "components/form/projectForm.html.twig" with {projectForm: form} %}
+        {# {% include "components/form/projectMedia.html.twig" with {mediaForm: mediaForm} %} #}
     {% endif %}
 {% endblock %}
