@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/project/{slug}/media', name: 'project_media_')]
-#[IsGranted(['ROLE_ADMIN'])]
+#[IsGranted('ROLE_ADMIN')]
 final class ProjectMediaController extends AbstractController
 {
     #[Route('/upload', name: 'upload', methods: ['POST'])]

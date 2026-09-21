@@ -5,10 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Entity\ProjectContent;
 use App\Entity\ProjectContentTranslation;
-use App\Entity\ProjectMedia;
 use App\Form\ProjectContentType;
-use App\Form\ProjectEditType;
-use App\Form\ProjectMediaType;
 use App\Repository\ProjectContentRepository;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
 #[Route('/project/{slug}/content', name: 'project_content_')]
-#[IsGranted(['ROLE_ADMIN'])]
+#[IsGranted('ROLE_ADMIN')]
 final class ProjectContentController extends AbstractController
 {
 
@@ -84,6 +81,7 @@ final class ProjectContentController extends AbstractController
         ProjectRepository $projectRepository,
         ProjectContentRepository $contentRepository,
         EntityManagerInterface $entityManager,
+        Request $request
     ): JsonResponse {
         $project = $projectRepository->findOneBy([
             'slug' => $slug,
@@ -112,7 +110,7 @@ final class ProjectContentController extends AbstractController
             'success' => true,
             'redirectUrl' => $this->projectRedirectUrl(
                 $project,
-                null,
+                $request,
             ),
         ]);
     }

@@ -4,7 +4,7 @@ export default class extends Controller {
     static targets = [
         "display",
         "editor",
-        
+        "newContentTheme",
         "contentsContainer",
         "createContentEditor",
     ];
