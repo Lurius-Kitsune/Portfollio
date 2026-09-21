@@ -100,7 +100,7 @@
             {# MODE ÉDITION               #}
             {# ========================= #}
 
-            {% include "components/project/editContent.html.twig" %}
+            {% include "components/project/editContent.html.twig" with {formContent: contentForms[content.id]} %}
 
             {# ========================= #}
             {# ACTIONS ADMIN               #}

@@ -5,18 +5,9 @@ export default class extends Controller {
         "display",
         "editor",
 
-        "role",
-        "roleDisplay",
-
-        "intro",
-        "introDisplay",
-
-        "conclusionTitle",
-        "conclusionTitleDisplay",
-
         "conclusionText",
-        "conclusionContentDisplay",
-
+        "conclusionContent",
+        "content",
         "saveButton",
 
         "contentBlock",
@@ -26,14 +17,9 @@ export default class extends Controller {
         "contentThemeDisplay",
         "contentTitle",
         "contentTitleDisplay",
-        "contentText",
-        "contentTextDisplay",
 
         "contentsContainer",
         "createContentEditor",
-        "newContentTheme",
-        "newContentTitle",
-        "createContentButton",
     ];
 
     static values = {
@@ -52,6 +38,31 @@ export default class extends Controller {
         this.displayTarget.classList.remove("hidden");
     }
 
+    /*
+     * ---------------------------------------------------------
+     * PROJECT
+     * ---------------------------------------------------------
+     */
+
+    save(event) {
+        const form = event.currentTarget;
+
+        const button = form.querySelector('button[type="submit"]');
+
+        if (button) {
+            button.disabled = true;
+            button.textContent = "Enregistrement...";
+        }
+
+        this.formEvent(event);
+    }
+
+    /*
+     * ---------------------------------------------------------
+     * PROJECT CONTENT
+     * ---------------------------------------------------------
+     */
+
     editContent(event) {
         const block = event.currentTarget.closest(
             '[data-project-editor-target="contentBlock"]',
@@ -68,6 +79,7 @@ export default class extends Controller {
         display.classList.add("hidden");
         editor.classList.remove("hidden");
     }
+
     cancelContent(event) {
         const block = event.currentTarget.closest(
             '[data-project-editor-target="contentBlock"]',
@@ -84,136 +96,29 @@ export default class extends Controller {
         editor.classList.add("hidden");
         display.classList.remove("hidden");
     }
-    async saveContent(event) {
-        const button = event.currentTarget;
 
-        const block = button.closest(
-            '[data-project-editor-target="contentBlock"]',
-        );
+    saveContent(event) {
+        const form = event.currentTarget;
 
-        const contentId = button.dataset.contentId;
+        const button = form.querySelector('button[type="submit"]');
 
-        const theme = block.querySelector(
-            '[data-project-editor-target="contentTheme"]',
-        );
-
-        const title = block.querySelector(
-            '[data-project-editor-target="contentTitle"]',
-        );
-
-        const editorElement = block.querySelector(
-            '[data-rich-text-editor-target="editor"]',
-        );
-
-        const editorContainer = editorElement.closest(
-            '[data-controller~="rich-text-editor"]',
-        );
-
-        const editorController =
-            this.application.getControllerForElementAndIdentifier(
-                editorContainer,
-                "rich-text-editor",
-            );
-
-        const content = editorController.getJSON();
-
-        button.disabled = true;
-        button.textContent = "Enregistrement...";
-
-        try {
-            const url = this.contentUpdateUrl(contentId);
-
-            const response = await fetch(url, {
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
-                },
-                body: JSON.stringify({
-                    themeName: theme.value,
-                    title: title.value,
-                    content: content,
-                }),
-            });
-
-            const result = await response.json();
-
-            if (!response.ok || !result.success) {
-                throw new Error(result.message ?? "Une erreur est survenue.");
-            }
-
-            // Pour l'instant, on recharge la page.
-            // Le rendu public du JSON TipTap sera à adapter ensuite.
-            location.reload();
-        } catch (error) {
-            console.error(error);
-            alert(error.message);
-        } finally {
-            button.disabled = false;
-            button.textContent = "Enregistrer";
+        if (button) {
+            button.disabled = true;
+            button.textContent = "Enregistrement...";
         }
+
+        this.formEvent(event);
     }
 
     contentUpdateUrl(contentId) {
         return `/project/${this.projectSlugValue}/content/${contentId}`;
     }
 
-    async save() {
-        this.saveButtonTarget.disabled = true;
-        this.saveButtonTarget.textContent = "Enregistrement...";
-
-        const editorController =
-            this.application.getControllerForElementAndIdentifier(
-                this.conclusionTextTarget,
-                "rich-text-editor",
-            );
-
-        const data = {
-            role: this.roleTarget.value,
-            intro: this.introTarget.value,
-            conclusionTitle: this.conclusionTitleTarget.value,
-            conclusionContent: editorController.getJSON(),
-        };
-
-        try {
-            const response = await fetch(this.updateUrlValue, {
-                method: "PATCH",
-
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    "X-Requested-With": "XMLHttpRequest",
-                },
-
-                body: JSON.stringify(data),
-            });
-
-            const result = await response.json();
-
-            if (!response.ok || !result.success) {
-                throw new Error(result.message ?? "Une erreur est survenue.");
-            }
-
-            // Mise à jour de l'affichage
-            this.roleDisplayTarget.textContent = result.project.role;
-            this.introDisplayTarget.textContent = result.project.intro;
-
-            this.conclusionTitleDisplayTarget.textContent =
-                result.project.conclusionTitle;
-
-            // On reconstruit la conclusion
-            this.conclusionContentDisplayTarget.innerHTML = "";
-            location.reload();
-        } catch (error) {
-            console.error(error);
-
-            alert(error.message);
-        } finally {
-            this.saveButtonTarget.disabled = false;
-            this.saveButtonTarget.textContent = "Enregistrer";
-        }
-    }
+    /*
+     * ---------------------------------------------------------
+     * DELETE CONTENT
+     * ---------------------------------------------------------
+     */
 
     async deleteContent(event) {
         const button = event.currentTarget;
@@ -259,17 +164,19 @@ export default class extends Controller {
         }
     }
 
+    /*
+     * ---------------------------------------------------------
+     * CREATE CONTENT
+     * ---------------------------------------------------------
+     */
+
     openCreateContent() {
         this.createContentEditorTarget.classList.remove("hidden");
-
         this.newContentThemeTarget.focus();
     }
 
     cancelCreateContent() {
         this.createContentEditorTarget.classList.add("hidden");
-
-        this.newContentThemeTarget.value = "";
-        this.newContentTitleTarget.value = "";
 
         const editorElement = this.createContentEditorTarget.querySelector(
             '[data-rich-text-editor-target="editor"]',
@@ -291,67 +198,74 @@ export default class extends Controller {
         }
     }
 
-    async createContent() {
-        const button = this.createContentButtonTarget;
+    createContent(event) {
+        const form = event.currentTarget;
 
-        const themeName = this.newContentThemeTarget.value.trim();
-        const title = this.newContentTitleTarget.value.trim();
+        const button = form.querySelector('button[type="submit"]');
 
-        const editorElement = this.createContentEditorTarget.querySelector(
+        if (button) {
+            button.disabled = true;
+            button.textContent = "Création...";
+        }
+
+        this.formEvent(event);
+    }
+
+    async formEvent(event) {
+        event.preventDefault();
+        const form = event.currentTarget;
+
+        const editorElement = form.querySelector(
             '[data-rich-text-editor-target="editor"]',
         );
 
-        const editorContainer = editorElement.closest(
+        const editorContainer = editorElement?.closest(
             '[data-controller~="rich-text-editor"]',
         );
 
-        const editorController =
-            this.application.getControllerForElementAndIdentifier(
-                editorContainer,
-                "rich-text-editor",
-            );
+        const editorController = editorContainer
+            ? this.application.getControllerForElementAndIdentifier(
+                  editorContainer,
+                  "rich-text-editor",
+              )
+            : null;
 
-        const content = editorController.getJSON();
-
-        if (!title) {
-            alert("Le titre est obligatoire.");
+        if (!editorController) {
+            alert("L'éditeur de contenu est introuvable.");
             return;
         }
 
-        button.disabled = true;
-        button.textContent = "Création...";
+        const contentField = form.querySelector(
+            '[data-project-editor-target="content"]',
+        );
+
+        if (contentField) {
+            contentField.value = JSON.stringify(editorController.getJSON());
+        }
 
         try {
-            const response = await fetch(this.createContentUrlValue, {
-                method: "POST",
+            const response = await fetch(form.action, {
+                method: form.method || "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    Accept: "text/html",
+                    Accept: "application/json",
                     "X-Requested-With": "XMLHttpRequest",
                 },
-                body: JSON.stringify({
-                    themeName,
-                    title,
-                    content,
-                }),
+                body: new FormData(form),
             });
 
-            if (!response.ok) {
-                const message = await response.text();
-                throw new Error(message);
+            const result = await response.json();
+
+            if (!response.ok || !result.success) {
+                throw new Error(result.message ?? "Une erreur est survenue.");
             }
 
-            const html = await response.text();
-
-            this.contentsContainerTarget.insertAdjacentHTML("beforeend", html);
-
-            this.cancelCreateContent();
+            window.location.href = result.redirectUrl;
         } catch (error) {
             console.error(error);
             alert(error.message);
         } finally {
-            button.disabled = false;
-            button.textContent = "Créer la section";
+            form.disabled = false;
+            form.textContent = "Enregistrer";
         }
     }
 }

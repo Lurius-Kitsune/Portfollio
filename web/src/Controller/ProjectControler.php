@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Entity\ProjectContent;
 use App\Entity\ProjectContentTranslation;
+use App\Form\ProjectContentType;
+use App\Form\ProjectEditType;
 use App\Repository\ProjectContentRepository;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -14,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Validator\Constraints\Json;
 
 final class ProjectControler extends AbstractController
 {
@@ -21,19 +24,52 @@ final class ProjectControler extends AbstractController
     public function show(string $slug, ProjectRepository $projectRepository): Response
     {
         $project = $projectRepository->findOneBy(['slug' => $slug]);
-        if (($project === null || !$project->isVisible() || !$project->isReadable()) && !$this->isGranted('ROLE_ADMIN')) {
+        if (($project === null || ((!$project->isVisible() || !$project->isReadable())) && !$this->isGranted('ROLE_ADMIN'))) {
             $response = $this->render('pages/404.html.twig');
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
 
             return $response;
         }
+        $form = $this->createForm(ProjectEditType::class, $project);
+
+        $contentForms = [];
+        foreach ($project->getProjectContents() as $content) {
+            $contentForms[$content->getId()] = $this->createForm(
+                ProjectContentType::class,
+                $content,
+                [
+                    'action' => $this->generateUrl('project_content_update', [
+                        'slug' => $project->getSlug(),
+                        'id' => $content->getId(),
+                    ]),
+                    'attr' => [
+                        'data-action' => 'submit->project-editor#saveContent',
+                    ],
+                ]
+            );
+        }
+        $contentFormCreate = $this->createForm(ProjectContentType::class, new ProjectContent()->setProjectId($project), [
+
+            'action' => $this->generateUrl('project_content_create', [
+                'slug' => $project->getSlug(),
+            ]),
+            'attr' => [
+                'data-action' => 'submit->project-editor#createContent',
+            ],
+        ]);
 
         return $this->render('pages/project/page.html.twig', [
             'project' => $project,
+            'form' => $form->createView(),
+            'contentForms' => array_map(
+                static fn($form) => $form->createView(),
+                $contentForms
+            ),
+            'createContentForm' => $contentFormCreate->createView(),
         ]);
     }
 
-    #[Route('/project/{slug}', name: 'project_patch', methods: ['PATCH'])]
+    #[Route('/project/{slug}', name: 'project_patch', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function patchProject(
         string $slug,
@@ -41,50 +77,49 @@ final class ProjectControler extends AbstractController
         ProjectRepository $projectRepository,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
-
         $project = $projectRepository->findOneBy([
             'slug' => $slug,
         ]);
 
-        if (!$project instanceof Project)
+        if (!$project instanceof Project) {
             return $this->json([
                 'success' => false,
                 'message' => 'Projet introuvable.',
-            ], Response::HTTP_BAD_REQUEST);
+            ], Response::HTTP_NOT_FOUND);
+        }
 
-        $data = json_decode($request->getContent(), true);
+        $form = $this->createForm(ProjectEditType::class, $project);
 
-        if (!is_array($data))
+
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted() || !$form->isValid()) {
             return $this->json([
                 'success' => false,
-                'message' => 'Données invalides.',
-            ], Response::HTTP_BAD_REQUEST);
-
-        if (isset($data['role']))
-            $project->setRole($data['role']);
-
-        if (isset($data['intro']))
-            $project->setIntro($data['intro']);
-
-        if (isset($data['conclusionTitle']))
-            $project->setConclusionTitle($data['conclusionTitle']);
-
-        if (isset($data['conclusionContent']))
-            $project->setConclusionContent($data['conclusionContent']);
+                'message' => 'Le formulaire contient des erreurs.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
         $entityManager->flush();
-
+        $entityManager->refresh($project);
         return $this->json([
             'success' => true,
             'project' => [
+                'id' => $project->getId(),
                 'name' => $project->getName(),
                 'role' => $project->getRole(),
                 'intro' => $project->getIntro(),
+                'conclusionTitle' => $project->getConclusionTitle(),
+                'conclusionContent' => $project->getConclusionContent(),
             ],
+            'redirectUrl' => $this->generateUrl('project_show', [
+                'slug' => $project->getSlug(),
+                '_locale' => $request->getLocale(),
+            ]),
         ]);
     }
 
-    #[Route('/project/{slug}/content/{id}', name: 'project_content_update', methods: ['PATCH'])]
+    #[Route('/project/{slug}/content/{id}', name: 'project_content_update', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function patchContent(
         string $slug,
@@ -94,6 +129,8 @@ final class ProjectControler extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
     ): JsonResponse {
+
+
 
         $project = $projectRepository->findOneBy([
             'slug' => $slug,
@@ -120,11 +157,20 @@ final class ProjectControler extends AbstractController
                 'message' => "Content doesn't belong to this project",
             ], Response::HTTP_FORBIDDEN);
 
-        $data = json_decode($request->getContent(), true);
+        $form = $this->createForm(ProjectContentType::class, $content);
 
-        $content->setTitle($data['title'] ?? $content->getTitle());
-        $content->setThemeName($data['themeName'] ?? $content->getThemeName());
-        $content->setContent($data['content'] ?? $content->getContent());
+
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Le formulaire contient des erreurs.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $entityManager->flush();
+        $entityManager->refresh($content);
 
         $entityManager->flush();
 
@@ -136,6 +182,10 @@ final class ProjectControler extends AbstractController
                 'themeName' => $content->getThemeName(),
                 'content' => $content->getContent(),
             ],
+            'redirectUrl' => $this->generateUrl('project_show', [
+                'slug' => $project->getSlug(),
+                '_locale' => $request->getLocale(),
+            ]),
         ]);
     }
 
@@ -181,18 +231,14 @@ final class ProjectControler extends AbstractController
         ]);
     }
 
-    #[Route(
-        '/project/{slug}/content',
-        name: 'project_content_create',
-        methods: ['POST']
-    )]
+    #[Route('/project/{slug}/content', name: 'project_content_create', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function createContent(
         string $slug,
         Request $request,
         ProjectRepository $projectRepository,
         EntityManagerInterface $entityManager,
-    ): Response {
+    ): JsonResponse {
         $project = $projectRepository->findOneBy([
             'slug' => $slug,
         ]);
@@ -203,33 +249,28 @@ final class ProjectControler extends AbstractController
                 'message' => 'Projet introuvable.',
             ], Response::HTTP_NOT_FOUND);
 
-        $data = json_decode($request->getContent(), true);
+        $content = new ProjectContent();
+        $form = $this->createForm(ProjectContentType::class, $content);
 
-        if (!is_array($data))
+
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted() || !$form->isValid()) {
             return $this->json([
                 'success' => false,
-                'message' => 'Données invalides.',
-            ], Response::HTTP_BAD_REQUEST);
+                'message' => 'Le formulaire contient des erreurs.',
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
 
-        $content = new ProjectContent();
-
-        $content->setProjectId($project);
-        $content->setThemeName($data['themeName'] ?? '');
-        $content->setTitle($data['title'] ?? '');
-        $content->setContent($data['content'] ?? []);
-
+        if ($content->getProjectId() !== $project)
+            return $this->json([
+                'success' => false,
+                'message' => "Content doesn't belong to this project",
+            ], Response::HTTP_FORBIDDEN);
         $entityManager->persist($content);
 
         // Création du ProjectContent
         $entityManager->flush();
-
-        /*
-        * À ce stade :
-        *
-        * $content->getId()
-        *
-        * correspond bien à l'ID de project_content.
-        */
 
         $translationData = [
             'title' => $content->getTitle(),
@@ -258,12 +299,20 @@ final class ProjectControler extends AbstractController
 
         $entityManager->flush();
 
-        $loopId = $project->getProjectContents()->count() - 1;
+        //$loopId = $project->getProjectContents()->count() - 1;
 
-        return $this->render('components/project/content.html.twig', [
-            'content' => $content,
-            'loopId' => $loopId,
-            'project' => $project,
+        return $this->json([
+            'success' => true,
+            'content' => [
+                'id' => $content->getId(),
+                'title' => $content->getTitle(),
+                'themeName' => $content->getThemeName(),
+                'content' => $content->getContent(),
+            ],
+            'redirectUrl' => $this->generateUrl('project_show', [
+                'slug' => $project->getSlug(),
+                '_locale' => $request->getLocale(),
+            ]),
         ]);
     }
 }

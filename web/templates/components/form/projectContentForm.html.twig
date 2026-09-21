@@ -1,0 +1,141 @@
+{% block projectContentFormBlock %}
+    {{ form_start(createContentForm, {
+            attr: {
+                'data-action': 'submit->project-editor#saveContent'
+            }
+        }) }}
+    <div class="rounded-2xl border border-cyan-500/30 bg-gray-900 p-6">
+
+        <div class="mb-6 flex items-center justify-between">
+
+            <h3 class="text-lg font-semibold text-white">
+                Modifier le contenu
+            </h3>
+
+            <button
+                type="button"
+                data-action="click->project-editor#cancelContent"
+                class="rounded-lg px-3 py-2 text-sm text-gray-400 hover:bg-gray-800 hover:text-white"
+            >
+                Annuler
+            </button>
+
+        </div>
+
+
+        {# ========================= #}
+        {# THEME                       #}
+        {# ========================= #}
+
+        <div class="mb-5">
+
+            {{ form_label(createContentForm.themeName, 'Thème', {
+                        label_attr: {
+                        class: 'mb-2 block text-sm font-medium text-gray-300'
+                        }
+                    }) }}
+
+            {{ form_widget(createContentForm.themeName, {
+                        attr: {
+                            class: 'w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500',
+                            placeholder : 'Ex : Architecture',
+                        }
+
+                    }) }}
+
+            {{ form_errors(createContentForm.themeName) }}
+        </div>
+
+
+        {# ========================= #}
+        {# TITRE                       #}
+        {# ========================= #}
+
+        <div class="mb-5">
+
+            {{ form_label(createContentForm.title, 'Titre', {
+                        label_attr: {
+                        class: 'mb-2 block text-sm font-medium text-gray-300'
+                        }
+                    }) }}
+
+            {{ form_widget(createContentForm.title, {
+                        attr: {
+                            class: 'w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500',
+                            placeholder : 'Ex : Architecture',
+                        }
+
+                    }) }}
+
+            {{ form_errors(createContentForm.title) }}
+
+        </div>
+
+
+        {# ========================= #}
+        {# TIPTAP                      #}
+        {# ========================= #}
+
+        <div class="mb-6">
+
+            {{ form_widget(createContentForm.content, {
+                            attr: {
+                                'data-project-editor-target': 'content',
+                                'class': 'hidden'
+                            }
+                    }) }}
+
+            <label class="mb-2 block text-sm font-medium text-gray-300">
+                Contenu
+            </label>
+
+            <div
+                data-controller="rich-text-editor"
+                data-rich-text-editor-content-value="{{ content.content|default("")|json_encode|e('html_attr') }}"
+            >
+
+                {% include "components/richTextEditor.html.twig" %}
+                {{ form_errors(createContentForm.content) }}
+
+            </div>
+
+        </div>
+        {{ form_widget(createContentForm.projectId, {
+                            attr: {
+                                'data-project-editor-target': 'idProject',
+                                'class': 'hidden'
+                            }
+                        }) }}
+        {{ form_widget(createContentForm.linkMedia, {
+                    attr: {
+                        'data-project-editor-target': 'linkMedia',
+                        'class': 'hidden'
+                    }
+                }) }}
+
+        {# ========================= #}
+        {# ACTIONS                     #}
+        {# ========================= #}
+
+        <div class="flex justify-end gap-3">
+
+            <button
+                type="button"
+                data-action="click->project-editor#cancelContent"
+                class="rounded-lg border border-gray-700 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-800"
+            >
+                Annuler
+            </button>
+
+            <button
+                type="submit"
+                class="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-cyan-300"
+            >
+                Enregistrer
+            </button>
+
+        </div>
+
+    </div>
+    {{ form_end(createContentForm) }}
+{% endblock %}
