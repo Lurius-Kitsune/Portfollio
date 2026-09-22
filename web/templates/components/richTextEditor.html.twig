@@ -1,0 +1,122 @@
+<div class="w-full">
+
+    {# Toolbar #}
+    <div
+        data-rich-text-editor-target="toolbar"
+        class="flex w-full flex-wrap items-center gap-1 rounded-t-lg border border-gray-700 bg-gray-950 p-2"
+    >
+        <button
+            type="button"
+            data-rich-text-editor-target="boldButton"
+            data-action="click->rich-text-editor#toggleBold"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm font-bold text-gray-300 hover:bg-gray-700"
+            title="Gras"
+        >
+            B
+        </button>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="italicButton"
+            data-action="click->rich-text-editor#toggleItalic"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm italic text-gray-300 hover:bg-gray-700"
+            title="Italique"
+        >
+            I
+        </button>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="underlineButton"
+            data-action="click->rich-text-editor#toggleUnderline"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm underline text-gray-300 hover:bg-gray-700"
+            title="Souligné"
+        >
+            U
+        </button>
+
+        <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="paragraphButton"
+            data-action="click->rich-text-editor#setParagraph"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-xs text-gray-300 hover:bg-gray-700"
+            title="Paragraphe"
+        >
+            P
+        </button>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="headingButton"
+            data-action="click->rich-text-editor#setHeading"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-xs font-bold text-gray-300 hover:bg-gray-700"
+            title="Titre"
+        >
+            H2
+        </button>
+
+        <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="bulletListButton"
+            data-action="click->rich-text-editor#toggleBulletList"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Liste à puces"
+        >
+            •
+        </button>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="orderedListButton"
+            data-action="click->rich-text-editor#toggleOrderedList"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Liste numérotée"
+        >
+            1.
+        </button>
+
+        <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+        <input
+            type="color"
+            value="#ffffff"
+            data-rich-text-editor-target="color"
+            data-action="input->rich-text-editor#setColor"
+            class="h-8 w-8 cursor-pointer rounded border-0 bg-transparent p-0"
+            title="Couleur"
+        >
+
+        <button
+            type="button"
+            data-action="click->rich-text-editor#removeColor"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-xs text-gray-300 hover:bg-gray-700"
+            title="Retirer la couleur"
+        >
+            A
+        </button>
+    </div>
+
+    {# Zone éditable #}
+    <div
+    data-rich-text-editor-target="editor"
+    class="
+        w-full
+        rounded-b-lg
+        border-x
+        border-b
+        border-gray-700
+        bg-gray-950
+        text-gray-200
+        [&_.ProseMirror]:min-h-87.5
+        [&_.ProseMirror]:w-full
+        [&_.ProseMirror]:px-5
+        [&_.ProseMirror]:py-4
+        [&_.ProseMirror]:outline-none
+        [&_.ProseMirror]:cursor-text
+    "></div>
+
+</div>

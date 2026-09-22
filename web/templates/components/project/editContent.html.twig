@@ -1,0 +1,12 @@
+{% block editContent %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+
+        <div data-project-editor-target="contentEditor" class="hidden">
+            {% include "components/form/projectContentForm.html.twig" with {createContentForm: formContent} %}
+            
+        </div>
+
+    {% endif %}
+
+{% endblock %}

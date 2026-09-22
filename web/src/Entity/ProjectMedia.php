@@ -24,6 +24,9 @@ class ProjectMedia
     #[ORM\Column(length: 300)]
     private ?string $url = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
+
 
 
     public function getId(): ?int
@@ -63,6 +66,18 @@ class ProjectMedia
     public function setProjectId(?Project $projectId): static
     {
         $this->projectId = $projectId;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }

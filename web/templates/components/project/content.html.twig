@@ -1,86 +1,133 @@
 {% block content %}
+    <section
+        id="project-content-{{ content.id }}"
+        data-content-id="{{ content.id }}"
+        data-project-editor-target="contentBlock"
+        class="border-t border-gray-800 {% if loopId % 2 != 0 %}bg-gray-900/30{% endif %}"
+    >
+        <div class="mx-auto max-w-7xl px-6 py-20 lg:px-8">
 
-    {% if loopId % 2 == 0 %}
-        <section class="border-t border-gray-800">
-            <div class="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+            {# ========================= #}
+            {# AFFICHAGE NORMAL          #}
+            {# ========================= #}
 
-                <div
-                    class="grid items-center gap-12 lg:grid-cols-2"
-                >
+            <div
+                data-project-editor-target="contentDisplay"
+                class="grid items-center gap-12 lg:grid-cols-2"
+            >
 
-                    <!-- Contenu -->
+                {% if loopId % 2 == 0 %}
+
+                    {# TEXTE #}
+
                     <div>
                         <span class="text-sm font-semibold uppercase tracking-widest text-gray-500">
-                            {{ loopId + 1 }} · {{ content.themeName }}
+                            {{ loopId + 1 }} ·
+                            <span data-project-editor-target="contentThemeDisplay">
+                                {{ content.themeName }}
+                            </span>
                         </span>
 
-                        <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+                        <h2 data-project-editor-target="contentTitleDisplay" class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
                             {{ content.title }}
                         </h2>
-                        {% for text in content.content %}
-                            <p class="mt-6 leading-7 text-gray-400">
-                                {{ text }}
-                            </p>
-                        {% endfor %}
-                        
+
+                        <div
+                            data-controller="rich-text-renderer"
+                            data-rich-text-renderer-content-value="{{ content.content|json_encode|e('html_attr') }}"
+                            class=" tiptap-content mt-6 leading-7 text-gray-400 [&_p]:mt-3 [&_p:first-child]:mt-0 [&_p:empty]:min-h-7">
+                            <div
+                                data-rich-text-renderer-target="content"
+                            ></div>
+                        </div>
                     </div>
 
-                    <!-- MEDIA -->
-                                    
+                    {# MEDIA #}
+
                     <div class="overflow-hidden rounded-2xl border border-gray-800 bg-gray-900">
                         <div class="flex aspect-video items-center justify-center">
                             {% if content.linkMedia is not empty %}
-                                {% include "pages/project/carouselle.html.twig" with {medias: content.linkMedia} %}
+                                {% include "pages/project/carouselle.html.twig" with {
+                                    medias: content.linkMedia
+                                } %}
                             {% endif %}
                         </div>
                     </div>
 
-                </div>
-            </div>
-        </section>
-    {% else %}
-        <section class="border-t border-gray-800 bg-gray-900/30">
-            <div class="mx-auto max-w-7xl px-6 py-20 lg:px-8">
+                {% else %}
 
-                <div
-                    class="grid items-center gap-12 lg:grid-cols-2"
-                >
+                    {# MEDIA #}
 
-                    <!-- MEDIA -->
                     <div class="order-2 overflow-hidden rounded-2xl border border-gray-800 bg-gray-900 lg:order-1">
                         <div class="flex aspect-video items-center justify-center">
-                            
-
                             {% if content.linkMedia is not empty %}
-                                {% include "pages/project/carouselle.html.twig" with {medias: content.linkMedia} %}
+                                {% include "pages/project/carouselle.html.twig" with {
+                                    medias: content.linkMedia
+                                } %}
                             {% endif %}
                         </div>
                     </div>
 
-                    <!-- Contenu -->
+                    {# TEXTE #}
+
                     <div class="order-1 lg:order-2">
                         <span class="text-sm font-semibold uppercase tracking-widest text-gray-500">
-                            {{ loopId + 1 }} · {{ content.themeName }}
+                            {{ loopId + 1 }} ·
+                            <span data-project-editor-target="contentThemeDisplay">
+                                {{ content.themeName }}
+                            </span>
                         </span>
 
-                        <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+                        <h2 data-project-editor-target="contentTitleDisplay" class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
                             {{ content.title }}
                         </h2>
 
-                        <p class="mt-6 leading-7 text-gray-400">
-                            {% for text in content.content %}
-                                <p class="mt-6 leading-7 text-gray-400">
-                                    {{ text }}
-                                </p>
-                            {% endfor %}
-                        </p>
+                        <div
+                            data-controller="rich-text-renderer"
+                            data-rich-text-renderer-content-value="{{ content.content|json_encode|e('html_attr') }}"
+                            class=" tiptap-content mt-6 leading-7 text-gray-400 [&_p]:mt-3 [&_p:first-child]:mt-0 [&_p:empty]:min-h-7">
+                            <div
+                                data-rich-text-renderer-target="content"
+                            ></div>
+                        </div>
                     </div>
 
-                </div>
-            </div>
-        </section>
-    {% endif %}
-                    
-                    
+                {% endif %}
 
+            </div>
+
+            {# ========================= #}
+            {# MODE ÉDITION               #}
+            {# ========================= #}
+
+            {% include "components/project/editContent.html.twig" with {formContent: contentForms[content.id]} %}
+
+            {# ========================= #}
+            {# ACTIONS ADMIN               #}
+            {# ========================= #}
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="mt-6 flex justify-end gap-1">
+
+                    <button
+                        type="button"
+                        data-action="click->project-editor#editContent"
+                        class="rounded-lg border border-gray-700 px-4 py-2 text-sm font-medium text-gray-300 transition hover:border-cyan-500 hover:text-cyan-300"
+                    >
+                        Modifier cette section
+                    </button>
+
+                    <button
+                        type="button"
+                        data-action="click->project-editor#deleteContent"
+                        class="rounded-lg border border-red-900/50 px-4 py-2 text-sm font-medium text-red-400 transition hover:bg-red-950 hover:text-red-300"
+                    >
+                        Supprimer
+                    </button>
+
+                </div>
+            {% endif %}
+
+        </div>
+    </section>
 {% endblock %}

@@ -1,0 +1,124 @@
+{% block projectContentFormBlock %}
+    {{ form_start(createContentForm, {attr: {'data-action': 'submit->project-editor#saveContent'}}) }}
+    <div class="rounded-2xl border border-cyan-500/30 bg-gray-900 p-6">
+        <div class="mb-6 flex items-center justify-between">
+            <h3 class="text-lg font-semibold text-white">
+                Modifier le contenu
+            </h3>
+
+            <button type="button" data-action="click->project-editor#cancelContent" class="rounded-lg px-3 py-2 text-sm text-gray-400 hover:bg-gray-800 hover:text-white">
+                Annuler
+            </button>
+        </div>
+
+        {# ========================= #}
+        {# THEME                     #}
+        {# ========================= #}
+
+        <div class="mb-5">
+            {{ form_label(createContentForm.themeName, 'Thème', {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-300'}}) }}
+            {{ form_widget(createContentForm.themeName, {attr: {class: 'w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500', placeholder: 'Ex : Architecture'}}) }}
+            {{ form_errors(createContentForm.themeName) }}
+        </div>
+
+        {# ========================= #}
+        {# TITRE                     #}
+        {# ========================= #}
+
+        <div class="mb-5">
+            {{ form_label(createContentForm.title, 'Titre', {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-300'}}) }}
+            {{ form_widget(createContentForm.title, {attr: {class: 'w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500', placeholder: 'Ex : Architecture'}}) }}
+            {{ form_errors(createContentForm.title) }}
+        </div>
+
+        {# ========================= #}
+        {# TIPTAP                    #}
+        {# ========================= #}
+
+        <div class="mb-6">
+            {{ form_widget(createContentForm.content, {attr: {'data-project-editor-target': 'content', class: 'hidden'}}) }}
+
+            <label class="mb-2 block text-sm font-medium text-gray-300">
+                Contenu
+            </label>
+
+            <div data-controller="rich-text-editor" data-rich-text-editor-content-value="{{ content.content|default("")|json_encode|e('html_attr') }}">
+                {% include "components/richTextEditor.html.twig" %}
+                {{ form_errors(createContentForm.content) }}
+            </div>
+        </div>
+
+        {{ form_widget(createContentForm.projectId, {attr: {'data-project-editor-target': 'idProject', class: 'hidden'}}) }}
+
+        <div class="space-y-4">
+            <div>
+                <h3 class="text-sm font-semibold text-white">
+                    Médias associés
+                </h3>
+
+                <p class="mt-1 text-sm text-gray-400">
+                    Sélectionnez les médias à afficher dans cette section.
+                </p>
+            </div>
+
+            {% if createContentForm.linkMedia|length > 0 %}
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {% for key, media in createContentForm.linkMedia %}
+                        {% set projectMedia = createContentForm.linkMedia.vars.choices[key].data %}
+
+                        <label class="group relative block cursor-pointer">
+                            {{ form_widget(media, {attr: {class: 'sr-only'}}) }}
+
+                            <div class="overflow-hidden rounded-xl border border-gray-700 bg-gray-800 shadow-sm transition-all duration-200 hover:border-gray-500 hover:shadow-lg group-has-checked:border-cyan-500 group-has-checked:ring-2 group-has-checked:ring-cyan-500/30">
+                                <div class="relative aspect-video overflow-hidden bg-gray-900">
+                                    <div class="h-full w-full transition-transform duration-300 group-hover:scale-105">
+                                        {% include "components/mediaItem.html.twig" with {media: projectMedia} %}
+                                    </div>
+
+                                    <div class="pointer-events-none absolute inset-0 flex items-center justify-center bg-cyan-500/0 transition-all duration-200 group-has-checked:bg-cyan-500/20">
+                                        <div class="flex h-10 w-10 scale-75 items-center justify-center rounded-full bg-cyan-500 text-white opacity-0 shadow-lg transition-all duration-200 group-has-checked:scale-100 group-has-checked:opacity-100">
+                                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    <span class="pointer-events-none absolute right-2 top-2 hidden rounded-full bg-cyan-500 px-2.5 py-1 text-xs font-medium text-white group-has-checked:block">
+                                        Sélectionné
+                                    </span>
+                                </div>
+
+                                <div class="p-3">
+                                    <p class="truncate text-sm font-medium text-gray-200 transition-colors group-hover:text-white">
+                                        {{ media.vars.attr['data-name']|default('') }}
+                                    </p>
+                                </div>
+                            </div>
+                        </label>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="flex items-center rounded-lg border border-gray-700 bg-gray-800 p-4 text-sm text-gray-400">
+                    Aucun média disponible.
+                </div>
+            {% endif %}
+
+            {{ form_errors(createContentForm.linkMedia) }}
+        </div>
+
+        {# ========================= #}
+        {# ACTIONS                   #}
+        {# ========================= #}
+
+        <div class="flex justify-end gap-3">
+            <button type="button" data-action="click->project-editor#cancelContent" class="rounded-lg border border-gray-700 px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-800">
+                Annuler
+            </button>
+
+            <button type="submit" class="rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 hover:bg-cyan-300">
+                Enregistrer
+            </button>
+        </div>
+    </div>
+    {{ form_end(createContentForm) }}
+{% endblock %}

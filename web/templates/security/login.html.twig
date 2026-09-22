@@ -1,0 +1,187 @@
+{% extends 'base/basePage.html.twig' %}
+
+{% block title %}Se connecter{% endblock %}
+
+{% block body %}
+    <div class="relative flex min-h-[calc(100vh-4rem)] items-center justify-center overflow-hidden bg-slate-950 px-4 py-12 sm:px-6 lg:px-8">
+
+        {# ============================================================
+           BACKGROUND
+           ============================================================ #}
+
+        <div class="pointer-events-none absolute -left-40 -top-40 h-[30rem] w-[30rem] rounded-full bg-blue-600/30 blur-3xl"></div>
+
+        <div class="pointer-events-none absolute -bottom-40 -right-40 h-[30rem] w-[30rem] rounded-full bg-purple-600/30 blur-3xl"></div>
+
+        <div class="pointer-events-none absolute left-1/2 top-1/2 h-[24rem] w-[24rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-500/10 blur-3xl"></div>
+
+
+        {# ============================================================
+           LOGIN CONTAINER
+           ============================================================ #}
+
+        <div class="relative w-full max-w-md">
+
+            {# Glass card #}
+
+            <div
+                class="rounded-2xl border border-blue/[0.26] bg-white/[0.16] p-6 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-[2.4px] sm:p-8"
+            >
+
+                {# Header #}
+
+                <div class="mb-8 text-center">
+
+                    <div class="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/[0.26] bg-white/[0.10] shadow-[0_4px_20px_rgba(0,0,0,0.1)] backdrop-blur-[2.4px]">
+
+                        <svg
+                            class="h-7 w-7 text-white"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a8.25 8.25 0 0 1 15 0"
+                            />
+                        </svg>
+
+                    </div>
+
+                    <h1 class="mb-2 text-2xl font-bold tracking-tight text-white">
+                        Bienvenue
+                    </h1>
+
+                    <p class="text-sm text-gray-300">
+                        Connectez-vous à votre compte pour continuer.
+                    </p>
+
+                </div>
+
+                {% if error %}
+
+                    <div
+                        class="mb-6 flex items-center rounded-xl border border-red-400/[0.26] bg-red-500/[0.12] p-4 text-sm text-red-200 backdrop-blur-[2.4px]"
+                        role="alert"
+                    >
+
+                        <svg
+                            class="me-3 h-5 w-5 shrink-0"
+                            aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                        >
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 1-1 1 1 0 0 1-1 1Zm1-4H9V5h2v6Z"/>
+                        </svg>
+
+                        <div>
+                            <span class="font-medium">Erreur :</span>
+                            {{ error.messageKey|trans(error.messageData, 'security') }}
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+                <form method="post" class="space-y-6">
+
+
+                    {# Email #}
+
+                    <div>
+
+                        <label
+                            for="inputEmail"
+                            class="mb-2 block text-sm font-medium text-white"
+                        >
+                            Adresse e-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            id="inputEmail"
+                            name="email"
+                            value="{{ last_username }}"
+                            placeholder="nom@exemple.com"
+                            autocomplete="email"
+                            required
+                            autofocus
+                            class="block w-full rounded-xl border border-white/[0.26] bg-white/[0.10] p-3 text-sm text-white placeholder-gray-400 shadow-[0_4px_20px_rgba(0,0,0,0.05)] backdrop-blur-[2.4px] transition-all duration-200 focus:border-white/[0.40] focus:bg-white/[0.16] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                        >
+
+                    </div>
+
+
+                    {# Password #}
+
+                    <div>
+
+                        <div class="mb-2 flex items-center justify-between">
+
+                            <label
+                                for="inputPassword"
+                                class="block text-sm font-medium text-white"
+                            >
+                                Mot de passe
+                            </label>
+                        </div>
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="inputPassword"
+                            placeholder="••••••••"
+                            autocomplete="current-password"
+                            required
+                            class="block w-full rounded-xl border border-white/[0.26] bg-white/[0.10] p-3 text-sm text-white placeholder-gray-400 shadow-[0_4px_20px_rgba(0,0,0,0.05)] backdrop-blur-[2.4px] transition-all duration-200 focus:border-white/[0.40] focus:bg-white/[0.16] focus:outline-none focus:ring-2 focus:ring-blue-500/30"
+                        >
+
+                    </div>
+
+                    <div class="flex items-center">
+
+                        <input
+                            id="remember_me"
+                            name="_remember_me"
+                            type="checkbox"
+                            value="1"
+                            class="h-4 w-4 rounded border-white/[0.26] bg-white/[0.10] text-blue-600 focus:ring-2 focus:ring-blue-500"
+                        >
+
+                        <label
+                            for="remember_me"
+                            class="ms-2 text-sm text-gray-300"
+                        >
+                            Se souvenir de moi
+                        </label>
+
+                    </div>
+
+
+                    {# CSRF #}
+
+                    <input
+                        type="hidden"
+                        name="_csrf_token"
+                        value="{{ csrf_token('authenticate') }}"
+                    >
+                    <button
+                        type="submit"
+                        class="w-full rounded-xl border border-white/[0.20] bg-gradient-to-r from-blue-600/90 to-purple-600/90 px-5 py-3 text-sm font-semibold text-white shadow-[0_4px_30px_rgba(0,0,0,0.15)] backdrop-blur-[2.4px] transition-all duration-200 hover:from-blue-500 hover:to-purple-500 hover:shadow-[0_4px_30px_rgba(59,130,246,0.25)] focus:outline-none focus:ring-4 focus:ring-blue-500/30"
+                    >
+                        Se connecter
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+{% endblock %}

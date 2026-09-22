@@ -69,8 +69,14 @@ class Project implements Translatable
     private ?string $conclusionTitle = null;
 
     #[Gedmo\Translatable]
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: true, type: Types::JSON)]
     private ?array $conclusionContent = null;
+
+    #[ORM\Column]
+    private ?bool $isVisible = null;
+
+    #[ORM\Column]
+    private ?bool $isReadable = null;
 
     public function __construct()
     {
@@ -293,6 +299,30 @@ class Project implements Translatable
     public function setConclusionContent(?array $conclusionContent): static
     {
         $this->conclusionContent = $conclusionContent;
+
+        return $this;
+    }
+
+    public function isVisible(): ?bool
+    {
+        return $this->isVisible;
+    }
+
+    public function setIsVisible(bool $isVisible): static
+    {
+        $this->isVisible = $isVisible;
+
+        return $this;
+    }
+
+    public function isReadable(): ?bool
+    {
+        return $this->isReadable;
+    }
+
+    public function setIsReadable(bool $isReadable): static
+    {
+        $this->isReadable = $isReadable;
 
         return $this;
     }

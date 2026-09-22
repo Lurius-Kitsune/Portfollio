@@ -122,6 +122,10 @@
 							{{ 'info.end'|trans }}
 							{{ project.endDate|date('m/Y') }}
 						</span>
+                    {% else %}
+                        <span class="rounded-full bg-slate-700 px-3 py-1 text-sm text-slate-300">
+                            {{ 'info.progress'|trans }}
+                        </span>
 					{% endif %}
 				</div>
 
