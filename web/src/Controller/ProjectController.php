@@ -9,6 +9,7 @@ use App\Entity\ProjectMedia;
 use App\Form\ProjectContentType;
 use App\Form\ProjectEditType;
 use App\Form\ProjectMediaType;
+use App\Form\ProjectMediaUploadType;
 use App\Repository\ProjectContentRepository;
 use App\Repository\ProjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -82,11 +83,11 @@ final class ProjectController extends AbstractController
             ],
         );
         $mediaForm = $this->createForm(
-            ProjectMediaType::class,
+            ProjectMediaUploadType::class,
             new ProjectMedia()->setProjectId($project),
             [
                 'action' => $this->generateUrl(
-                    'project_content_create',
+                    'project_media_upload',
                     [
                         'slug' => $project->getSlug(),
                     ]
@@ -116,7 +117,7 @@ final class ProjectController extends AbstractController
         Request $request,
         ProjectRepository $projectRepository,
         EntityManagerInterface $entityManager,
-    ): JsonResponse {
+    ): Response {
         $project = $projectRepository->findOneBy([
             'slug' => $slug,
         ]);
@@ -140,22 +141,14 @@ final class ProjectController extends AbstractController
 
         // Le slug peut être modifié par le trigger PostgreSQL.
         $entityManager->refresh($project);
-
-        return $this->json([
-            'success' => true,
-            'project' => [
-                'id' => $project->getId(),
-                'name' => $project->getName(),
-                'role' => $project->getRole(),
-                'intro' => $project->getIntro(),
-                'conclusionTitle' => $project->getConclusionTitle(),
-                'conclusionContent' => $project->getConclusionContent(),
+        $this->addFlash('success', "Projet mis à jour avec succès");
+        return $this->redirectToRoute(
+            'project_show',
+            [
+                'slug' => $project->getSlug(),
+                '_locale' => $request?->getLocale(),
             ],
-            'redirectUrl' => $this->projectRedirectUrl(
-                $project,
-                $request,
-            ),
-        ]);
+        );
     }
 
     /*
@@ -185,21 +178,6 @@ final class ProjectController extends AbstractController
                 'message' => 'Le formulaire contient des erreurs.',
             ],
             Response::HTTP_UNPROCESSABLE_ENTITY,
-        );
-    }
-
-
-
-    private function projectRedirectUrl(
-        Project $project,
-        ?Request $request,
-    ): string {
-        return $this->generateUrl(
-            'project_show',
-            [
-                'slug' => $project->getSlug(),
-                '_locale' => $request?->getLocale(),
-            ],
         );
     }
 }

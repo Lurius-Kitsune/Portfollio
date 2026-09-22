@@ -1,45 +1,118 @@
 {{ form_start(mediaForm, {
     attr: {
-        'data-project-media-target': 'form'
+        'data-media-target': 'mediaForm',
+        'data-action': 'submit->media#submitMedia'
     }
 }) }}
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="rounded-2xl border border-cyan-500/30 bg-gray-900 p-6">
 
-    <div>
-        {{ form_label(mediaForm.name) }}
+    <div class="mb-6 flex items-center justify-between">
+        <h3 class="text-lg font-semibold text-white">
+            Ajouter un média
+        </h3>
+    </div>
+
+    {# ===== Bannière d'erreur ===== #}
+    <div
+        data-media-target="mediaErrorBanner"
+        class="mb-5 hidden items-start gap-3 rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-400"
+    >
+        <svg class="mt-0.5 h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"/>
+        </svg>
+        <span data-media-target="mediaErrorMessage">Une erreur est survenue.</span>
+    </div>
+
+    {# ===== Nom ===== #}
+    <div class="mb-5">
+        {{ form_label(mediaForm.name, 'Nom', {
+            label_attr: { class: 'mb-2 block text-sm font-medium text-gray-300' }
+        }) }}
         {{ form_widget(mediaForm.name, {
-                attr: {
-                    class: 'w-full rounded-lg border-gray-300'
-                }
-            }) }}
-    </div>
-
-    <div>
-        {{ form_label(mediaForm.url) }}
-        {{ form_widget(mediaForm.url, {
-                attr: {
-                    class: 'w-full rounded-lg border-gray-300'
-                }
-            }) }}
-    </div>
-
-</div>
-
-<div class="mt-4">
-    {{ form_label(mediaForm.file) }}
-    {{ form_widget(mediaForm.file, {
             attr: {
-                class: 'block w-full text-sm'
+                class: 'w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500',
+                placeholder: 'Ex : Capture écran accueil'
             }
         }) }}
-</div>
+        {{ form_errors(mediaForm.name) }}
+    </div>
 
-<button
-    type="submit"
-    class="mt-4 px-4 py-2 rounded-lg bg-blue-600 text-white"
->
-    Ajouter le média
-</button>
+    {# ===== Toggle Fichier / URL ===== #}
+    <div class="mb-5">
+        <span class="mb-2 block text-sm font-medium text-gray-300">
+            Source du média
+        </span>
+
+        <div class="inline-flex rounded-lg border border-gray-700 bg-gray-950 p-1" role="group">
+            <button
+                type="button"
+                data-action="click->media#showFileMode"
+                data-media-target="fileModeButton"
+                class="rounded-md px-4 py-1.5 text-sm font-medium text-gray-400 transition"
+            >
+                Fichier
+            </button>
+            <button
+                type="button"
+                data-action="click->media#showUrlMode"
+                data-media-target="urlModeButton"
+                class="rounded-md px-4 py-1.5 text-sm font-medium text-gray-400 transition"
+            >
+                URL
+            </button>
+        </div>
+    </div>
+
+    {# ===== Champ fichier ===== #}
+    <div data-media-target="fileField" class="mb-6">
+        {{ form_label(mediaForm.file, 'Fichier', {
+            label_attr: { class: 'mb-2 block text-sm font-medium text-gray-300' }
+        }) }}
+        {{ form_widget(mediaForm.file, {
+            attr: {
+                class: 'block w-full cursor-pointer rounded-lg border border-gray-700 bg-gray-950 text-sm text-gray-300 file:mr-4 file:cursor-pointer file:border-0 file:bg-cyan-500 file:px-4 file:py-3 file:text-sm file:font-semibold file:text-slate-950 hover:file:bg-cyan-300'
+            }
+        }) }}
+        {{ form_errors(mediaForm.file) }}
+    </div>
+
+    {# ===== Champ URL ===== #}
+    <div data-media-target="urlField" class="mb-6 hidden">
+        {{ form_label(mediaForm.url, 'URL', {
+            label_attr: { class: 'mb-2 block text-sm font-medium text-gray-300' }
+        }) }}
+        {{ form_widget(mediaForm.url, {
+            attr: {
+                class: 'w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500',
+                placeholder: 'https://exemple.com/image.jpg'
+            }
+        }) }}
+        {{ form_errors(mediaForm.url) }}
+    </div>
+
+    <div class="mt-4">
+        {{ form_label(mediaForm.type, 'Type', {
+            label_attr: { class: 'mb-2 block text-sm font-medium text-gray-300' }
+        }) }}
+        {{ form_widget(mediaForm.type, {
+            attr: {
+                class: 'w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-cyan-500'
+            }
+        }) }}
+        {{ form_errors(mediaForm.type) }}
+    </div>
+    {# ===== Action ===== #}
+    <div class="pt-2 flex justify-end gap-3">
+        <button
+            type="submit"
+            data-media-target="mediaSubmitButton"
+            class="cursor-pointer rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+            Ajouter le média
+        </button>
+    </div>
+
+</div>
 
 {{ form_end(mediaForm) }}

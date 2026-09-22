@@ -7,6 +7,7 @@ export default class extends Controller {
         "newContentTheme",
         "contentsContainer",
         "createContentEditor",
+        "loadingOverlay",
     ];
 
     static values = {
@@ -25,6 +26,16 @@ export default class extends Controller {
         this.displayTarget.classList.remove("hidden");
     }
 
+    showLoading() {
+        document.getElementById("loading-overlay")?.classList.remove("hidden");
+        document.getElementById("loading-overlay")?.classList.add("flex");
+    }
+
+    hideLoading() {
+        document.getElementById("loading-overlay")?.classList.add("hidden");
+        document.getElementById("loading-overlay")?.classList.remove("flex");
+    }
+
     /*
      * ---------------------------------------------------------
      * PROJECT
@@ -41,7 +52,8 @@ export default class extends Controller {
             button.textContent = "Enregistrement...";
         }
 
-        this.formEvent(event);
+        //this.formEvent(event);
+        this.showLoading();
     }
 
     /*
@@ -201,7 +213,7 @@ export default class extends Controller {
     async formEvent(event) {
         event.preventDefault();
         const form = event.currentTarget;
-
+        this.showLoading();
         const editorElement = form.querySelector(
             '[data-rich-text-editor-target="editor"]',
         );
@@ -250,6 +262,7 @@ export default class extends Controller {
         } catch (error) {
             console.error(error);
             alert(error.message);
+            this.hideLoadingLoading();
         } finally {
             form.disabled = false;
             form.textContent = "Enregistrer";
