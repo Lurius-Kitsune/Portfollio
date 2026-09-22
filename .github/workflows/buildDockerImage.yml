@@ -118,7 +118,7 @@ jobs:
           docker buildx imagetools create \
             -t ghcr.io/${OWNER}/portfolio:latest \
             -t ghcr.io/${OWNER}/portfolio:${{ github.sha }} \
-            $(printf 'ghcr.io/%s/portfolio@sha256:%s ' "$OWNER" $(ls))
+            $(printf "ghcr.io/${OWNER}/portfolio@sha256:%s " $(ls))
 
       - name: Inspect image
         run: |
