@@ -40,7 +40,8 @@ services:
     restart: unless-stopped
     build:
       context: .
-      dockerfile: docker/dockerfile.dev
+      target: dev
+      dockerfile: docker/dockerfile
 
     command: >
       sh -c "

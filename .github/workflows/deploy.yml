@@ -41,5 +41,8 @@ jobs:
             cd /home/${{ secrets.VPS_USER }}/githubPortfolio
             export GITHUB_TOKEN="${{ secrets.PACKAGE_TOKEN }}"
             echo "$GITHUB_TOKEN" | docker login ghcr.io -u Lurius-Kitsune --password-stdin
+            echo "==> Git pull"
+            git fetch origin
+            git reset --hard origin/main
             sh deploy.sh
 

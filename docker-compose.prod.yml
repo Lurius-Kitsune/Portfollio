@@ -39,7 +39,9 @@ services:
   php:
     restart: unless-stopped
     image: ghcr.io/lurius-kitsune/portfolio:latest
-
+    env_file:
+      - .env
+      
     environment:
       DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@database:5432/${POSTGRES_DB}?serverVersion=16&charset=utf8"
       APP_ENV: prod

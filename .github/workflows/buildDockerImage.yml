@@ -63,6 +63,7 @@ jobs:
           file: ./docker/Dockerfile
           platforms: ${{ matrix.platform }}
           push: ${{ inputs.push }}
+          target: prod
           cache-from: type=gha,scope=${{ matrix.platform }}
           cache-to: type=gha,mode=max,scope=${{ matrix.platform }}
           outputs: ${{ inputs.push && format('type=image,name=ghcr.io/{0}/portfolio,push-by-digest=true,name-canonical=true,push=true', env.OWNER) || 'type=cacheonly' }}
