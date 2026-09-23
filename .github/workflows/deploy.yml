@@ -45,4 +45,6 @@ jobs:
             git fetch origin
             git reset --hard origin/main
             sh deploy.sh
+            echo "==> Recreate Bridge"
+            docker network connect proxy githubportfolio-nginx-1
 
