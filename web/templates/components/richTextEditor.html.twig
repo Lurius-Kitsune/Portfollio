@@ -1,10 +1,41 @@
 <div class="w-full">
 
-    {# Toolbar #}
+    {# ====================================================== #}
+    {# TOOLBAR                                                 #}
+    {# ====================================================== #}
+
     <div
         data-rich-text-editor-target="toolbar"
         class="flex w-full flex-wrap items-center gap-1 rounded-t-lg border border-gray-700 bg-gray-950 p-2"
     >
+
+        {# ===================== #}
+        {# Titres                 #}
+        {# ===================== #}
+
+        <select
+            data-rich-text-editor-target="heading"
+            data-action="change->rich-text-editor#setHeading"
+            class="h-9 rounded-lg border border-gray-700 bg-gray-800 px-2 text-sm text-gray-300 outline-none hover:bg-gray-700 focus:border-cyan-500"
+            title="Style du texte"
+        >
+            <option value="0">Paragraphe</option>
+            <option value="1">Titre 1</option>
+            <option value="2">Titre 2</option>
+            <option value="3">Titre 3</option>
+            <option value="4">Titre 4</option>
+            <option value="5">Titre 5</option>
+            <option value="6">Titre 6</option>
+        </select>
+
+
+        <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+
+        {# ===================== #}
+        {# Texte                  #}
+        {# ===================== #}
+
         <button
             type="button"
             data-rich-text-editor-target="boldButton"
@@ -35,29 +66,23 @@
             U
         </button>
 
-        <span class="mx-1 h-6 w-px bg-gray-700"></span>
-
         <button
             type="button"
-            data-rich-text-editor-target="paragraphButton"
-            data-action="click->rich-text-editor#setParagraph"
-            class="rounded-lg bg-gray-800 px-3 py-2 text-xs text-gray-300 hover:bg-gray-700"
-            title="Paragraphe"
+            data-rich-text-editor-target="codeButton"
+            data-action="click->rich-text-editor#toggleCode"
+            class="rounded-lg bg-gray-800 px-3 py-2 font-mono text-sm text-gray-300 hover:bg-gray-700"
+            title="Code inline"
         >
-            P
+            &lt;/&gt;
         </button>
 
-        <button
-            type="button"
-            data-rich-text-editor-target="headingButton"
-            data-action="click->rich-text-editor#setHeading"
-            class="rounded-lg bg-gray-800 px-3 py-2 text-xs font-bold text-gray-300 hover:bg-gray-700"
-            title="Titre"
-        >
-            H2
-        </button>
 
         <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+
+        {# ===================== #}
+        {# Listes                 #}
+        {# ===================== #}
 
         <button
             type="button"
@@ -79,7 +104,125 @@
             1.
         </button>
 
+
         <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+
+        {# ===================== #}
+        {# Blocs                  #}
+        {# ===================== #}
+
+        <button
+            type="button"
+            data-rich-text-editor-target="blockquoteButton"
+            data-action="click->rich-text-editor#toggleBlockquote"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Citation"
+        >
+            ❝
+        </button>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="codeBlockButton"
+            data-action="click->rich-text-editor#toggleCodeBlock"
+            class="rounded-lg bg-gray-800 px-3 py-2 font-mono text-sm text-gray-300 hover:bg-gray-700"
+            title="Bloc de code"
+        >
+            { }
+        </button>
+
+        <button
+            type="button"
+            data-action="click->rich-text-editor#setHorizontalRule"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Ligne horizontale"
+        >
+            ―
+        </button>
+
+
+        <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+
+        {# ===================== #}
+        {# Alignement             #}
+        {# ===================== #}
+
+        <button
+            type="button"
+            data-rich-text-editor-target="alignLeftButton"
+            data-action="click->rich-text-editor#setAlignLeft"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Aligner à gauche"
+        >
+            ≡
+        </button>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="alignCenterButton"
+            data-action="click->rich-text-editor#setAlignCenter"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Centrer"
+        >
+            ≡
+        </button>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="alignRightButton"
+            data-action="click->rich-text-editor#setAlignRight"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Aligner à droite"
+        >
+            ≡
+        </button>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="alignJustifyButton"
+            data-action="click->rich-text-editor#setAlignJustify"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Justifier"
+        >
+            ≡
+        </button>
+
+
+        <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+
+        {# ===================== #}
+        {# Lien                   #}
+        {# ===================== #}
+
+        <button
+            type="button"
+            data-rich-text-editor-target="linkButton"
+            data-action="click->rich-text-editor#setLink"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Ajouter un lien"
+        >
+            🔗
+        </button>
+
+        <button
+            type="button"
+            data-action="click->rich-text-editor#removeLink"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Supprimer le lien"
+        >
+            🔗
+        </button>
+
+
+        <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+
+        {# ===================== #}
+        {# Couleur                #}
+        {# ===================== #}
 
         <input
             type="color"
@@ -87,36 +230,152 @@
             data-rich-text-editor-target="color"
             data-action="input->rich-text-editor#setColor"
             class="h-8 w-8 cursor-pointer rounded border-0 bg-transparent p-0"
-            title="Couleur"
+            title="Couleur du texte"
         >
 
         <button
             type="button"
             data-action="click->rich-text-editor#removeColor"
-            class="rounded-lg bg-gray-800 px-3 py-2 text-xs text-gray-300 hover:bg-gray-700"
-            title="Retirer la couleur"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Supprimer la couleur"
         >
             A
         </button>
+
+
+        <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+
+        {# ===================== #}
+        {# Nettoyage               #}
+        {# ===================== #}
+
+        <button
+            type="button"
+            data-action="click->rich-text-editor#clearFormat"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Supprimer le formatage"
+        >
+            Tx
+        </button>
+
+
+        <span class="mx-1 h-6 w-px bg-gray-700"></span>
+
+
+        {# ===================== #}
+        {# Historique              #}
+        {# ===================== #}
+
+        <button
+            type="button"
+            data-rich-text-editor-target="undoButton"
+            data-action="click->rich-text-editor#undo"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Annuler"
+        >
+            ↶
+        </button>
+
+        <button
+            type="button"
+            data-rich-text-editor-target="redoButton"
+            data-action="click->rich-text-editor#redo"
+            class="rounded-lg bg-gray-800 px-3 py-2 text-sm text-gray-300 hover:bg-gray-700"
+            title="Rétablir"
+        >
+            ↷
+        </button>
+
     </div>
 
-    {# Zone éditable #}
+
+    {# ====================================================== #}
+    {# EDITOR                                                   #}
+    {# ====================================================== #}
+
     <div
-    data-rich-text-editor-target="editor"
-    class="
-        w-full
-        rounded-b-lg
-        border-x
-        border-b
-        border-gray-700
-        bg-gray-950
-        text-gray-200
-        [&_.ProseMirror]:min-h-87.5
-        [&_.ProseMirror]:w-full
-        [&_.ProseMirror]:px-5
-        [&_.ProseMirror]:py-4
-        [&_.ProseMirror]:outline-none
-        [&_.ProseMirror]:cursor-text
-    "></div>
+        data-rich-text-editor-target="editor"
+        class="
+            w-full
+            rounded-b-lg
+            border-x
+            border-b
+            border-gray-700
+            bg-gray-950
+            text-gray-200
+
+            [&_.ProseMirror]:min-h-87.5
+            [&_.ProseMirror]:w-full
+            [&_.ProseMirror]:px-5
+            [&_.ProseMirror]:py-4
+            [&_.ProseMirror]:outline-none
+            [&_.ProseMirror]:cursor-text
+
+            [&_.ProseMirror_p]:my-3
+
+            [&_.ProseMirror_h1]:my-5
+            [&_.ProseMirror_h1]:text-3xl
+            [&_.ProseMirror_h1]:font-bold
+
+            [&_.ProseMirror_h2]:my-4
+            [&_.ProseMirror_h2]:text-2xl
+            [&_.ProseMirror_h2]:font-bold
+
+            [&_.ProseMirror_h3]:my-4
+            [&_.ProseMirror_h3]:text-xl
+            [&_.ProseMirror_h3]:font-bold
+
+            [&_.ProseMirror_h4]:my-3
+            [&_.ProseMirror_h4]:text-lg
+            [&_.ProseMirror_h4]:font-semibold
+
+            [&_.ProseMirror_h5]:my-3
+            [&_.ProseMirror_h5]:text-base
+            [&_.ProseMirror_h5]:font-semibold
+
+            [&_.ProseMirror_h6]:my-2
+            [&_.ProseMirror_h6]:text-sm
+            [&_.ProseMirror_h6]:font-semibold
+
+            [&_.ProseMirror_ul]:my-3
+            [&_.ProseMirror_ul]:list-disc
+            [&_.ProseMirror_ul]:pl-6
+
+            [&_.ProseMirror_ol]:my-3
+            [&_.ProseMirror_ol]:list-decimal
+            [&_.ProseMirror_ol]:pl-6
+
+            [&_.ProseMirror_blockquote]:my-4
+            [&_.ProseMirror_blockquote]:border-l-4
+            [&_.ProseMirror_blockquote]:border-cyan-500
+            [&_.ProseMirror_blockquote]:pl-4
+            [&_.ProseMirror_blockquote]:italic
+            [&_.ProseMirror_blockquote]:text-gray-400
+
+            [&_.ProseMirror_pre]:my-4
+            [&_.ProseMirror_pre]:overflow-x-auto
+            [&_.ProseMirror_pre]:rounded-lg
+            [&_.ProseMirror_pre]:bg-gray-900
+            [&_.ProseMirror_pre]:p-4
+            [&_.ProseMirror_pre]:font-mono
+            [&_.ProseMirror_pre]:text-sm
+
+            [&_.ProseMirror_code]:rounded
+            [&_.ProseMirror_code]:bg-gray-800
+            [&_.ProseMirror_code]:px-1
+            [&_.ProseMirror_code]:py-0.5
+            [&_.ProseMirror_code]:font-mono
+            [&_.ProseMirror_code]:text-sm
+
+            [&_.ProseMirror_blockquote_code]:bg-transparent
+
+            [&_.ProseMirror_hr]:my-6
+            [&_.ProseMirror_hr]:border-gray-700
+
+            [&_.ProseMirror_a]:text-cyan-400
+            [&_.ProseMirror_a]:underline
+        "
+    ></div>
 
 </div>
