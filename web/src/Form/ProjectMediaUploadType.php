@@ -39,7 +39,7 @@ class ProjectMediaUploadType extends AbstractType
             'required' => false,
             'constraints' => [
                 new File(
-                    maxSize: '50M',
+                    maxSize: '2M',
                     mimeTypes: [
                         'image/jpeg',
                         'image/png',

@@ -50,9 +50,15 @@ final class ProjectMediaController extends AbstractController
         $media->setProjectId($project);
 
         if (!$form->isSubmitted() || !$form->isValid()) {
+            $errors = [];
+
+            foreach ($form->getErrors(true) as $error) {
+                $errors[] = $error->getMessage();
+            }
+
             return $this->json([
                 'success' => false,
-                'message' => 'Le fichier ou l\'URL est invalide.',
+                'messages' => $errors,
             ], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 

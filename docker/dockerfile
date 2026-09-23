@@ -16,13 +16,14 @@ RUN apk add --no-cache --virtual .build-deps \
 WORKDIR /var/www/portfolio
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# COPY ./docker/php/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
 # =========== DEV STEP ===========
 FROM base AS dev
 
 ### XDEBUG ####
 RUN apk add --no-cache --virtual .xdebug-deps linux-headers $PHPIZE_DEPS\
-    pecl install xdebug \
+    && pecl install xdebug \
     && docker-php-ext-enable xdebug
 
 COPY docker/xdebug/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini

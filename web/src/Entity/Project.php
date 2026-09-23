@@ -54,6 +54,7 @@ class Project implements Translatable
      * @var Collection<int, ProjectContent>
      */
     #[ORM\OneToMany(targetEntity: ProjectContent::class, mappedBy: 'projectId', orphanRemoval: true)]
+    #[ORM\OrderBy(['id' => 'ASC'])]
     private Collection $projectContents;
 
     #[Gedmo\Translatable]
