@@ -1,14 +1,41 @@
-FROM php:8.5-fpm-alpine
+# =========== Base for dev & prod ===========
+FROM php:8.5-fpm-alpine AS base
 
-RUN apk add --no-cache \
-    git unzip zip libpng-dev icu-dev libzip-dev libpq-dev \
-    postgresql-client nodejs npm
-
-RUN docker-php-ext-install pdo_pgsql zip gd intl
+RUN apk add --no-cache --virtual .build-deps \
+    unzip \
+    zip \
+    libpng-dev \
+    icu-dev \
+    libzip-dev \
+    libpq-dev \
+    $PHPIZE_DEPS \
+    && docker-php-ext-install pdo_pgsql zip gd intl\
+    && apk del .build-deps \
+    && apk add --no-cache libpng libzip postgresql-client icu-libs
 
 WORKDIR /var/www/portfolio
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# =========== DEV STEP ===========
+FROM base AS dev
+
+### XDEBUG ####
+RUN apk add --no-cache --virtual .xdebug-deps linux-headers $PHPIZE_DEPS\
+    pecl install xdebug \
+    && docker-php-ext-enable xdebug
+
+COPY docker/xdebug/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+### XDEBUG ####
+
+
+CMD ["php-fpm"]
+
+
+# =========== BUILD STEP ===========
+FROM base AS builder 
+
+RUN apk add --no-cache nodejs npm
 
 # Dépendances PHP en premier — invalidé seulement si composer.lock change
 COPY web/composer.json web/composer.lock ./
@@ -24,7 +51,16 @@ COPY web/ /var/www/portfolio
 RUN COMPOSER_ALLOW_SUPERUSER=1 composer dump-autoload --optimize
 RUN npm run build
 
-RUN chown -R www-data:www-data /var/www/portfolio
+# node_modules ne sert plus une fois les assets compilés
+RUN rm -rf node_modules
+
+#=========== PROD ===========
+FROM base AS prod
+
+COPY --from=builder --chown=www-data:www-data /var/www/portfolio /var/www/portfolio
+
+# RUN chown -R www-data:www-data /var/www/portfolio
+
 RUN APP_ENV=prod php bin/console cache:clear --no-warmup
 
 CMD ["php-fpm"]
