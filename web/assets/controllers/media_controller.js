@@ -14,11 +14,10 @@ export default class extends Controller {
         "fileModeButton",
         "urlModeButton",
         "mediaErrorBanner",
-        "mediaErrorMessage",
         "mediaSubmitButton",
         "mediaGrid",
 
-        "mediaContainer"
+        "mediaContainer",
     ];
 
     connect() {
@@ -32,25 +31,47 @@ export default class extends Controller {
     showFileMode() {
         this.fileFieldTarget.classList.remove("hidden");
         this.urlFieldTarget.classList.add("hidden");
-        this.#activateButton(this.fileModeButtonTarget, this.urlModeButtonTarget);
+        this.#activateButton(
+            this.fileModeButtonTarget,
+            this.urlModeButtonTarget,
+        );
     }
 
     showUrlMode() {
         this.urlFieldTarget.classList.remove("hidden");
         this.fileFieldTarget.classList.add("hidden");
-        this.#activateButton(this.urlModeButtonTarget, this.fileModeButtonTarget);
+        this.#activateButton(
+            this.urlModeButtonTarget,
+            this.fileModeButtonTarget,
+        );
     }
 
     #activateButton(active, inactive) {
-        active.classList.add("bg-white", "text-cyan-600", "shadow-sm", "dark:bg-gray-800", "dark:text-cyan-400");
+        active.classList.add(
+            "bg-white",
+            "text-cyan-600",
+            "shadow-sm",
+            "dark:bg-gray-800",
+            "dark:text-cyan-400",
+        );
         active.classList.remove("text-gray-500");
 
-        inactive.classList.remove("bg-white", "text-cyan-600", "shadow-sm", "dark:bg-gray-800", "dark:text-cyan-400");
+        inactive.classList.remove(
+            "bg-white",
+            "text-cyan-600",
+            "shadow-sm",
+            "dark:bg-gray-800",
+            "dark:text-cyan-400",
+        );
         inactive.classList.add("text-gray-500");
     }
 
     /* ===== Ajout d'un média ===== */
 
+    /**
+     * @param {SubmitEvent} event
+     * @returns {Promise<void>}
+     */
     async submitMedia(event) {
         event.preventDefault();
 
@@ -72,26 +93,54 @@ export default class extends Controller {
             const result = await response.json();
 
             if (!response.ok || !result.success) {
-                this.#showMediaError(result.message ?? "Impossible d'ajouter ce média.");
+                this.#showMediaError(
+                    result.messages ?? ["Impossible d'ajouter ce média."],
+                );
                 return;
             }
 
             this.mediaFormTarget.reset();
             this.showFileMode();
-            this.mediaContainerTarget.insertAdjacentHTML("beforeend", result.html);
-            this.dispatch("mediaAdded", { detail: { media: result.media } });
+
+            this.mediaContainerTarget.insertAdjacentHTML(
+                "beforeend",
+                result.html,
+            );
+
+            this.dispatch("mediaAdded", {
+                detail: {
+                    media: result.media,
+                },
+            });
         } catch (error) {
             console.error(error);
-            this.#showMediaError("Une erreur réseau est survenue. Veuillez réessayer.");
+
+            this.#showMediaError([
+                "Une erreur réseau est survenue. Veuillez réessayer.",
+            ]);
         } finally {
             this.mediaSubmitButtonTarget.disabled = false;
         }
     }
 
-    #showMediaError(message) {
-        this.mediaErrorMessageTarget.textContent = message;
-        this.mediaErrorBannerTarget.classList.remove("hidden");
-        this.mediaErrorBannerTarget.classList.add("flex");
+    /**
+     * @param {string[]} messages
+     * @returns {void}
+     */
+    #showMediaError(messages) {
+        const banner = this.mediaErrorBannerTarget;
+        const container = banner.querySelector("#errorTextBanner");
+
+        container.replaceChildren();
+
+        messages.forEach((error) => {
+            const div = document.createElement("div");
+            div.textContent = error;
+            container.appendChild(div);
+        });
+
+        banner.classList.remove("hidden");
+        banner.classList.add("flex");
     }
 
     #hideMediaError() {
