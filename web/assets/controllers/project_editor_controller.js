@@ -52,6 +52,35 @@ export default class extends Controller {
             button.textContent = "Enregistrement...";
         }
 
+        const editorElement = form.querySelector(
+            '[data-rich-text-editor-target="editor"]',
+        );
+
+        const editorContainer = editorElement?.closest(
+            '[data-controller~="rich-text-editor"]',
+        );
+
+        const editorController = editorContainer
+            ? this.application.getControllerForElementAndIdentifier(
+                  editorContainer,
+                  "rich-text-editor",
+              )
+            : null;
+
+        if (!editorController) {
+            alert("L'éditeur de contenu est introuvable.");
+            return;
+        }
+
+        const contentField = form.querySelector(
+            '[data-project-editor-target="conclusionContent"]',
+        );
+
+        if (contentField) {
+            contentField.value = JSON.stringify(editorController.getJSON());
+        }
+
+
         //this.formEvent(event);
         this.showLoading();
     }
@@ -212,8 +241,8 @@ export default class extends Controller {
 
     async formEvent(event) {
         event.preventDefault();
-        const form = event.currentTarget;
         this.showLoading();
+        const form = event.currentTarget;
         const editorElement = form.querySelector(
             '[data-rich-text-editor-target="editor"]',
         );
