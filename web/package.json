@@ -1,7 +1,7 @@
 {
     "devDependencies": {
         "@babel/core": "^8.0.0",
-        "@babel/preset-env": "^8.0.0",
+        "@babel/preset-env": "^8.0.6",
         "@hotwired/stimulus": "^3.0.0",
         "@hotwired/turbo": "^7.1.0 || ^8.0",
         "@symfony/webpack-encore": "^7.0.0",
