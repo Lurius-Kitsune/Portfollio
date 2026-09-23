@@ -4,22 +4,22 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    target-branch: "build/1.1.3"
+    target-branch: "build/1.1.4"
 
   - package-ecosystem: npm
     directory: "/web"
     schedule:
       interval: "weekly"
-    target-branch: "build/1.1.3"
+    target-branch: "build/1.1.4"
 
   - package-ecosystem: composer
     directory: "/web"
     schedule:
       interval: "weekly"
-    target-branch: "build/1.1.3"
+    target-branch: "build/1.1.4"
 
   - package-ecosystem: docker
     directory: "/docker"
     schedule:
       interval: "weekly"
-    target-branch: "build/1.1.3"
+    target-branch: "build/1.1.4"
