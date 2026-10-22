@@ -134,21 +134,19 @@ Project cards use the translatable `summary` field, falling back to the existing
 
 ## Emergency maintenance page
 
-The separate `docker-compose.maintenance.yml` stack serves a static bilingual 503 page from its own Nginx container. It uses the existing Let's Encrypt volume and the same external ports as production. To switch stacks, from the deployment host:
+The existing Nginx service in both Compose stacks can return a static HTTP 503 maintenance page without stopping PHP or PostgreSQL. It selects French for `/fr/...` and English for `/en/...`. Enable the mode by recreating only Nginx with:
 
 ```bash
-docker compose -f docker-compose.prod.yml down
-docker compose -f docker-compose.maintenance.yml up -d
+MAINTENANCE_MODE=1 docker compose -f docker-compose.prod.yml up -d --force-recreate nginx
 ```
 
-Restore the site by stopping the maintenance stack and starting production again:
+Disable it and restore the application with:
 
 ```bash
-docker compose -f docker-compose.maintenance.yml down
-docker compose -f docker-compose.prod.yml up -d
+MAINTENANCE_MODE=0 docker compose -f docker-compose.prod.yml up -d --force-recreate nginx
 ```
 
-The named certificate volume defaults to `portfollio_ssl_certs`, matching the repository directory name. If the production stack uses a custom Compose project name, set the same `COMPOSE_PROJECT_NAME` before starting the maintenance stack. These commands intentionally change which public service is running; use them only when the owner/operator has decided to enter or leave maintenance.
+Use `docker-compose.dev.yml` in place of `docker-compose.prod.yml` for the development stack. The default is `0`, so normal requests continue to reach Symfony. Nginx serves maintenance pages directly; maintenance responses are not routed through PHP.
 
 ## License
 
