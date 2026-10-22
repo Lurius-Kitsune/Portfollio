@@ -1,0 +1,6 @@
+[agents]
+enabled = true
+
+[agents.seo_specialist]
+description = "Audits and improves technical and on-page SEO for this Symfony portfolio. Work on metadata, canonical and hreflang URLs, crawlability, sitemaps, structured data, and accessible page structure; preserve French and English parity, use only verified portfolio facts, and never deploy or publish changes."
+config_file = "agents/seo-specialist.toml"
