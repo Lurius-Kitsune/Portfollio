@@ -10,6 +10,11 @@ projects:
     perso: "Personal and Academic Projects"
     details : "Learn more"
 
+education:
+    title: "Education"
+career:
+    current: "Present"
+
 skills:
     title: "Technical Skills"
     web: "Web Development"
