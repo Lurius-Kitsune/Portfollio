@@ -30,6 +30,10 @@ jobs:
           restore-keys: composer-${{ runner.os }}-
       - name: Install PHP dependencies
         working-directory: web
+        env:
+          APP_ENV: test
+          APP_SECRET: ci-only-secret-not-for-production
+          DATABASE_URL: 'postgresql://portfolio:portfolio@127.0.0.1:5432/portfolio?serverVersion=17&charset=utf8'
         run: composer install --no-interaction --prefer-dist
       - name: Validate Composer configuration
         working-directory: web
