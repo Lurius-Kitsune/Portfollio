@@ -6,7 +6,42 @@
         {% block title %}Lucas Bruel | Portfolio{% endblock %}
     {% endset %}
 
-    {% include "base/baseHeader.html.twig" with { page_title: page_title } %}
+    {% set page_meta_description %}
+        {% block meta_description %}{{ 'seo.description'|trans({}, 'messages') }}{% endblock %}
+    {% endset %}
+
+    {% set page_meta_robots %}
+        {% block meta_robots %}index, follow{% endblock %}
+    {% endset %}
+
+    {% set seo_route = app.request.attributes.get('_route') %}
+    {% set seo_route_params = app.request.attributes.get('_route_params')|default({}) %}
+    {% set seo_canonical_url = null %}
+    {% set seo_alternate_urls = [] %}
+
+    {% if seo_route in ['homepage', 'project_show'] and page_meta_robots|trim == 'index, follow' %}
+        {% set seo_canonical_url = canonical_base_url ~ path(seo_route, seo_route_params) %}
+
+        {% for locale in ['fr', 'en'] %}
+            {% set seo_alternate_urls = seo_alternate_urls|merge([{
+                'hreflang': locale,
+                'href': canonical_base_url ~ path(seo_route, seo_route_params|merge({'_locale': locale}))
+            }]) %}
+        {% endfor %}
+
+        {% set seo_alternate_urls = seo_alternate_urls|merge([{
+            'hreflang': 'x-default',
+            'href': canonical_base_url ~ path(seo_route, seo_route_params|merge({'_locale': 'fr'}))
+        }]) %}
+    {% endif %}
+
+    {% include "base/baseHeader.html.twig" with {
+        page_title: page_title,
+        page_meta_description: page_meta_description,
+        page_meta_robots: page_meta_robots,
+        seo_canonical_url: seo_canonical_url,
+        seo_alternate_urls: seo_alternate_urls
+    } %}
 </head>
 
 <body class="min-h-screen flex flex-col">

@@ -2,6 +2,10 @@
 enabled = true
 max_threads = 4
 
+[agents.seo_specialist]
+description = "Audits and improves technical and on-page SEO for this Symfony portfolio. Work on metadata, canonical and hreflang URLs, crawlability, sitemaps, structured data, and accessible page structure; preserve French and English parity, use only verified portfolio facts, and never deploy or publish changes."
+config_file = "agents/seo-specialist.toml"
+
 [agents.feature_implementer]
 description = "Implements one requested Symfony portfolio feature on its own feature branch, respecting AGENTS.md and human approval for personal or sensitive data."
 config_file = "agents/feature-implementer.toml"

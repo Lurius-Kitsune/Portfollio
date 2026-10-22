@@ -1,5 +1,7 @@
 {% extends "base/basePage.html.twig" %}
 
+{% block meta_robots %}noindex, nofollow{% endblock %}
+
 {% block title %}{{ 'http.error.name'|trans({status_code: status_code}) }} | Lucas Bruel
 {% endblock %}
 

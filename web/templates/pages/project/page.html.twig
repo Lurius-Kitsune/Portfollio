@@ -6,6 +6,10 @@
 	| Portfolio
 {% endblock %}
 
+{% block meta_description %}
+	{{ 'seo.project_description'|trans({'%project%': project.name}, 'messages') }}
+{% endblock %}
+
 {% block body %}
 	<section class="mx-auto max-w-6xl px-6 py-16">
 		<nav class="flex" aria-label="Breadcrumb">

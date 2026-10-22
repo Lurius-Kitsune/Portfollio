@@ -42,7 +42,7 @@ class LocaleRedirectSubscriber implements EventSubscriberInterface
         }
 
         // Fichiers statiques
-        if (preg_match('#^/(build|assets|images|css|js|fonts|cv)(/|$)#', $path))
+        if (preg_match('#^/(build|assets|images|css|js|fonts|cv|robots\.txt|sitemap\.xml)(/|$)#', $path))
             return;
 
         // Aucune locale dans l'URL :
