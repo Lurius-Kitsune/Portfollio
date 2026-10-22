@@ -1,5 +1,7 @@
 twig:
     file_name_pattern: '*.twig'
+    globals:
+        canonical_base_url: '%app.canonical_base_url%'
 
 when@test:
     twig:

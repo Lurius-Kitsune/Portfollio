@@ -12,6 +12,13 @@
         
     <meta name="robots" content="{{ page_meta_robots|striptags|trim }}">
 
+    {% if seo_canonical_url %}
+        <link rel="canonical" href="{{ seo_canonical_url }}">
+        {% for alternate in seo_alternate_urls %}
+            <link rel="alternate" hreflang="{{ alternate.hreflang }}" href="{{ alternate.href }}">
+        {% endfor %}
+    {% endif %}
+
     {# Open Graph — partage Facebook, LinkedIn, etc. #}
     <meta property="og:type" content="website">
     <meta property="og:title" content="{{ page_title|striptags|trim }}">

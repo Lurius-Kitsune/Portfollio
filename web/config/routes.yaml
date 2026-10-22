@@ -7,6 +7,11 @@
 # To list all registered routes, run the following command:
 #   bin/console debug:router
 
+sitemap:
+    path: /sitemap.xml
+    controller: App\Controller\SitemapController::index
+    methods: [GET]
+
 controllers:
     resource: routing.controllers
     type: attribute
