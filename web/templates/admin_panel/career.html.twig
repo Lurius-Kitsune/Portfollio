@@ -1,0 +1,31 @@
+{% extends 'base/basePage.html.twig' %}
+{% block title %}Parcours scolaire et professionnel{% endblock %}
+{% block body %}
+<main class="mx-auto max-w-5xl px-6 py-12 text-white">
+    <div class="mb-8 flex items-center justify-between gap-4">
+        <h1 class="text-3xl font-bold">Parcours scolaire et professionnel</h1>
+        <a class="rounded bg-cyan-400 px-4 py-2 font-semibold text-slate-950" href="{{ path('admin_career_new') }}">Ajouter une entrée</a>
+    </div>
+    <p class="mb-6 text-slate-300">Les informations enregistrées ici seront visibles publiquement sur la page d’accueil.</p>
+    <div class="space-y-4">
+        {% for entry in entries %}
+            <article class="flex flex-wrap items-center justify-between gap-4 rounded-lg bg-slate-800 p-5">
+                <div>
+                    <p class="text-xs uppercase tracking-wide text-cyan-300">{{ entry.category == 'education' ? 'Parcours scolaire' : 'Expérience professionnelle' }}</p>
+                    <h2 class="text-lg font-semibold">{{ entry.title }}</h2>
+                    <p class="text-slate-300">{{ entry.organization }}</p>
+                </div>
+                <div class="flex gap-3">
+                    <a class="rounded bg-slate-700 px-3 py-2" href="{{ path('admin_career_edit', {id: entry.id}) }}">Modifier</a>
+                    <form method="post" action="{{ path('admin_career_delete', {id: entry.id}) }}" onsubmit="return confirm('Supprimer cette entrée ?')">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-career-' ~ entry.id) }}">
+                        <button class="rounded bg-red-900 px-3 py-2" type="submit">Supprimer</button>
+                    </form>
+                </div>
+            </article>
+        {% else %}
+            <p class="rounded-lg bg-slate-800 p-6 text-slate-300">Aucune entrée. Ajoutez uniquement les informations que vous souhaitez rendre publiques.</p>
+        {% endfor %}
+    </div>
+</main>
+{% endblock %}

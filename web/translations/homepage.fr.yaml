@@ -11,6 +11,11 @@ projects:
     perso: "Projets personnels et académiques"
     details : "En savoir plus"
 
+education:
+    title: "Parcours scolaire"
+career:
+    current: "En cours"
+
 skills:
     title: "Compétences techniques"
     web: "Développement Web"

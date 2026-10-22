@@ -1,0 +1,12 @@
+{% extends 'base/basePage.html.twig' %}
+{% block title %}{{ entry.id ? 'Modifier' : 'Ajouter' }} une entrée du parcours{% endblock %}
+{% block body %}
+<main class="mx-auto max-w-3xl px-6 py-12 text-white">
+    <h1 class="mb-6 text-3xl font-bold">{{ entry.id ? 'Modifier' : 'Ajouter' }} une entrée</h1>
+    {{ form_start(form, {attr: {class: 'space-y-5 rounded-lg bg-slate-800 p-6'}}) }}
+        {{ form_widget(form) }}
+        <button class="rounded bg-cyan-400 px-4 py-2 font-semibold text-slate-950" type="submit">Enregistrer</button>
+        <a class="ml-3 text-slate-300 underline" href="{{ path('admin_career_index') }}">Annuler</a>
+    {{ form_end(form) }}
+</main>
+{% endblock %}
