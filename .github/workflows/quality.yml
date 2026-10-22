@@ -1,0 +1,64 @@
+name: Quality checks
+
+on:
+  pull_request:
+    branches:
+      - 'build/**'
+  push:
+    branches:
+      - 'build/**'
+
+permissions:
+  contents: read
+
+jobs:
+  php:
+    name: PHP and Symfony
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: intl, pdo_pgsql, zip, gd
+          tools: composer:v2
+          coverage: none
+      - uses: actions/cache@v4
+        with:
+          path: web/vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('web/composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+      - name: Install PHP dependencies
+        working-directory: web
+        env:
+          APP_ENV: test
+          APP_SECRET: ci-only-secret-not-for-production
+          DATABASE_URL: 'postgresql://portfolio:portfolio@127.0.0.1:5432/portfolio?serverVersion=17&charset=utf8'
+        run: composer install --no-interaction --prefer-dist
+      - name: Validate Composer configuration
+        working-directory: web
+        run: composer validate --no-check-publish
+      - name: Check Symfony container
+        working-directory: web
+        env:
+          APP_ENV: test
+          APP_SECRET: ci-only-secret-not-for-production
+          DATABASE_URL: 'postgresql://portfolio:portfolio@127.0.0.1:5432/portfolio?serverVersion=17&charset=utf8'
+        run: php bin/console lint:container
+
+  frontend:
+    name: Encore production build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install frontend dependencies
+        working-directory: web
+        run: npm ci
+      - name: Build frontend assets
+        working-directory: web
+        run: npm run build

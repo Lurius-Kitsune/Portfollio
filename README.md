@@ -116,6 +116,38 @@ Production deployment is handled by `deploy.sh`, which:
 
 The app supports French and English. `LocaleSubscriber` redirects visitors to their preferred locale (`fr` by default), and both static UI strings (`translations/*.yaml`) and dynamic content (`Project`, `ProjectType`, `HardSkillType`) are translatable.
 
+## Codex agents and pull requests
+
+Codex reads the repository guidance in `AGENTS.md`. Local Codex clients can use the project roles configured in `.codex/config.toml`:
+
+- `feature_implementer` can edit the checkout, with approval required for permission escalation.
+- `security_reviewer` is read-only.
+- `pr_author` prepares a Conventional Commit message and PR description; a maintainer still reviews and merges.
+
+The `Quality checks` GitHub Action runs on pull requests and pushes to `build/1.1.4`. The current repository intentionally does not auto-run an AI agent from issue text: issue-triggered code generation requires a separately approved GitHub Actions workflow and API secret. Never place provider credentials or production data in commits or issue text. Human review and human merge are required.
+
+## Education and professional experience
+
+Entries are stored in the `career_entry` PostgreSQL table and managed at `/{locale}/admin/career` by an administrator. Anything saved there appears publicly on the homepage. Add only facts and descriptions you have confirmed and intend to publish. The feature migration creates an empty table; it does not invent or import personal details.
+
+Project cards use the translatable `summary` field, falling back to the existing translated introduction when no summary is set. Administrators can update the summary from the project editor.
+
+## Emergency maintenance page
+
+The existing Nginx service in both Compose stacks can return a static HTTP 503 maintenance page without stopping PHP or PostgreSQL. It selects French for `/fr/...` and English for `/en/...`. Enable the mode by recreating only Nginx with:
+
+```bash
+MAINTENANCE_MODE=1 docker compose -f docker-compose.prod.yml up -d --force-recreate nginx
+```
+
+Disable it and restore the application with:
+
+```bash
+MAINTENANCE_MODE=0 docker compose -f docker-compose.prod.yml up -d --force-recreate nginx
+```
+
+Use `docker-compose.dev.yml` in place of `docker-compose.prod.yml` for the development stack. The default is `0`, so normal requests continue to reach Symfony. Nginx serves maintenance pages directly; maintenance responses are not routed through PHP.
+
 ## License
 
 This project is proprietary / unlicensed — all rights reserved.

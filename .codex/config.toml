@@ -1,6 +1,23 @@
 [agents]
 enabled = true
+max_threads = 4
 
 [agents.seo_specialist]
 description = "Audits and improves technical and on-page SEO for this Symfony portfolio. Work on metadata, canonical and hreflang URLs, crawlability, sitemaps, structured data, and accessible page structure; preserve French and English parity, use only verified portfolio facts, and never deploy or publish changes."
 config_file = "agents/seo-specialist.toml"
+
+[agents.feature_implementer]
+description = "Implements one requested Symfony portfolio feature on its own feature branch, respecting AGENTS.md and human approval for personal or sensitive data."
+config_file = "agents/feature-implementer.toml"
+
+[agents.security_reviewer]
+description = "Read-only reviewer for security, correctness, migrations, and regressions. Reports actionable findings with file and line references; never changes files."
+config_file = "agents/security-reviewer.toml"
+
+[agents.feedback_reviewer]
+description = "Read-only reviewer that reads published human review feedback and the current code diff, then returns prioritized, actionable fixes for the feature implementer. Does not edit files or post replies."
+config_file = "agents/feedback-reviewer.toml"
+
+[agents.pr_author]
+description = "Prepares a Conventional Commit message and a concise pull request title/body from an already-reviewed feature branch. Does not merge, deploy, or publish personal data."
+config_file = "agents/pr-author.toml"
