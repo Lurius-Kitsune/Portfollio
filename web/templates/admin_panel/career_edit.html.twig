@@ -34,6 +34,12 @@
 
                 <div class="grid gap-5 sm:grid-cols-2">
                     <div class="sm:col-span-2">
+                        {{ form_label(form.category, null, {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-200'}}) }}
+                        {{ form_widget(form.category, {attr: {class: 'block w-full cursor-pointer rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white shadow-sm transition focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30'}}) }}
+                        {{ form_errors(form.category) }}
+                    </div>
+
+                    <div class="sm:col-span-2">
                         {{ form_label(form.title, null, {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-200'}}) }}
                         {{ form_widget(form.title, {attr: {class: 'block w-full rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white placeholder-gray-500 shadow-sm transition focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30'}}) }}
                         {{ form_errors(form.title) }}
