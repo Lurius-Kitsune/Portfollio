@@ -3,10 +3,10 @@ name: Quality checks
 on:
   pull_request:
     branches:
-      - build/1.1.4
+      - 'build/**'
   push:
     branches:
-      - build/1.1.4
+      - 'build/**'
 
 permissions:
   contents: read
