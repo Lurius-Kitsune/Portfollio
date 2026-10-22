@@ -6,7 +6,19 @@
         {% block title %}Lucas Bruel | Portfolio{% endblock %}
     {% endset %}
 
-    {% include "base/baseHeader.html.twig" with { page_title: page_title } %}
+    {% set page_meta_description %}
+        {% block meta_description %}{{ 'seo.description'|trans({}, 'messages') }}{% endblock %}
+    {% endset %}
+
+    {% set page_meta_robots %}
+        {% block meta_robots %}index, follow{% endblock %}
+    {% endset %}
+
+    {% include "base/baseHeader.html.twig" with {
+        page_title: page_title,
+        page_meta_description: page_meta_description,
+        page_meta_robots: page_meta_robots
+    } %}
 </head>
 
 <body class="min-h-screen flex flex-col">
