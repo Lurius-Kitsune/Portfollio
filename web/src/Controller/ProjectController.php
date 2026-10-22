@@ -32,7 +32,7 @@ final class ProjectController extends AbstractController
             'slug' => $slug,
         ]);
 
-        if ($project === null | ((!$project->isVisible() || !$project->isReadable()) && !$this->isGranted('ROLE_ADMIN'))) {
+        if ($project === null || ((!$project->isVisible() || !$project->isReadable()) && !$this->isGranted('ROLE_ADMIN'))) {
             $response = $this->render('pages/404.html.twig');
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
 
