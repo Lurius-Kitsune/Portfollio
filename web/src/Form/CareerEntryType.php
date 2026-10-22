@@ -17,6 +17,7 @@ class CareerEntryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('category', ChoiceType::class, ['choices' => ['Parcours scolaire' => 'education', 'Expérience professionnelle' => 'experience']])
             ->add('title', TextType::class, ['label' => 'Intitulé'])
             ->add('organization', TextType::class, ['label' => 'École ou employeur'])
             ->add('startDate', DateType::class, ['label' => 'Date de début', 'widget' => 'single_text'])
