@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Form\DataTransformer\TagsToStringTransformer;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProjectEditType extends AbstractType
 {
@@ -34,6 +35,7 @@ class ProjectEditType extends AbstractType
             ])
             ->add('role')
             ->add('intro')
+            ->add('summary', TextareaType::class, ['required' => false])
             ->add('conclusionTitle')
             ->add('conclusionContent', HiddenType::class)
             ->add('isVisible')

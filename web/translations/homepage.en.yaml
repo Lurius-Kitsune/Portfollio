@@ -10,6 +10,15 @@ projects:
     perso: "Personal and Academic Projects"
     details : "Learn more"
 
+education:
+    title: "Education"
+experience:
+    title: "Professional experience"
+career:
+    current: "Present"
+    timelineEyebrow: "Experience and education"
+    timelineTitle: "Career timeline"
+
 skills:
     title: "Technical Skills"
     web: "Web Development"

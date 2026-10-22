@@ -1,0 +1,108 @@
+{% extends 'base/basePage.html.twig' %}
+
+{% block title %}{{ entry.id ? 'Modifier' : 'Ajouter' }} une entrée du parcours{% endblock %}
+
+{% block body %}
+<main class="mx-auto max-w-4xl px-4 py-10 text-white sm:px-6 sm:py-14">
+    <a
+        href="{{ path('admin_career_index') }}"
+        class="mb-8 inline-flex items-center gap-2 text-sm font-medium text-gray-400 transition hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+    >
+        <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.56l3.22 3.22a.75.75 0 1 1-1.06 1.06l-4.5-4.5a.75.75 0 0 1 0-1.06l4.5-4.5a.75.75 0 1 1 1.06 1.06l-3.22 3.22h10.69A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
+        </svg>
+        Retour au parcours
+    </a>
+
+    <header class="mb-8">
+        <p class="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300">Administration</p>
+        <h1 class="text-3xl font-bold tracking-tight sm:text-4xl">
+            {{ entry.id ? 'Modifier une entrée' : 'Ajouter une entrée' }}
+        </h1>
+        <p class="mt-3 max-w-2xl text-sm leading-6 text-gray-400 sm:text-base">
+            Renseignez les informations que vous souhaitez afficher dans votre parcours public.
+        </p>
+    </header>
+
+    {{ form_start(form, {attr: {class: 'overflow-hidden rounded-2xl border border-gray-700/80 bg-gray-900/80 shadow-xl shadow-black/20'}}) }}
+        <div class="space-y-8 p-5 sm:p-8">
+            <section aria-labelledby="entry-details-heading">
+                <div class="mb-5 border-b border-gray-700 pb-4">
+                    <h2 id="entry-details-heading" class="text-lg font-semibold text-white">Détails de l’entrée</h2>
+                    <p class="mt-1 text-sm text-gray-400">Le titre et l’établissement seront visibles sur la page d’accueil.</p>
+                </div>
+
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <div class="sm:col-span-2">
+                        {{ form_label(form.category, null, {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-200'}}) }}
+                        {{ form_widget(form.category, {attr: {class: 'block w-full cursor-pointer rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white shadow-sm transition focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30'}}) }}
+                        {{ form_errors(form.category) }}
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        {{ form_label(form.title, null, {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-200'}}) }}
+                        {{ form_widget(form.title, {attr: {class: 'block w-full rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white placeholder-gray-500 shadow-sm transition focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30'}}) }}
+                        {{ form_errors(form.title) }}
+                    </div>
+
+                    <div class="sm:col-span-2">
+                        {{ form_label(form.organization, null, {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-200'}}) }}
+                        {{ form_widget(form.organization, {attr: {class: 'block w-full rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white placeholder-gray-500 shadow-sm transition focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30'}}) }}
+                        {{ form_errors(form.organization) }}
+                    </div>
+
+                    <div>
+                        {{ form_label(form.startDate, null, {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-200'}}) }}
+                        {{ form_widget(form.startDate, {attr: {class: 'block w-full rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white shadow-sm transition focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30'}}) }}
+                        {{ form_errors(form.startDate) }}
+                    </div>
+
+                    <div>
+                        {{ form_label(form.endDate, null, {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-200'}}) }}
+                        {{ form_widget(form.endDate, {attr: {class: 'block w-full rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white shadow-sm transition focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30'}}) }}
+                        <p class="mt-2 text-xs leading-5 text-gray-500">Laissez cette date vide si l’entrée est toujours en cours.</p>
+                        {{ form_errors(form.endDate) }}
+                    </div>
+                </div>
+            </section>
+
+            <section aria-labelledby="entry-presentation-heading">
+                <div class="mb-5 border-b border-gray-700 pb-4">
+                    <h2 id="entry-presentation-heading" class="text-lg font-semibold text-white">Présentation</h2>
+                    <p class="mt-1 text-sm text-gray-400">Ajoutez un contexte et choisissez la position de cette entrée.</p>
+                </div>
+
+                <div class="grid gap-5 sm:grid-cols-2">
+                    <div class="sm:col-span-2">
+                        {{ form_label(form.description, null, {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-200'}}) }}
+                        {{ form_widget(form.description, {attr: {rows: 5, class: 'block w-full resize-y rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm leading-6 text-white placeholder-gray-500 shadow-sm transition focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30'}}) }}
+                        {{ form_errors(form.description) }}
+                    </div>
+
+                    <div>
+                        {{ form_label(form.position, null, {label_attr: {class: 'mb-2 block text-sm font-medium text-gray-200'}}) }}
+                        {{ form_widget(form.position, {attr: {min: 0, class: 'block w-full rounded-lg border border-gray-600 bg-gray-800 px-4 py-3 text-sm text-white shadow-sm transition focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/30'}}) }}
+                        <p class="mt-2 text-xs leading-5 text-gray-500">Une valeur plus petite apparaît plus haut dans la liste.</p>
+                        {{ form_errors(form.position) }}
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="flex flex-col-reverse gap-3 border-t border-gray-700 bg-gray-950/50 px-5 py-4 sm:flex-row sm:justify-end sm:px-8">
+            <a
+                href="{{ path('admin_career_index') }}"
+                class="inline-flex items-center justify-center rounded-lg border border-gray-600 px-5 py-3 text-sm font-medium text-gray-200 transition hover:border-gray-500 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            >
+                Annuler
+            </a>
+            <button
+                class="inline-flex items-center justify-center rounded-lg bg-cyan-400 px-5 py-3 text-sm font-semibold text-slate-950 shadow-sm transition hover:bg-cyan-300 focus:outline-none focus:ring-4 focus:ring-cyan-400/30"
+                type="submit"
+            >
+                Enregistrer l’entrée
+            </button>
+        </div>
+    {{ form_end(form) }}
+</main>
+{% endblock %}

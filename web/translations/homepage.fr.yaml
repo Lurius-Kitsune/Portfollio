@@ -11,6 +11,15 @@ projects:
     perso: "Projets personnels et académiques"
     details : "En savoir plus"
 
+education:
+    title: "Parcours scolaire"
+experience:
+    title: "Expériences professionnelles"
+career:
+    current: "En cours"
+    timelineEyebrow: "Expérience et formation"
+    timelineTitle: "Parcours chronologique"
+
 skills:
     title: "Compétences techniques"
     web: "Développement Web"

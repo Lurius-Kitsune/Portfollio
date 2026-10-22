@@ -26,6 +26,10 @@
                     </div>
                     <ul class="flex flex-col gap-1 md:flex-row md:items-center md:gap-2">
 
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <li><a href="{{ path('admin_career_index', {'_locale': app.request.locale|default('fr')}) }}" class="rounded-md px-3 py-2 text-sm text-cyan-300 hover:text-white">Gérer mon parcours</a></li>
+                        {% endif %}
+
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li class="pt-2 md:ml-2 md:order-last md:pt-0 border-t border-slate-800 md:border-t-0 ">
 

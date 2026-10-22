@@ -14,4 +14,4 @@ http:
 
 seo:
   description : "Je suis un développeur axé sur l'UI (Interface Utilisateur) dans le jeu vidéo et passionné par ce qui l'entour. Mes compétences ne se limitent pas qu'à cela, je peux m'adapter, codé ce qui est attendu de moi. Découvré à travers mon portfolio l'étendu de mes compétences."
-  
+  project_description: "Découvrez le projet « %project% » dans ce portfolio de développement de jeux vidéo."

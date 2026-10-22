@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\HardSkillType;
 use App\Entity\ProjectType;
+use App\Entity\CareerEntry;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +34,7 @@ final class HomepageController extends AbstractController
         return $this->render('pages/home/page.html.twig', [
             "projects" => $project,
             "skillGroups" => $entityManager->getRepository(HardSkillType::class)->findAll(),
+            "careerEntries" => $entityManager->getRepository(CareerEntry::class)->findBy([], ['startDate' => 'ASC', 'position' => 'ASC']),
         ]);
     }
 }
