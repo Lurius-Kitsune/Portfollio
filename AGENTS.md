@@ -21,4 +21,4 @@ This is a French/English Symfony portfolio backed by PostgreSQL. The web app liv
 
 ## Handoff
 
-The implementer owns the feature branch. A separate reviewer inspects the final diff and reports findings without editing files. The PR author prepares a summary only after review. The owner reviews and merges the PR.
+The implementer owns the feature branch. Before assigning review, the orchestrator gathers the current diff and relevant published owner feedback from the connected GitHub review threads and PR discussion. A separate read-only feedback reviewer checks both, then returns a prioritized fix brief to the implementer through the orchestrator. The implementer addresses authorized findings on the feature branch and reports any sensitive-data request as blocked until exact owner validation. The security reviewer separately inspects the final diff without editing files. The PR author prepares a summary only after review. The owner reviews and merges the PR.
