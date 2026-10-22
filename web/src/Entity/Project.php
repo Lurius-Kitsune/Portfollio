@@ -66,6 +66,10 @@ class Project implements Translatable
     private ?string $intro = null;
 
     #[Gedmo\Translatable]
+    #[ORM\Column(length: 500, nullable: true)]
+    private ?string $summary = null;
+
+    #[Gedmo\Translatable]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $conclusionTitle = null;
 
@@ -271,6 +275,17 @@ class Project implements Translatable
     public function getIntro(): ?string
     {
         return $this->intro;
+    }
+
+    public function getSummary(): ?string
+    {
+        return $this->summary ?? $this->intro;
+    }
+
+    public function setSummary(?string $summary): static
+    {
+        $this->summary = $summary;
+        return $this;
     }
 
     public function setIntro(?string $intro): static
