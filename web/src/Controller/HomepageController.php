@@ -34,7 +34,7 @@ final class HomepageController extends AbstractController
         return $this->render('pages/home/page.html.twig', [
             "projects" => $project,
             "skillGroups" => $entityManager->getRepository(HardSkillType::class)->findAll(),
-            "careerEntries" => $entityManager->getRepository(CareerEntry::class)->findBy([], ['position' => 'ASC', 'startDate' => 'DESC']),
+            "careerEntries" => $entityManager->getRepository(CareerEntry::class)->findBy([], ['startDate' => 'ASC', 'position' => 'ASC']),
         ]);
     }
 }

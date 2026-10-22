@@ -4,3 +4,29 @@
 @source "../../node_modules/flowbite";
 @source "../tailwind-content-classes.txt";
 
+@layer components {
+    .career-timeline__track {
+        stroke: rgb(71 85 105 / 0.6);
+        stroke-width: 3;
+    }
+
+    .career-timeline__progress {
+        stroke: #67e8f9;
+        stroke-width: 3;
+        filter: drop-shadow(0 0 5px rgb(103 232 249 / 0.45));
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        [data-controller~="career-timeline"][data-career-timeline-enhanced="true"] .career-timeline__entry {
+            opacity: 0;
+            transform: translateY(1.25rem);
+            transition: opacity 600ms ease, transform 600ms cubic-bezier(0.2, 0.75, 0.25, 1);
+        }
+
+        [data-controller~="career-timeline"][data-career-timeline-enhanced="true"] .career-timeline__entry.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
