@@ -23,7 +23,7 @@ jobs:
           extensions: intl, pdo_pgsql, zip, gd
           tools: composer:v2
           coverage: none
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: web/vendor
           key: composer-${{ runner.os }}-${{ hashFiles('web/composer.lock') }}
