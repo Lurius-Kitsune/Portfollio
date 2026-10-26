@@ -23,7 +23,7 @@
         "build": "encore production --progress"
     },
     "dependencies": {
-        "@symfony/stimulus-bridge": "^4.0.1",
+        "@symfony/stimulus-bridge": "^4.0.2",
         "@tiptap/core": "^3.32.0",
         "@tiptap/extension-color": "^3.32.0",
         "@tiptap/extension-link": "^3.32.0",
